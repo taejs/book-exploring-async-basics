@@ -10,8 +10,8 @@ understand how it works on a fundamental level.
 **Me too.**
 
 So I spent a couple of hundred hours to try to fix that for myself. I wrote
-this book as a result of that reserch, and now I invite you to join me as we try
-to unvail the secrets of async programming.
+this book as a result of that research, and now I invite you to join me as we try
+to unveil the secrets of async programming.
 
 This book aims to take a look at the **why** and **how** of concurrent programming. First we build
 a good foundation of basic knowledge, before we use that knowledge to investigate how Node.js works
