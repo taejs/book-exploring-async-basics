@@ -18,7 +18,7 @@ a good foundation of basic knowledge, before we use that knowledge to investigat
 by building a Node-inspired runtime.
 
 > This book is developed in the open and has [it's repository here](https://github.com/cfsamson/book-exploring-async-basics).
-> The book and the [accomanying code](https://github.com/cfsamson/examples-node-eventloop) is MIT licensed so feel free to clone away
+> The book and the [accompanying code](https://github.com/cfsamson/examples-node-eventloop) is MIT licensed so feel free to clone away
 > and play with it.
 
 I warn you though, we need to venture from philosophical heights where we try to
