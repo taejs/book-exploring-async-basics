@@ -1,6 +1,6 @@
 # Introduction
 
-**Don't block the event loop! Don't poll in a busy loop! Increase throughput! Use async I/O! Cuncurrency is not parallelism!**
+**Don't block the event loop! Don't poll in a busy loop! Increase throughput! Use async I/O! Concurrency is not parallelism!**
 
 You've most likely heard and read claims like these many times before,
 and maybe, at some point you've thought you understood everything
@@ -9,7 +9,7 @@ understand how it works on a fundamental level.
 
 **Me too.**
 
-So I spent a couple of hundred hours to try to fix that for myself. I wrote
+So I spent a couple of hundred hours trying to fix that for myself. I wrote
 this book as a result of that research, and now I invite you to join me as we try
 to unveil the secrets of async programming.
 
@@ -28,7 +28,7 @@ are tasked with naming low level OS syscalls and structures on Windows. However,
 have yet to confirm this).
 
 > Everything in this book will cover the topics for the three major Operating Systems
-> Linux, Macos and Windows. We'll also only cover the details on how this works
+> Linux, macOS and Windows. We'll also only cover the details on how this works
 > on 64 bit systems.
 
 ## Who is this book for?
@@ -54,7 +54,7 @@ understanding of how async code works in general, and the different strategies t
 
 - Already know some Rust but want to learn more.
 
-So, what du you think? Is the answer yes to some of these questions? Well, then join me on this venture
+So, what do you think? Is the answer yes to some of these questions? Well, then join me on this venture
 as we try to get a better understanding of all these subjects.
 
 > We'll only use Rusts standard library. The reason for this is that we really want to know how tings
