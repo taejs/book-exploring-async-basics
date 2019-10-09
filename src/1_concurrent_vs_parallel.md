@@ -1,6 +1,6 @@
 # What's the difference between concurrency and parallelism? 
 
-We’ll right of the bat dive into this subject by defining what concurrency is, and since it’s very easy to confuse concurrent with parallel we have to try to make the difference clear from the get go.
+We’ll right off the bat dive into this subject by defining what concurrency is, and since it’s very easy to confuse concurrent with parallel we have to try to make the difference clear from the get go.
 
 > Concurrency is about **dealing** with a lot of things at the same time.
 
