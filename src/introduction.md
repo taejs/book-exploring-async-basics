@@ -1,6 +1,6 @@
 # Introduction
 
-**Don't block the event loop! Don't poll in a busy loop! Increase throughput! Use async I/O! Cuncurrency is not parallelism!**
+**Don't block the event loop! Don't poll in a busy loop! Increase throughput! Use async I/O! Concurrency is not parallelism!**
 
 You've most likely heard and read claims like these many times before,
 and maybe, at some point you've thought you understood everything
@@ -9,7 +9,7 @@ understand how it works on a fundamental level.
 
 **Me too.**
 
-So I spent a couple of hundred hours to try to fix that for myself. I wrote
+So I spent a couple of hundred hours trying to fix that for myself. I wrote
 this book as a result of that research, and now I invite you to join me as we try
 to unveil the secrets of async programming.
 
@@ -28,7 +28,7 @@ are tasked with naming low level OS syscalls and structures on Windows. However,
 have yet to confirm this).
 
 > Everything in this book will cover the topics for the three major Operating Systems
-> Linux, Macos and Windows. We'll also only cover the details on how this works
+> Linux, macOS and Windows. We'll also only cover the details on how this works
 > on 64 bit systems.
 
 ## Who is this book for?
