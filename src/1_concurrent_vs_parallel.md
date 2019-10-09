@@ -136,7 +136,7 @@ core up to the number of threads is equal to the number of cores.
 
 Once we create more threads than there are cores, the OS will switch between our
 threads and progress each of them `concurrently` using the scheduler to give each
-thread some time to run. And you also have to consider the fact that you program
+thread some time to run. And you also have to consider the fact that your program
 is not the only one running on the system. Other programs might spawn several threads
 as well which means there will be many more threads than there are cores on the CPU.
 
