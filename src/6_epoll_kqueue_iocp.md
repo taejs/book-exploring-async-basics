@@ -49,7 +49,7 @@ when a socket is ready to be read from.
 
 1. We create an event queue by calling the syscall `epoll_create` or `kqueue`.
 2. We ask the OS for a file descriptor representing a network socket.
-3. We register an interest in `Read` events on this socket with a second syscall to register our interest in the event queue we created in (1).
+3. Through another syscall we register an interest in `Read` events on this socket. It's important that we also inform the OS that we'll be expecting to receive a notification when the event is ready in the event queue we created in (1).
 4. Next, we call `epoll_wait` or `kevent` to wait for an event. This will block (suspend) the thread it's called on.
 5. When the event is ready, our thread is unblocked (resumed) and we return from our "wait" call with data about what event occurred.
 6. We call `read` on the socket we created in 2.

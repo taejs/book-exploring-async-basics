@@ -150,21 +150,21 @@
                 <div id="content" class="content">
                     <main>
                         <h1><a class="header" href="#introduction" id="introduction">Introduction</a></h1>
-<p><strong>Don't block the event loop! Don't poll in a busy loop! Increase throughput! Use async I/O! Cuncurrency is not parallelism!</strong></p>
+<p><strong>Don't block the event loop! Don't poll in a busy loop! Increase throughput! Use async I/O! Concurrency is not parallelism!</strong></p>
 <p>You've most likely heard and read claims like these many times before,
 and maybe, at some point you've thought you understood everything
 only to find yourself confused a moment later. Especially when you want to
 understand how it works on a fundamental level.</p>
 <p><strong>Me too.</strong></p>
-<p>So I spent a couple of hundred hours to try to fix that for myself. I wrote
-this book as a result of that reserch, and now I invite you to join me as we try
-to unvail the secrets of async programming.</p>
+<p>So I spent a couple of hundred hours trying to fix that for myself. I wrote
+this book as a result of that research, and now I invite you to join me as we try
+to unveil the secrets of async programming.</p>
 <p>This book aims to take a look at the <strong>why</strong> and <strong>how</strong> of concurrent programming. First we build
 a good foundation of basic knowledge, before we use that knowledge to investigate how Node.js works
 by building a Node-inspired runtime.</p>
 <blockquote>
 <p>This book is developed in the open and has <a href="https://github.com/cfsamson/book-exploring-async-basics">it's repository here</a>.
-The book and the <a href="https://github.com/cfsamson/examples-node-eventloop">accomanying code</a> is MIT licensed so feel free to clone away
+The book and the <a href="https://github.com/cfsamson/examples-node-eventloop">accompanying code</a> is MIT licensed so feel free to clone away
 and play with it.</p>
 </blockquote>
 <p>I warn you though, we need to venture from philosophical heights where we try to
@@ -174,7 +174,7 @@ are tasked with naming low level OS syscalls and structures on Windows. However,
 have yet to confirm this).</p>
 <blockquote>
 <p>Everything in this book will cover the topics for the three major Operating Systems
-Linux, Macos and Windows. We'll also only cover the details on how this works
+Linux, macOS and Windows. We'll also only cover the details on how this works
 on 64 bit systems.</p>
 </blockquote>
 <h2><a class="header" href="#who-is-this-book-for" id="who-is-this-book-for">Who is this book for?</a></h2>
@@ -206,10 +206,10 @@ understanding of how async code works in general, and the different strategies t
 <p>Already know some Rust but want to learn more.</p>
 </li>
 </ul>
-<p>So, what du you think? Is the answer yes to some of these questions? Well, then join me on this venture
+<p>So, what do you think? Is the answer yes to some of these questions? Well, then join me on this venture
 as we try to get a better understanding of all these subjects.</p>
 <blockquote>
-<p>We'll only use Rusts standard library. The reason for this is that we really want to know how tings
+<p>We'll only use Rusts standard library. The reason for this is that we really want to know how things
 work, and Rusts standard library strikes the perfect balance for this task providing abstractions
 but they're thin enough to let us easily peek under the covers and see what really happens.</p>
 </blockquote>

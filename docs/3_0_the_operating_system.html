@@ -150,25 +150,23 @@
                 <div id="content" class="content">
                     <main>
                         <h1><a class="header" href="#the-operating-system" id="the-operating-system">The Operating System</a></h1>
-<p>The operating system stands in the center of everything we do as programmers (well, unless you're <a href="https://os.phil-opp.com/">writing an Operating System</a> or are in the <a href="https://rust-embedded.github.io/book/">Embedded realm</a>),
+<p>The operating system stands in the centre of everything we do as programmers (well, unless you're <a href="https://os.phil-opp.com/">writing an Operating System</a> or are in the <a href="https://rust-embedded.github.io/book/">Embedded realm</a>),
 so there is no way for us to discuss any kind of fundamentals in programming
 without talking about operating systems in a bit of detail. </p>
-<h2><a class="header" href="#concurrency-from-the-operating-systems-perspective" id="concurrency-from-the-operating-systems-perspective">Concurrency from the operating systems perspective</a></h2>
+<h2><a class="header" href="#concurrency-from-the-operating-systems-perspective" id="concurrency-from-the-operating-systems-perspective">Concurrency from the operating systems' perspective</a></h2>
 <div style="color: back;  font-style: italic; font-size: 1.2em">"Operating systems has been "faking" synchronous execution since the 90's."</div>
 <p>This ties into what I talked about in the first chapter when I said that <code>concurrent</code>
 needs to be talked about within a reference frame and I explained that the OS
 might stop and start your process at any time.</p>
-<p>What we call synchronous code is in most cases code that appears as synchronous 
-to us as programmers. Neither the OS or the CPU live in a fully synchronous world.</p>
-<p>Operating systems uses <code>preemptive multitasking</code> and as long as the operating 
-system you're running is preemptively scheduling processes, you won't have a 
+<p>What we call synchronous code is in most cases code that appears as synchronous to us as programmers. Neither the OS or the CPU live in a fully synchronous world.</p>
+<p>Operating systems uses <code>preemptive multitasking</code> and as long as the operating system you're running is preemptively scheduling processes, you won't have a 
 guarantee that your code runs instruction by instruction without interruption. </p>
-<p>The operating system will make sure that all important processes gets some time from the CPU to make progress.</p>
+<p>The operating system will make sure that all important processes get some time from the CPU to make progress.</p>
 <blockquote>
 <p>This is not as simple when we're talking about modern machines with 4-6-8-12
 physical cores since you might actually execute code on one of the CPU's
 uninterrupted if the system is under very little load. The important part here
-is that you can't know for sure and there is no guarantee that you code will be
+is that you can't know for sure and there is no guarantee that your code will be
 left to run uninterrupted.</p>
 </blockquote>
 <h2><a class="header" href="#teaming-up-with-the-os" id="teaming-up-with-the-os">Teaming up with the OS.</a></h2>
@@ -177,10 +175,9 @@ cooperate when we care about efficiency. When you make a web request, you're not
 asking the CPU or the network card to do something for you, you're asking the
 operating system to talk to the network card for you.</p>
 <p>There is no way for you as a programmer to make your system optimally efficient
-without playing to the operating systems strengths. You basically don't have
+without playing to the strengths of the operating system. You basically don't have
 access to the hardware directly. </p>
-<p>However this also means that to understand everything from the ground up, you'll
-also need to know how your operating system handles these tasks.</p>
+<p>However, this also means that to understand everything from the ground up, you'll also need to know how your operating system handles these tasks.</p>
 <p>To be able to work with the operating system, we'll need to know how we can communicate with it and that's exactly what we're going to go through next.</p>
 
                     </main>

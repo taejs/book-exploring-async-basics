@@ -152,21 +152,21 @@
                 <div id="content" class="content">
                     <main>
                         <h1><a class="header" href="#introduction" id="introduction">Introduction</a></h1>
-<p><strong>Don't block the event loop! Don't poll in a busy loop! Increase throughput! Use async I/O! Cuncurrency is not parallelism!</strong></p>
+<p><strong>Don't block the event loop! Don't poll in a busy loop! Increase throughput! Use async I/O! Concurrency is not parallelism!</strong></p>
 <p>You've most likely heard and read claims like these many times before,
 and maybe, at some point you've thought you understood everything
 only to find yourself confused a moment later. Especially when you want to
 understand how it works on a fundamental level.</p>
 <p><strong>Me too.</strong></p>
-<p>So I spent a couple of hundred hours to try to fix that for myself. I wrote
-this book as a result of that reserch, and now I invite you to join me as we try
-to unvail the secrets of async programming.</p>
+<p>So I spent a couple of hundred hours trying to fix that for myself. I wrote
+this book as a result of that research, and now I invite you to join me as we try
+to unveil the secrets of async programming.</p>
 <p>This book aims to take a look at the <strong>why</strong> and <strong>how</strong> of concurrent programming. First we build
 a good foundation of basic knowledge, before we use that knowledge to investigate how Node.js works
 by building a Node-inspired runtime.</p>
 <blockquote>
 <p>This book is developed in the open and has <a href="https://github.com/cfsamson/book-exploring-async-basics">it's repository here</a>.
-The book and the <a href="https://github.com/cfsamson/examples-node-eventloop">accomanying code</a> is MIT licensed so feel free to clone away
+The book and the <a href="https://github.com/cfsamson/examples-node-eventloop">accompanying code</a> is MIT licensed so feel free to clone away
 and play with it.</p>
 </blockquote>
 <p>I warn you though, we need to venture from philosophical heights where we try to
@@ -176,7 +176,7 @@ are tasked with naming low level OS syscalls and structures on Windows. However,
 have yet to confirm this).</p>
 <blockquote>
 <p>Everything in this book will cover the topics for the three major Operating Systems
-Linux, Macos and Windows. We'll also only cover the details on how this works
+Linux, macOS and Windows. We'll also only cover the details on how this works
 on 64 bit systems.</p>
 </blockquote>
 <h2><a class="header" href="#who-is-this-book-for" id="who-is-this-book-for">Who is this book for?</a></h2>
@@ -208,10 +208,10 @@ understanding of how async code works in general, and the different strategies t
 <p>Already know some Rust but want to learn more.</p>
 </li>
 </ul>
-<p>So, what du you think? Is the answer yes to some of these questions? Well, then join me on this venture
+<p>So, what do you think? Is the answer yes to some of these questions? Well, then join me on this venture
 as we try to get a better understanding of all these subjects.</p>
 <blockquote>
-<p>We'll only use Rusts standard library. The reason for this is that we really want to know how tings
+<p>We'll only use Rusts standard library. The reason for this is that we really want to know how things
 work, and Rusts standard library strikes the perfect balance for this task providing abstractions
 but they're thin enough to let us easily peek under the covers and see what really happens.</p>
 </blockquote>
@@ -290,7 +290,7 @@ reading the RFC's and discussions about Rusts async story: </p>
 </li>
 </ul>
 <h1><a class="header" href="#whats-the-difference-between-concurrency-and-parallelism" id="whats-the-difference-between-concurrency-and-parallelism">What's the difference between concurrency and parallelism?</a></h1>
-<p>We’ll right of the bat dive into this subject by defining what concurrency is, and since it’s very easy to confuse concurrent with parallel we have to try to make the difference clear from the get go.</p>
+<p>We’ll right off the bat dive into this subject by defining what concurrency is, and since it’s very easy to confuse concurrent with parallel we have to try to make the difference clear from the get-go.</p>
 <blockquote>
 <p>Concurrency is about <strong>dealing</strong> with a lot of things at the same time.</p>
 </blockquote>
@@ -303,7 +303,7 @@ but not at the same time. Another is to progress two tasks at the exact same tim
 <p><img src="./images/definitions.jpg" alt="paralell vs concurrency" /></p>
 <h2><a class="header" href="#lets-start-off-with-some-definitions" id="lets-start-off-with-some-definitions">Lets start off with some definitions</a></h2>
 <h3><a class="header" href="#resource" id="resource">Resource</a></h3>
-<p>Something we need to be able to progress a task. Our resources is limited. This
+<p>Something we need to be able to progress a task. Our resources are limited. This
 could be CPU time or memory.</p>
 <h3><a class="header" href="#task" id="task">Task</a></h3>
 <p>A set of operations that requires some kind of resource to progress. A task must
@@ -317,9 +317,7 @@ simultaneously. </p>
 but are not running in parallel, they must be able to stop and resume their progress. 
 We say that a task is <code>interruptable</code> if it allows for this kind of concurrency.</p>
 <h2><a class="header" href="#the-mental-model-i-use" id="the-mental-model-i-use">The mental model I use.</a></h2>
-<p>I firmly believe the main reason we find parallel and concurrent programming 
-hard to reason about stems from how we model events in our everyday life. We 
-tend to define these terms loosely so our intuition is often wrong. </p>
+<p>I firmly believe the main reason we find parallel and concurrent programming hard to reason about stems from how we model events in our everyday life. We tend to define these terms loosely so our intuition is often wrong. </p>
 <blockquote>
 <p>It doesn't help that <strong>concurrent</strong> is defined in the dictionary as: <em>operating or occurring at the same time</em> which 
 doesn't really help us much when trying to describe how it differs from <strong>parallel</strong></p>
@@ -335,21 +333,19 @@ doesn't really help us much when trying to describe how it differs from <strong>
 <p>Has everything to do with efficiency and resource utilization. Concurrency can never make <em>one single task go faster</em>. 
 It can only help us utilize our resources better and thereby <em>finish a set of tasks faster</em>.</p>
 <h3><a class="header" href="#lets-draw-some-parallels-to-process-economics" id="lets-draw-some-parallels-to-process-economics">Let's draw some parallels to process economics</a></h3>
-<p>In businesses that manufacture goods, we often talk about LEAN processes. And 
-this is pretty easy to compare with why programmers care so much about what we can 
-achieve if we handle tasks concurrently. </p>
+<p>In businesses that manufacture goods, we often talk about LEAN processes. And this is pretty easy to compare with why programmers care so much about what we can achieve if we handle tasks concurrently. </p>
 <p>I'll let let this 3 minute video explain it for me:</p>
 <iframe width="560" height="315" src="https://www.youtube.com/embed/Oz8BR5Lflzg" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-<p>Ok, so it's not the newest video on the subject, but it's explains a lot in 3 minutes. Most importantly the gains we try to achieve when applying LEAN techniques, and most importantly: <strong>eliminate waiting and non-value-adding tasks.</strong></p>
+<p>Ok, so it's not the newest video on the subject, but it explains a lot in 3 minutes. Most importantly the gains we try to achieve when applying LEAN techniques, and most importantly: <strong>eliminate waiting and non-value-adding tasks.</strong></p>
 <blockquote>
 <p>In programming we could say that we want to avoid <code>blocking</code> and <code>polling</code> (in a busy loop).</p>
 </blockquote>
 <p>Now would adding more resources (more workers) help in the video above? Yes, but we use double the resources to produce the same output as one person with an optimal process could do. That's not the best utilization of our resources.</p>
 <blockquote>
 <p>To continue the parallel we started, we could say that we could solve the problem of a freezing UI while waiting for an I/O event to occur 
-by spawning a new thread and <code>poll</code>in a loop or <code>block</code> there instead of our main thread. However, that new 
+by spawning a new thread and <code>poll</code> in a loop or <code>block</code> there instead of our main thread. However, that new 
 thread is either consuming resources doing nothing, or worse, using one core to busy loop while checking if 
-an event is ready. Either way it's not optimal, especially if you run a server you want to utilize fully.</p>
+an event is ready. Either way, it's not optimal, especially if you run a server you want to utilize fully.</p>
 </blockquote>
 <p>If you consider the coffee machine as some I/O resource, we would like to start that process, then move on to preparing the 
 next job, or do other work that needs to be done instead of waiting.</p>
@@ -380,22 +376,20 @@ call, a database query or something else to happen before you can progress a
 task. However, you have many tasks to do so instead of waiting you continue work 
 elsewhere and either check in regularly to see if the task is ready to progress
 or make sure you are notified when that task is ready to progress.</p>
-<p>The second is an example that is often the case when having an UI. Let's pretend
+<p>The second is an example that is often the case when having a UI. Let's pretend
 you only have one core. How do you prevent the whole UI from becoming unresponsive
 while performing other CPU intensive tasks?</p>
-<p>Well, you can stop what ever task you're doing every 16ms, and run the &quot;update UI&quot;
+<p>Well, you can stop whatever task you're doing every 16ms, and run the &quot;update UI&quot;
 task, and then resume whatever you were doing afterwards. This way, you will have
-to stop/resume your task 60 times a second, but you will also have a fully 
-responsive UI which has roughly a 60 Hz refresh rate.</p>
+to stop/resume your task 60 times a second, but you will also have a fully responsive UI which has roughly a 60 Hz refresh rate.</p>
 <h2><a class="header" href="#what-about-threads-provided-by-the-os" id="what-about-threads-provided-by-the-os">What about threads provided by the OS?</a></h2>
-<p>We'll cover threads a bit more when we talk about strategies for handling I/O, but I'll 
-mention them here as well. One challenge when using OS threads to understand concurrency
-is that they appear to be mapped to cores. Thats not neccecarely a correct mental model
+<p>We'll cover threads a bit more when we talk about strategies for handling I/O, but I'll mention them here as well. One challenge when using OS threads to understand concurrency
+is that they appear to be mapped to cores. That's not necessarily a correct mental model
 to use even though most operating systems will try to map one thread to one
 core up to the number of threads is equal to the number of cores.</p>
 <p>Once we create more threads than there are cores, the OS will switch between our
 threads and progress each of them <code>concurrently</code> using the scheduler to give each
-thread some time to run. And you also have to consider the fact that you program
+thread some time to run. And you also have to consider the fact that your program
 is not the only one running on the system. Other programs might spawn several threads
 as well which means there will be many more threads than there are cores on the CPU.</p>
 <p>Therefore, threads can be a means to perform tasks in parallel, but they can also
@@ -405,46 +399,46 @@ in some sort of reference frame.</p>
 <h2><a class="header" href="#changing-the-reference-frame" id="changing-the-reference-frame">Changing the reference frame</a></h2>
 <p>When you write code that is perfectly synchronous from your perspective, stop for a second and consider how that looks from the operating system perspective.</p>
 <p>The Operating System might not run your code from start to end at all. It might stop and resume your process many times. The CPU might get interrupted and handle som inputs while you think it's only focused on your task. </p>
-<p>So synchronous execution is only an illusion. But from the perspective of you as a programmer it's not, and that is the important takeaway:</p>
+<p>So synchronous execution is only an illusion. But from the perspective of you as a programmer, it's not, and that is the important takeaway:</p>
 <p><strong>When we talk about concurrency without providing any other context we are using you as a programmer and your code (your process) as the reference frame. If you start pondering about concurrency
 without keeping this in the back of your head it will get confusing very fast.</strong></p>
 <p>The reason I spend so much time on this is that once you realize that, you'll start to see that some of the things you hear and learn that might seem contradicting really is not. You'll just have to consider the reference frame first.</p>
 <p>If this still sounds complicated, I understand. Just sitting and reflecting about concurrency is difficult, but if we try to keep these thoughts in the back of our head when we work with async code I promise it will get less and less confusing.</p>
 <h1><a class="header" href="#async-history" id="async-history">Async history</a></h1>
-<p>In the start computers had one CPU and it executed a set of instructions written
+<p>In the beginning, computers had one CPU and it executed a set of instructions written
 by a programmer one by one. No scheduling, no threads, no multitasking. This was
 how computers worked for a long time. We're talking back when the days where a program
 looked like a deck of these:</p>
 <p><img src="./images/punched_card_deck.jpg" alt="Image" /></p>
 <p>There were operating systems being researched even very early and when personal computing
-started to grow in the 80's operating systems like DOS was the standard on most consumer
+started to grow in the '80s operating systems like DOS was the standard on most consumer
 PCs.</p>
 <p>These operating systems usually yielded control of the entire CPU to the program currently executing and it was
 up to the programmer to make things work and implement any kind of multitasking
 for their program. This worked fine, but as interactive UIs using a mouse and
 windowed operating systems became the norm, this model simply couldn't work anymore.</p>
-<h2><a class="header" href="#non-preemptive-multitasking" id="non-preemptive-multitasking">Non-preemptive multitasking</a></h2>
+<h2><a class="header" href="#non-preemptive-multitasking" id="non-preemptive-multitasking">Non-Preemptive multitasking</a></h2>
 <p>The first method used to be able to keep a UI interactive (and running background
-processes), was accomplished by what we call <code>non-preemtive multitasking</code>. </p>
+processes), was accomplished by what we call <code>non-preemptive multitasking</code>. </p>
 <p>This kind of multitasking put the responsibility of letting the OS run other tasks like responding to input from the mouse, or running a background task in the hands of the programmer. </p>
 <p>Typically the programmer <code>yielded</code> control to the OS.</p>
-<p>Besides off loading a huge responsibility to every programmer writing a program
-for your platform, this was naturally error prone. A small mistake in a programs code
+<p>Besides off-loading a huge responsibility to every programmer writing a program
+for your platform, this was naturally error-prone. A small mistake in a programs code
 could halt or crash the entire system. </p>
 <blockquote>
 <p>If you remember Windows 95, you also remember the times when a window hung and you could paint the entire screen with it (almost the same way as the end in Solitare, the card game that came with Windows).</p>
 <p>This was reportedly a typical error in the code that was supposed to yield control
 to the operating system.</p>
 </blockquote>
-<h2><a class="header" href="#preemtive-multitasking" id="preemtive-multitasking">Preemtive multitasking</a></h2>
-<p>While non-preemtive multitasking sounded like a good idea, it turned out to
+<h2><a class="header" href="#preemptive-multitasking" id="preemptive-multitasking">Preemptive multitasking</a></h2>
+<p>While non-preemptive multitasking sounded like a good idea, it turned out to
 create serious problems as well. Letting every program and programmer out there be responsible for having a responsive UI in an operating system can ultimately lead to a bad user experience if since every bug out there could halt the entire system.</p>
 <p>The solution was to place the responsibility of scheduling the CPU resources
 between the programs that requested it (including to OS itself) in the hands of
-the OS. The OS can stop execution of a process, do something else, and switch back.</p>
-<p>On a single core machine you can visualize this as running a program you wrote,
+the OS. The OS can stop the execution of a process, do something else, and switch back.</p>
+<p>On a single-core machine, you can visualize this as running a program you wrote,
 the OS has to stop your program to update the mouse position before it switches back to your
-program to continue. This happens so frequently that we don't observe any difference wether the CPU
+program to continue. This happens so frequently that we don't observe any difference whether the CPU
 has a lot of work or is idle.</p>
 <p>The OS is then responsible for scheduling tasks and does this by switching contexts on the CPU. This process can happen many times each second, not only to keep the UI responsive but it can also give some time to other background tasks and IO events.</p>
 <p>This is now the prevailing way to design an operating system.</p>
@@ -452,23 +446,23 @@ has a lot of work or is idle.</p>
 <p>If you want to learn more about this kind of threaded multitasking I recommend reading my previous book about <a href="https://cfsamson.gitbook.io/green-threads-explained-in-200-lines-of-rust/">green threads</a>. This is a nice introduction where you'll be able to get the basic knowledge you need about threads, contexts, stacks and scheduling.</p>
 </blockquote>
 <h2><a class="header" href="#hyperthreading" id="hyperthreading">Hyperthreading</a></h2>
-<p>As CPU's evolved and added more functionality like several ALUs (Algorithmic Logical Unit) and more logical units in general, the CPU manufacturers realized that the entire CPU was never utilitized fully. For example when an operation only required some parts of the CPU, an instruction could be run on the ALU simultaneously. This became the start of Hyperthreading.</p>
+<p>As CPU's evolved and added more functionality like several ALUs (Algorithmic Logical Unit) and more logical units in general, the CPU manufacturers realized that the entire CPU was never utilized fully. For example, when an operation only required some parts of the CPU, an instruction could be run on the ALU simultaneously. This became the start of Hyperthreading.</p>
 <p>You see, on your computer today that it has i.e. 6 cores, and 12 logical cores.
 This is exactly where Hyperthreading comes in. It &quot;simulates&quot; two cores on the
 same core by using unused parts of the CPU to drive progress on thread &quot;2&quot;
 simultaneously as it's running the code on thread &quot;1&quot;. It does this by using a
 number of smart tricks (like the one with the ALU).</p>
-<p>Now, having hypertreading, we could actually offload some work on one thread while keeping the UI
+<p>Now, having hyperthreading, we could actually offload some work on one thread while keeping the UI
 interactive by responding to events in the second thread even though we only
 had one CPU core thereby utilizing our hardware better.</p>
 <blockquote>
 <p>You might wonder about the performance of Hyper Threading? </p>
-<p>It turns out that Hyperthreading has been continuously improved since the 90's.
+<p>It turns out that Hyperthreading has been continuously improved since the '90s.
 Since you're not actually running two CPU's there will be some operations that
 need to wait for each other to finish. The performance gain of hyperthreading
 compared to multithreading in a single core seems to be <a href="https://en.wikipedia.org/wiki/Hyper-threading#Performance_claims">somewhere close
 to 30 %</a> but
-it largely depends in the workload.</p>
+it largely depends on the workload.</p>
 </blockquote>
 <h2><a class="header" href="#multicore-processors" id="multicore-processors">Multicore processors</a></h2>
 <p>As most know, the clock frequency of processors has been flat for a long time.
@@ -476,50 +470,48 @@ Processors get faster by improving caches, branch prediction, speculative execut
 and working on the processing pipelines of the processors, but the gains seems to
 be diminishing.</p>
 <p>On the other hand, new processors are so small they allow us to have many on the
-same chip instead. Now most CPUs have many cores, and most often each core will also have the ability to perform hyperthreading.</p>
+same chip instead. Now, most CPUs have many cores, and most often each core will also have the ability to perform hyperthreading.</p>
 <h2><a class="header" href="#so-how-synchronous-is-the-code-you-write-really" id="so-how-synchronous-is-the-code-you-write-really">So how synchronous is the code you write, really?</a></h2>
-<p>As many things this depends on your perspective. From the perspective of your process and the code you write for it, everything will normally happen in the order you write it.</p>
-<p>From the OS perspective it might, or might not, interrupt your code, pause it
+<p>Like many things, this depends on your perspective. From the perspective of your process and the code you write for it, everything will normally happen in the order you write it.</p>
+<p>From the OS perspective, it might, or might not, interrupt your code, pause it
 and run some other code in the meantime before resuming your process.</p>
-<p>From the perspective of the CPU it will mostly execute instructions one at a time *.
+<p>From the perspective of the CPU, it will mostly execute instructions one at a time *.
 They don't care who wrote the code though so when a hardware interrupt happens,
 they will immediately stop and give control to an interrupt handler. This is how
 the CPU handles concurrency.</p>
 <blockquote>
-<p>* However, modern CPU can also do a lot if things in parallel. Most CPUs are
+<p>* However, modern CPU can also do a lot of things in parallel. Most CPUs are
 pipelined, meaning that the next instruction is loaded while the current is
 executing. It might have a branch predictor that tries to figure out what
 instructions to load next. </p>
 <p>The processor can also reorder instructions by using
 &quot;out of order execution&quot; if it believes it makes things faster this way without
 &quot;asking&quot; or &quot;telling&quot; the programmer or the OS so you might not have any guarantee that A happens before B. </p>
-<p>The CPU offloads some work to separate &quot;coprocessors&quot; like the FPU for for floating point calculations leaving the main CPU ready to do other tasks et cetera.</p>
-<p>As a high level overview, it's OK to model the CPU as operating in a synchronous
+<p>The CPU offloads some work to separate &quot;coprocessors&quot; like the FPU for floating-point calculations leaving the main CPU ready to do other tasks et cetera.</p>
+<p>As a high-level overview, it's OK to model the CPU as operating in asynchronous
 manner, but lets for now just make a mental note that this is a model with some
-caveats that becomes especially important when talking about parallelism,
+caveats that become especially important when talking about parallelism,
 synchronization primitives (like mutexes and atomics) and the security of computers
 and operating systems.</p>
 </blockquote>
 <h1><a class="header" href="#the-operating-system" id="the-operating-system">The Operating System</a></h1>
-<p>The operating system stands in the center of everything we do as programmers (well, unless you're <a href="https://os.phil-opp.com/">writing an Operating System</a> or are in the <a href="https://rust-embedded.github.io/book/">Embedded realm</a>),
+<p>The operating system stands in the centre of everything we do as programmers (well, unless you're <a href="https://os.phil-opp.com/">writing an Operating System</a> or are in the <a href="https://rust-embedded.github.io/book/">Embedded realm</a>),
 so there is no way for us to discuss any kind of fundamentals in programming
 without talking about operating systems in a bit of detail. </p>
-<h2><a class="header" href="#concurrency-from-the-operating-systems-perspective" id="concurrency-from-the-operating-systems-perspective">Concurrency from the operating systems perspective</a></h2>
+<h2><a class="header" href="#concurrency-from-the-operating-systems-perspective" id="concurrency-from-the-operating-systems-perspective">Concurrency from the operating systems' perspective</a></h2>
 <div style="color: back;  font-style: italic; font-size: 1.2em">"Operating systems has been "faking" synchronous execution since the 90's."</div>
 <p>This ties into what I talked about in the first chapter when I said that <code>concurrent</code>
 needs to be talked about within a reference frame and I explained that the OS
 might stop and start your process at any time.</p>
-<p>What we call synchronous code is in most cases code that appears as synchronous 
-to us as programmers. Neither the OS or the CPU live in a fully synchronous world.</p>
-<p>Operating systems uses <code>preemptive multitasking</code> and as long as the operating 
-system you're running is preemptively scheduling processes, you won't have a 
+<p>What we call synchronous code is in most cases code that appears as synchronous to us as programmers. Neither the OS or the CPU live in a fully synchronous world.</p>
+<p>Operating systems uses <code>preemptive multitasking</code> and as long as the operating system you're running is preemptively scheduling processes, you won't have a 
 guarantee that your code runs instruction by instruction without interruption. </p>
-<p>The operating system will make sure that all important processes gets some time from the CPU to make progress.</p>
+<p>The operating system will make sure that all important processes get some time from the CPU to make progress.</p>
 <blockquote>
 <p>This is not as simple when we're talking about modern machines with 4-6-8-12
 physical cores since you might actually execute code on one of the CPU's
 uninterrupted if the system is under very little load. The important part here
-is that you can't know for sure and there is no guarantee that you code will be
+is that you can't know for sure and there is no guarantee that your code will be
 left to run uninterrupted.</p>
 </blockquote>
 <h2><a class="header" href="#teaming-up-with-the-os" id="teaming-up-with-the-os">Teaming up with the OS.</a></h2>
@@ -528,38 +520,35 @@ cooperate when we care about efficiency. When you make a web request, you're not
 asking the CPU or the network card to do something for you, you're asking the
 operating system to talk to the network card for you.</p>
 <p>There is no way for you as a programmer to make your system optimally efficient
-without playing to the operating systems strengths. You basically don't have
+without playing to the strengths of the operating system. You basically don't have
 access to the hardware directly. </p>
-<p>However this also means that to understand everything from the ground up, you'll
-also need to know how your operating system handles these tasks.</p>
+<p>However, this also means that to understand everything from the ground up, you'll also need to know how your operating system handles these tasks.</p>
 <p>To be able to work with the operating system, we'll need to know how we can communicate with it and that's exactly what we're going to go through next.</p>
 <h1><a class="header" href="#communicating-with-the-operating-system" id="communicating-with-the-operating-system">Communicating with the operating system</a></h1>
 <p><strong>In this chapter I want to dive into:</strong></p>
 <ul>
 <li>What a System Call is</li>
-<li>Abstractiion levels</li>
+<li>Abstraction levels</li>
 <li>Challenges of writing low-level cross-platform code</li>
 </ul>
 <h2><a class="header" href="#syscall-primer" id="syscall-primer">Syscall primer</a></h2>
 <p>Communication with the operating system is done through <code>System Calls</code> or 
 &quot;syscalls&quot; as we'll call them from now on. This is a public API that the operating system provides and that programs we write in &quot;userland&quot; can use to communicate with the OS. </p>
-<p>Most of the time these calls are abstracted away for us as 
-programmers by the language or the runtime we use. A language like Rust makes it 
+<p>Most of the time these calls are abstracted away for us as programmers by the language or the runtime we use. A language like Rust makes it 
 trivial to make a <code>syscall</code> though which we'll see below.</p>
-<p>Now, <code>syscalls</code> is an example of something that is unique to the kernel you're communicating with, but the UNIX family of kernels has many similarities. UNIX systems exposes their through <strong><code>libc</code></strong>.</p>
-<p>Windows on the other hand  uses it's own api, often referred to as WinAPI, and that can be radically different from how the UNIX based systems operate. </p>
-<p>Most often though there is a way to achieve the same things. In terms of functionality you might not notice a big difference but as we'll see below and especially when we dig into how <code>epoll</code>, <code>kqueue</code> and <code>IOCP</code>, they can differ a lot in how this functionality is implemented.</p>
+<p>Now, <code>syscalls</code> is an example of something that is unique to the kernel you're communicating with, but the UNIX family of kernels has many similarities. UNIX systems expose this through <strong><code>libc</code></strong>.</p>
+<p>Windows, on the other hand, uses its own API, often referred to as WinAPI, and that can be radically different from how the UNIX based systems operate. </p>
+<p>Most often though there is a way to achieve the same things. In terms of functionality, you might not notice a big difference but as we'll see below and especially when we dig into how <code>epoll</code>, <code>kqueue</code> and <code>IOCP</code>, they can differ a lot in how this functionality is implemented.</p>
 <h2><a class="header" href="#syscall-example" id="syscall-example">Syscall example</a></h2>
-<p>To get a bit more familiar with <code>syscalls</code> we'll implement a very basic one for 
-the three architectures: <code>BSD(macos)</code>, <code>Linux</code> and <code>Windows</code>. We'll also see how this is implemented in three levels of abstractions.</p>
-<p>The <code>syscall</code> we'll implement is the one used when we write something to <code>stdout</code> since that is such a common operation and it's interesting to se how it really works.</p>
+<p>To get a bit more familiar with <code>syscalls</code> we'll implement a very basic one for the three architectures: <code>BSD(macos)</code>, <code>Linux</code> and <code>Windows</code>. We'll also see how this is implemented in three levels of abstractions.</p>
+<p>The <code>syscall</code> we'll implement is the one used when we write something to <code>stdout</code> since that is such a common operation and it's interesting to see how it really works.</p>
 <h3><a class="header" href="#the-lowest-level-of-abstraction" id="the-lowest-level-of-abstraction">The lowest level of abstraction</a></h3>
 <p>For this to work we need to write some <a href="https://doc.rust-lang.org/1.0.0/book/inline-assembly.html">inline assembly</a>. We'll start by focusing on the instructions we write to the CPU.</p>
 <blockquote>
-<p>If you want a more torough introduction to inline assembly I can refer you to the <a href="https://cfsamson.gitbook.io/green-threads-explained-in-200-lines-of-rust/an-example-we-can-build-upon">relevant chapter in my previous book</a> if you haven't read it already.</p>
+<p>If you want a more thorough introduction to inline assembly I can refer you to the <a href="https://cfsamson.gitbook.io/green-threads-explained-in-200-lines-of-rust/an-example-we-can-build-upon">relevant chapter in my previous book</a> if you haven't read it already.</p>
 </blockquote>
 <p>Now at this level of abstraction, we'll write different code for all three platforms.</p>
-<p>On Linux and Macos the <code>syscall</code> we want to invoke is called <code>write</code>. Both systems operates based on the concept of <code>file descriptors</code> and <code>stdout</code> is one of these already present when you start a process.</p>
+<p>On Linux and Macos the <code>syscall</code> we want to invoke is called <code>write</code>. Both systems operate based on the concept of <code>file descriptors</code> and <code>stdout</code> is one of these already present when you start a process.</p>
 <p><strong>On Linux a <code>write</code> syscall can look like this</strong> <br />
 (You can run the example by clicking &quot;play&quot; in the right corner)</p>
 <pre><pre class="playpen"><code class="language-rust">#![feature(asm)]
@@ -591,10 +580,10 @@ fn syscall(message: String) {
 <blockquote>
 <p><code>$$</code> in inline assembly using the AT&amp;T syntax is how you write a literal value. A single <code>$</code> means you're referring to a parameter so when we write <code>$0</code> we're referring to the first parameter called <code>msg_ptr</code>.</p>
 </blockquote>
-<p>Coincidentally, placing the value <code>1</code> in to the <code>rdi</code> register means that we're referring to <code>stdout</code> which is the file descriptor we want to write to. This has nothing to do with the fact that the <code>write</code> syscall also has the code <code>1</code>.</p>
-<p>Secondly we pass in the address of our string buffer and the length of the buffer in the registers <code>rsi</code> and <code>rdx</code> respectively, and call the <code>syscall</code> instruction.</p>
+<p>Coincidentally, placing the value <code>1</code> into the <code>rdi</code> register means that we're referring to <code>stdout</code> which is the file descriptor we want to write to. This has nothing to do with the fact that the <code>write</code> syscall also has the code <code>1</code>.</p>
+<p>Secondly, we pass in the address of our string buffer and the length of the buffer in the registers <code>rsi</code> and <code>rdx</code> respectively, and call the <code>syscall</code> instruction.</p>
 <blockquote>
-<p>The <code>syscall</code> instruction is a rather new one. On the earlier 32-bit systems in the <code>x86</code> architecture, you invoked a syscall by issuing a software interrupt <code>int 0x80</code>. A software interrupt is considered slow at the level we're working at here so later a seperate instruction for it called <code>syscall</code> was added. The <code>syscall</code> instruction uses <a href="http://articles.manugarg.com/systemcallinlinux2_6.html">VDSO</a>, which is a memory page attached to each process' memory, so no context switch is necessary to execute the system call.</p>
+<p>The <code>syscall</code> instruction is a rather new one. On the earlier 32-bit systems in the <code>x86</code> architecture, you invoked a syscall by issuing a software interrupt <code>int 0x80</code>. A software interrupt is considered slow at the level we're working at here so later a separate instruction for it called <code>syscall</code> was added. The <code>syscall</code> instruction uses <a href="http://articles.manugarg.com/systemcallinlinux2_6.html">VDSO</a>, which is a memory page attached to each process' memory, so no context switch is necessary to execute the system call.</p>
 </blockquote>
 <p><strong>On Macos, the syscall will look something like this:</strong> <br />
 (since the Rust playground is running Linux, we can't run this example here)</p>
@@ -626,18 +615,17 @@ fn syscall(message: String) {
 <p>As you see this is not that different from the one we wrote for Linux, with the exception of the fact that syscall <code>write</code> has the code <code>0x2000004</code> instead of <code>1</code>.</p>
 <p><strong>What about Windows?</strong></p>
 <p>This is a good opportunity to explain why writing code like we do above is a bad idea. </p>
-<p>You see, if you want your code to work for a long time you have to worry about what <code>guarantees</code> the OS gives you. As far as I know, both Linux and Macos gives
-some guarantees that for example <code>$$0x2000004</code> on Macos will always refer to <code>write</code> (I'm not sure how strong these guarantees are though). Windows gives absolutely zero guarantees when it comes to low level internals like this.</p>
+<p>You see, if you want your code to work for a long time you have to worry about what <code>guarantees</code> the OS gives you. As far as I know, both Linux and Macos give some guarantees that for example <code>$$0x2000004</code> on Macos will always refer to <code>write</code> (I'm not sure how strong these guarantees are though). Windows gives absolutely zero guarantees when it comes to low-level internals like this.</p>
 <p>Windows has changed it's internals numerous times and provides no official documentation. The only thing we got is reverse engineered tables like <a href="https://j00ru.vexillium.org/syscalls/nt/64/">this</a>. That means that what was <code>write</code> can be changed to <code>delete</code> the next time you run Windows update.</p>
 <h2><a class="header" href="#the-next-level-of-abstraction" id="the-next-level-of-abstraction">The next level of abstraction</a></h2>
 <p>The next level of abstraction is to use the API which all three operating systems provide for us.</p>
-<p>Already we can see that this abstraction helps us remove some code since fortunately for us, in this specific example, the syscall is the same on Linux and on Macos so we only need to worry if we're on Windows and therefore use the <code>#[cfg(not(target_os = &quot;windows&quot;))]</code> conditional compilation flag. For the Windows syscall we do the opposite.</p>
-<h3><a class="header" href="#using-the-os-provided-api-in-linux-and-macos" id="using-the-os-provided-api-in-linux-and-macos">Using the OS provided API in Linux and Macos</a></h3>
+<p>Already we can see that this abstraction helps us remove some code since fortunately for us, in this specific example, the syscall is the same on Linux and on Macos so we only need to worry if we're on Windows and therefore use the <code>#[cfg(not(target_os = &quot;windows&quot;))]</code> conditional compilation flag. For the Windows syscall, we do the opposite.</p>
+<h3><a class="header" href="#using-the-os-provided-api-in-linux-and-macos" id="using-the-os-provided-api-in-linux-and-macos">Using the OS provided API in Linux and MacOS</a></h3>
 <p>You can run this code directly here in the window. However, the Rust playground 
 runs on Linux, you'll need to copy the code over to a Windows machine if you 
 want to try it out the code for Windows further down.</p>
 <p><strong>Our syscall will now look like this</strong> <br />
-(You can run this code here. It will work for both Linux and Macos)</p>
+(You can run this code here. It will work for both Linux and MacOS)</p>
 <pre><pre class="playpen"><code class="language-rust">use std::io;
 
 fn main() {
@@ -672,11 +660,7 @@ comment.</p>
 #fn main() {
 #[link(name = &quot;c&quot;)]
 #}</code></pre></pre>
-<p>Every Linux installation comes with a version of <code>libc</code> which a C-library for 
-communicating with the operating system. Having a <code>libc</code> with a consistent API 
-means they can change the underlying implementation without braking everyones 
-code. This flag tells the compiler to link to the &quot;c&quot; library on the system we'
-re compiling for.</p>
+<p>Every Linux installation comes with a version of <code>libc</code> which a C-library for communicating with the operating system. Having a <code>libc</code> with a consistent API means they can change the underlying implementation without breaking everyone's code. This flag tells the compiler to link to the &quot;c&quot; library on the system we're compiling for.</p>
 <pre><pre class="playpen"><code class="language-rust no_run">
 # #![allow(unused_variables)]
 #fn main() {
@@ -684,16 +668,12 @@ extern &quot;C&quot; {
     fn write(fd: u32, buf: *const u8, count: usize);
 }
 #}</code></pre></pre>
-<p><code>extern &quot;C&quot;</code> or only <code>extern</code> (C is assumed if nothing is specified) means we're 
-linking to specific functions in the &quot;c&quot; library using the &quot;C&quot; calling 
-convention. As you'll see on Windows we'll need to change this since it uses a 
-different calling convention than the UNIX family.</p>
-<p>The function we're linking to needs to have the exact same name, in this case 
-<code>write</code>. The parameters doesn't need to have the same name but they must be in 
+<p><code>extern &quot;C&quot;</code> or only <code>extern</code> (C is assumed if nothing is specified) means we're linking to specific functions in the &quot;c&quot; library using the &quot;C&quot; calling convention. As you'll see on Windows we'll need to change this since it uses a different calling convention than the UNIX family.</p>
+<p>The function we're linking to needs to have the exact same name, in this case, <code>write</code>. The parameters don't need to have the same name but they must be in 
 the right order and it's good practice to name them the same as in the library 
 you're linking to.</p>
 <p>The write function takes a <code>file descriptor</code> which in this case is a handle to 
-<code>stdout</code>. In addition it expects us to provide a pointer to a array of <code>u8</code> values and the length of the buffer.</p>
+<code>stdout</code>. In addition, it expects us to provide a pointer to an array of <code>u8</code> values and the length of the buffer.</p>
 <pre><pre class="playpen"><code class="language-rust no_run">
 # #![allow(unused_variables)]
 #fn main() {
@@ -707,15 +687,14 @@ fn syscall_libc(message: String) {
 <p>The first thing we do is to get the pointer to the underlying buffer for our 
 string. This will be a pointer of type <code>*const u8</code> which matches our <code>buf</code> 
 argument. The <code>len</code> of the buffer corresponds to the <code>count</code> argument.</p>
-<p>You might ask how we know that <code>1</code> is the file handle to <code>stdout</code> and where we 
-found that value. </p>
-<p>You'll notice this a lot when writing syscalls from Rust. Usually constants are defined in the C header files which we can't link to, so we need to search them up. 1 is always the file descriptor for <code>stdout</code> on UNIX systems.</p>
+<p>You might ask how we know that <code>1</code> is the file-handle to <code>stdout</code> and where we found that value. </p>
+<p>You'll notice this a lot when writing syscalls from Rust. Usually, constants are defined in the C header files which we can't link to, so we need to search them up. 1 is always the file descriptor for <code>stdout</code> on UNIX systems.</p>
 <blockquote>
 <p>Wrapping the <code>libc</code> functions and providing these constants is exactly what the
 crate <a href="https://github.com/rust-lang/libc">libc</a> provides for us and why you'll see that used instead of writing
 the type of code we do here.</p>
 </blockquote>
-<p>A call to a FFI function is always unsafe so we need to use the <code>unsafe</code> keyword 
+<p>A call to an FFI function is always unsafe so we need to use the <code>unsafe</code> keyword 
 here.</p>
 <h3><a class="header" href="#using-the-api-on-windows" id="using-the-api-on-windows">Using the API on Windows</a></h3>
 <p><strong>This syscall will look like this on Windows:</strong> <br />
@@ -768,16 +747,13 @@ fn syscall(message: String) -&gt; io::Result&lt;()&gt; {
 }
 </code></pre></pre>
 <p>Now, just by looking at the code above you see it starts to get a bit more 
-complex, but let's spend som time to go through line by line what we do here as 
+complex, but let's spend some time to go through line by line what we do here as 
 well.</p>
 <pre><code class="language-text">#[cfg(target_os = &quot;windows&quot;)]
 #[link(name = &quot;kernel32&quot;)]
 </code></pre>
-<p>The first line is just telling the compiler to only compile this if the 
-<code>target_os</code> is Windows.</p>
-<p>The second line is a linker directive, telling the linker we want to link to the 
-library <code>kernel32</code> (if you ever see an example that links to <code>user32</code> that will 
-also work).</p>
+<p>The first line is just telling the compiler to only compile this if the <code>target_os</code> is Windows.</p>
+<p>The second line is a linker directive, telling the linker we want to link to the library <code>kernel32</code> (if you ever see an example that links to <code>user32</code> that will also work).</p>
 <pre><pre class="playpen"><code class="language-rust no_run">
 # #![allow(unused_variables)]
 #fn main() {
@@ -796,17 +772,11 @@ extern &quot;stdcall&quot; {
 #}</code></pre></pre>
 <p>First of all, <code>extern &quot;stdcall&quot;</code>, tells the compiler that we won't use the <code>C</code> 
 calling convention but use Windows calling convention called <code>stdcall</code>.</p>
-<p>The next part is the functions we want to link to. On Windows, we need to link 
-to two functions to get this to work: <code>GetStdHandle</code> and <code>WriteConsoleW</code>. 
+<p>The next part is the functions we want to link to. On Windows, we need to link to two functions to get this to work: <code>GetStdHandle</code> and <code>WriteConsoleW</code>. 
 <code>GetStdHandle</code> retrieves a reference to a standard device like <code>stdout</code>.</p>
-<p><code>WriteConsole</code> comes in two flavors, <code>WriteConsoleW</code> that takes in Unicode text 
-and <code>WriteConsoleA</code> that takes ANSI encoded text. </p>
-<p>Now, ANSI encoded text works fine if you only write English text, but as soon as 
-you write text in other languages you might need to use special characters that 
-are not possible to represent in <code>ANSI</code> but is possible in <code>utf-8</code> and our program
-will break.</p>
-<p>That's why we'll convert our <code>utf-8</code> encoded text to <code>utf-16</code> encoded Unicode 
-codepoints that can represent these characters and use the <code>WriteConsoleW</code> function.</p>
+<p><code>WriteConsole</code> comes in two flavours, <code>WriteConsoleW</code> that takes in Unicode text and <code>WriteConsoleA</code> that takes ANSI encoded text. </p>
+<p>Now, ANSI encoded text works fine if you only write English text, but as soon as you write text in other languages you might need to use special characters that are not possible to represent in <code>ANSI</code> but is possible in <code>utf-8</code> and our program will break.</p>
+<p>That's why we'll convert our <code>utf-8</code> encoded text to <code>utf-16</code> encoded Unicode codepoints that can represent these characters and use the <code>WriteConsoleW</code> function.</p>
 <pre><code class="language-rust no_run noplaypen">#[cfg(target_os = &quot;windows&quot;)]
 fn syscall(message: String) -&gt; io::Result&lt;()&gt; {
 
@@ -834,14 +804,12 @@ fn syscall(message: String) -&gt; io::Result&lt;()&gt; {
 }
 </code></pre>
 <p>The first thing we do is to convert the text to utf-16 encoded text which 
-Windows uses. Fortunately Rust has a built in function to convert our <code>utf-8</code>
-encoded text to <code>utf-16</code> code points. <code>encode_utf16</code> returns an iterator over 
-<code>u16</code> code points that we can collect to a <code>Vec</code>.</p>
+Windows uses. Fortunately, Rust has a built-in function to convert our <code>utf-8</code> encoded text to <code>utf-16</code> code points. <code>encode_utf16</code> returns an iterator over  <code>u16</code> code points that we can collect to a <code>Vec</code>.</p>
 <pre><code class="language-rust no_run noplaypen">let msg: Vec&lt;u16&gt; = message.encode_utf16().collect();
 let msg_ptr = msg.as_ptr();
 let len = msg.len() as u32;
 </code></pre>
-<p>Next we get the pointer to the underlaying buffer of our <code>Vec</code> and get the 
+<p>Next, we get the pointer to the underlying buffer of our <code>Vec</code> and get the 
 length.</p>
 <pre><code class="language-rust no_run noplaypen">let handle = unsafe { GetStdHandle(-11) };
    if handle  == -1 {
@@ -857,8 +825,8 @@ together with the <code>GetStdHandle</code> documentation:</p>
 <tr><td>StdErr</td><td>-12</td></tr>
 </tbody></table>
 <p>Now, we're lucky here, it's not that common that we find this information 
-together with the documentation for the function we call but it's very convenient when we do.</p>
-<p>The return codes to expect is also documented thoroughly for all functions so we handle potential errors here in the same way as we did for the Linux/Macos syscalls.</p>
+together with the documentation for the function, we call but it's very convenient when we do.</p>
+<p>The return codes to expect is also documented thoroughly for all functions so we handle potential errors here in the same way as we did for the Linux/MacOS syscalls.</p>
 <pre><pre class="playpen"><code class="language-rust no_run">
 # #![allow(unused_variables)]
 #fn main() {
@@ -878,7 +846,7 @@ if res  == 0 {
 #fn main() {
 println!(&quot;Hello world from Stdlib&quot;);
 #}</code></pre></pre>
-<h1><a class="header" href="#our-finished-cross-platform-syscall" id="our-finished-cross-platform-syscall">Our finished cross platform syscall</a></h1>
+<h1><a class="header" href="#our-finished-cross-platform-syscall" id="our-finished-cross-platform-syscall">Our finished cross-platform syscall</a></h1>
 <pre><pre class="playpen"><code class="language-rust">use std::io;
 
 fn main() {
@@ -946,19 +914,18 @@ fn syscall(message: String) -&gt; io::Result&lt;()&gt; {
     Ok(())
 }
 </code></pre></pre>
-<h1><a class="header" href="#about-writing-cross-platform-abstractions" id="about-writing-cross-platform-abstractions">About writing cross platform abstractions</a></h1>
-<p>If you isolate the code needed only for Linux and Macos you'll see that it's not many lines of code to write. But once you want to make a cross platform variant, the amount of code explodes. </p>
-<p>This is a recurring problem when we're curious about how this works on three different platforms, but we need some basic understanding on how the different operating systems work under the covers.</p>
-<p>My experience in general is that Linux and Macos have simpler API requiring fewer lines of code, and often (but not always) the exact same call works for both systems.</p>
-<p>Windows on the other hand is more complex, requires you to set up more structures to pass information (instead of using primitives), and often way more lines of code. What Windows does have is very good documentation so even though it's more work you'll also find the official documentation very helpful.</p>
+<h1><a class="header" href="#about-writing-cross-platform-abstractions" id="about-writing-cross-platform-abstractions">About writing cross-platform abstractions</a></h1>
+<p>If you isolate the code needed only for Linux and MacOS you'll see that it's not many lines of code to write. But once you want to make a cross-platform variant, the amount of code explodes. </p>
+<p>This is a recurring problem when we're curious about how this works on three different platforms, but we need some basic understanding of how the different operating systems work under the covers.</p>
+<p>My experience, in general, is that Linux and MacOS have simpler API requiring fewer lines of code, and often (but not always) the exact same call works for both systems.</p>
+<p>Windows, on the other hand, is more complex, requires you to set up more structures to pass information (instead of using primitives), and often way more lines of code. What Windows does have is very good documentation so even though it's more work you'll also find the official documentation very helpful.</p>
 <p>This complexity why the Rust community (other languages often has something similar) gathers around crates like <a href="https://github.com/rust-lang/libc">libc</a> which already have defined most methods and constants you need.</p>
 <h2><a class="header" href="#a-note-about-hidden-complexity" id="a-note-about-hidden-complexity">A note about &quot;hidden&quot; complexity</a></h2>
-<p>There is a lot of &quot;hidden&quot; complexity when writing cross platform code at this
+<p>There is a lot of &quot;hidden&quot; complexity when writing cross-platform code at this
 level. One hurdle is to get something working, which can prove to be quite a
 challenge. Getting it to work <strong>correctly</strong> and <strong>safely</strong> while covering all
 edge cases is an additional challenge. </p>
-<p><strong>Are we 100% sure that all valid <code>utf-8</code> code points which we use in Rust is valid 
-<code>utf-16</code> encoded Unicode that Windows will display correctly?</strong></p>
+<p><strong>Are we 100% sure that all valid <code>utf-8</code> code points which we use in Rust are valid <code>utf-16</code> encoded Unicode that Windows will display correctly?</strong></p>
 <p>I think so, but being 100 % sure about <a href="https://en.wikipedia.org/wiki/Comparison_of_Unicode_encodings">this is not as easy as one might think</a>.</p>
 <h1><a class="header" href="#does-the-cpu-cooperate-with-the-operating-system" id="does-the-cpu-cooperate-with-the-operating-system">Does the CPU cooperate with the Operating System?</a></h1>
 <p>If you had asked me this question when I first thought I understood how programs work, I would most likely answer no. We run programs on the CPU and we can do whatever we want if we know how to do it. Now, first of all, I wouldn't have thought this through, but unless you learn how this work from the bottom up, it's not easy to know for sure.</p>
@@ -1014,9 +981,7 @@ know that we're not allowed to dereference this memory?</p>
 <h2><a class="header" href="#down-the-rabbit-hole" id="down-the-rabbit-hole">Down the rabbit hole</a></h2>
 <p>Yes, this is a small rabbit hole. It turns out that there
 is a great deal of co-operation between the OS and the CPU, but maybe not the way you naively would think.</p>
-<p>Many modern CPUs provide some basic infrastructure that Operating Systems use. This infrastructure give us the security and stability we expect. Actually, most 
-advanced CPUs provide a lot more options than operating systems like Linux, BSD and
-Windows actually uses.</p>
+<p>Many modern CPUs provide some basic infrastructure that Operating Systems use. This infrastructure gives us the security and stability we expect. Actually, most advanced CPUs provide a lot more options than operating systems like Linux, BSD and Windows actually uses.</p>
 <p>There is especially two that I want to address here:</p>
 <ol>
 <li>How the CPU prevents us from accessing memory we're not supposed to access</li>
@@ -1025,11 +990,11 @@ Windows actually uses.</p>
 <p><em>We'll cover the first one here and the second in the next chapter.</em></p>
 <blockquote>
 <p>If you want to know more about how this works in detail I will absolutely
-recommend that you give <a href="https://os.phil-opp.com/">Philipp Oppermann excelent series</a>
+recommend that you give <a href="https://os.phil-opp.com/">Philipp Oppermann's excellent series</a>
 a read. It's extremely well written and will answer all these questions and many more.</p>
 </blockquote>
 <h2><a class="header" href="#how-does-the-cpu-prevent-us-from-accessing-memory-were-not-supposed-to" id="how-does-the-cpu-prevent-us-from-accessing-memory-were-not-supposed-to">How does the CPU prevent us from accessing memory we're not supposed to?</a></h2>
-<p>As I mentioned, modern CPUs have already some definition of basic concepts. Some examples of this is:</p>
+<p>As I mentioned, modern CPUs have already some definition of basic concepts. Some examples of this are:</p>
 <ul>
 <li>Virtual memory </li>
 <li>Page table</li>
@@ -1039,7 +1004,7 @@ a read. It's extremely well written and will answer all these questions and many
 </ul>
 <p>Exactly how this works will differ depending on the exact CPU so we'll treat them 
 in general terms here.</p>
-<p>Most modern CPUs however has a MMU (Memory Management Unit). This is a part of the
+<p>Most modern CPUs, however, has an MMU (Memory Management Unit). This is a part of the
 CPU (often etched on the same dye even). The MMUs job is to translate between
 the virtual address we use in our programs, to a physical address.</p>
 <p>When the OS starts a process (like our program) it sets up a page table for our
@@ -1047,7 +1012,7 @@ process, and makes sure a special register on the CPU points to this page table.
 <p>Now, when we try to dereference <code>t_ptr</code> in the code above, the address is at some point
 sent to the MMU for translation, which looks it up in the page table to translate
 it to a physical address in memory where it can fetch the data.</p>
-<p>In the first case it will point to a memory address on our stack that holds the value <code>100</code>.</p>
+<p>In the first case, it will point to a memory address on our stack that holds the value <code>100</code>.</p>
 <p>When we pass in <code>99999999999999</code> and ask it to fetch what's stored at that address 
 (which is what dereferencing does) it looks for the translation in the page table but can't find it.</p>
 <p>The CPU then treats this as a <code>page fault</code>.</p>
@@ -1056,13 +1021,11 @@ has a predefined format where the OS provides handlers for the predefined
 exceptions the CPU can encounter.</p>
 <p>Since the OS provided a pointer to a function that handles <code>Page Fault</code> the CPU 
 jumps to that function when we try to dereference <code>99999999999999</code> and thereby hands over control to the Operating System. </p>
-<p>The OS then prints a nice message for us letting us know that we encountered 
-what it calls a <code>segmentation fault</code>. This message will therefore vary depending on the OS you 
-run the code on.</p>
+<p>The OS then prints a nice message for us letting us know that we encountered what it calls a <code>segmentation fault</code>. This message will therefore vary depending on the OS you run the code on.</p>
 <h2><a class="header" href="#but-cant-we-just-change-the-page-table-in-the-cpu" id="but-cant-we-just-change-the-page-table-in-the-cpu">But can't we just change the page table in the CPU?</a></h2>
-<p>Now this is where <code>Privelege Level</code> comes in. Most modern operating systems operate with two <code>Ring Levels</code>. Ring 0, the kernel space, and Ring 3, user space.</p>
+<p>Now, this is where <code>Privilege Level</code> comes in. Most modern operating systems operate with two <code>Ring Levels</code>. Ring 0, the kernel space, and Ring 3, user-space.</p>
 <p><img src="./images/priv_rings.png" alt="Privelege rings" /></p>
-<p>Most CPUs has a concept of more rings that what most modern operating systems use. This has historical reasons, which is also why <code>Ring 0</code> and <code>Ring 3</code> are used (and not 1, 2).</p>
+<p>Most CPUs has a concept of more rings than what most modern operating systems use. This has historical reasons, which is also why <code>Ring 0</code> and <code>Ring 3</code> are used (and not 1, 2).</p>
 <p>Now every entry in the page table has additional information about it, amongst that information is the information about what ring it belongs to. This information is set up when your OS boots up.</p>
 <p>Code executed in <code>Ring 0</code> has almost unrestricted access to external devices, memory and is free to change registers that provide security at the hardware level.</p>
 <p>Now, the code you write in <code>Ring 3</code> will typically have extremely restricted access to I/O and certain CPU registers (and instructions). Trying to issue an instruction or setting a register from <code>Ring 3</code> to change the <code>page table</code> will be prevented already at the CPU. The CPU will then then treat this as an exception and jump to the handler for that exception provided by the OS.</p>
@@ -1247,10 +1210,10 @@ asynchronous I/O library. <code>libuv</code> is not only used in Node but also f
 of how <a href="https://julialang.org/">Julia</a> and <a href="https://github.com/saghul/pyuv">Pyuv</a> creates a cross platform event queue. Most
 languages has bindings for it.</p>
 <p>In Rust we have <a href="https://github.com/tokio-rs/mio">mio - Metal IO</a>. <code>Mio</code> powers the OS event queue used in <a href="https://github.com/tokio-rs/tokio">Tokio</a> which is a runtime providing I/O, networking, scheduling etc. <code>Mio</code> is to <code>Tokio</code> what <code>libuv</code> is to <code>Node</code>. </p>
-<p><code>Tokio</code> powers many web frameworks, amongst those <a href="https://github.com/actix/actix-web">Actix Web</a> which is know to be very performant.</p>
+<p><code>Tokio</code> powers many web frameworks, amongst those <a href="https://github.com/actix/actix-web">Actix Web</a> which is known to be very performant.</p>
 <p>Since we want
 to understand how everything works I had to create an extremely
-simplified version of of an event queue. I called it <code>minimio</code> since it's greatly inspired by <code>mio</code>.</p>
+simplified version of an event queue. I called it <code>minimio</code> since it's greatly inspired by <code>mio</code>.</p>
 <blockquote>
 <p>I will write a short book (much shorter than this one) about how this works in
 detail, for now you can visit the code in the it's <a href="https://github.com/cfsamson/examples-minimio">Github repository if you're
@@ -1261,7 +1224,7 @@ curious</a>. This book will also briefly cover
 <h2><a class="header" href="#why-use-an-os-backed-event-queue" id="why-use-an-os-backed-event-queue">Why use an OS backed event queue?</a></h2>
 <p>If you remember my previous chapters you know that we need to cooperate closely
 with the OS to make I/O operations as efficient as possible. Operating systems like
-Linux, Macos and Windows provides several ways of performing I/O, both blocking and
+Linux, MacOS and Windows provide several ways of performing I/O, both blocking and
 non-blocking.</p>
 <p>So blocking operations are the least flexible to use for us as programmers since we yield control to the OS which suspends our thread. The big advantage is that our thread gets woken up again once the event we're waiting for is ready.</p>
 <p>Non-blocking methods are more flexible but need to have a way to tell us if a task is ready or not. This is most often done by returning some kind of data that says if it's <code>Ready</code> or <code>NotReady</code>. One drawback is that we need to check this status regularly to be able to tell if the state has changed. </p>
@@ -1277,11 +1240,11 @@ that since they let you know when an action is ready to be performed. For exampl
 when a socket is ready to be read from.</p>
 <p><strong>Basically this happens when we want to read data from a socket using epoll/kqueue:</strong></p>
 <ol>
-<li>We create an event queue by calling the syscall <code>epoll_create</code> or <code>kqueue</code></li>
-<li>We ask the OS for a file descriptor representing a network socket</li>
-<li>We register an interest in <code>Read</code> events on this socket with a second syscall to register our interest with the event queue we created in (1)</li>
-<li>Next, we call, <code>epoll_wait</code> or <code>kevent</code> to wait for an event - this will block (suspend) the thread it's called on.</li>
-<li>When the event is ready, our thread is unblocked (resumed) and we return from our call to &quot;wait&quot; with data about what event occurred.</li>
+<li>We create an event queue by calling the syscall <code>epoll_create</code> or <code>kqueue</code>.</li>
+<li>We ask the OS for a file descriptor representing a network socket.</li>
+<li>Through another syscall we register an interest in <code>Read</code> events on this socket. It's important that we also inform the OS that we'll be expecting to receive a notification when the event is ready in the event queue we created in (1).</li>
+<li>Next, we call <code>epoll_wait</code> or <code>kevent</code> to wait for an event. This will block (suspend) the thread it's called on.</li>
+<li>When the event is ready, our thread is unblocked (resumed) and we return from our &quot;wait&quot; call with data about what event occurred.</li>
 <li>We call <code>read</code> on the socket we created in 2.</li>
 </ol>
 <h2><a class="header" href="#completion-based-event-queues" id="completion-based-event-queues">Completion based event queues</a></h2>
@@ -1289,20 +1252,20 @@ when a socket is ready to be read from.</p>
 notification when events are completed. For example data is read to a buffer.</p>
 <p>This is the basics of what happens in an even queue:</p>
 <ol>
-<li>We create an event queue by calling the syscall <code>CreateIoCompletionPort</code></li>
-<li>We create a buffer and a ask the OS to give us a handle to a socket</li>
+<li>We create an event queue by calling the syscall <code>CreateIoCompletionPort</code>.</li>
+<li>We create a buffer and ask the OS to give us a handle to a socket.</li>
 <li>We register an interest in <code>Read</code> events on this socket with another syscall,
-but this time we also pass inn the buffer we created in (2) to which the data will
+but this time we also pass in the buffer we created in (2) to which the data will
 be read.</li>
 <li>Next, we call <code>GetQueuedCompletionStatusEx</code> which will block until an event has
-completed</li>
-<li>Our thread is unblocked and our buffer is filled with the data we're interested in</li>
+completed.</li>
+<li>Our thread is unblocked and our buffer is now filled with the data we're interested in.</li>
 </ol>
 <h2><a class="header" href="#epoll" id="epoll">Epoll</a></h2>
 <p><code>Epoll</code> is the Linux way of implementing an event queue. In terms of functionality it has a lot of common with <code>Kqueue</code>. The advantage of using <code>epoll</code> over other similar methods on Linux like <code>select</code> or <code>poll</code> is that <code>epoll</code> was designed to work very efficiently with a large number of events.</p>
 <h3><a class="header" href="#kqueue" id="kqueue">Kqueue</a></h3>
-<p><code>Kqueue</code> is the Macos way of implementing an event queue, well, actually it's 
-the BSD way of doing this that Macos uses. In terms of high level functionality
+<p><code>Kqueue</code> is the MacOS way of implementing an event queue, well, actually it's 
+the BSD way of doing this that MacOS uses. In terms of high level functionality
 it's similar to <code>Epoll</code> in concept but different to use.</p>
 <p>Some argue it's a bit more complex to use and a bit more abstract and &quot;general&quot;.</p>
 <h3><a class="header" href="#iocp" id="iocp">IOCP</a></h3>

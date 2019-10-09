@@ -156,10 +156,10 @@ asynchronous I/O library. <code>libuv</code> is not only used in Node but also f
 of how <a href="https://julialang.org/">Julia</a> and <a href="https://github.com/saghul/pyuv">Pyuv</a> creates a cross platform event queue. Most
 languages has bindings for it.</p>
 <p>In Rust we have <a href="https://github.com/tokio-rs/mio">mio - Metal IO</a>. <code>Mio</code> powers the OS event queue used in <a href="https://github.com/tokio-rs/tokio">Tokio</a> which is a runtime providing I/O, networking, scheduling etc. <code>Mio</code> is to <code>Tokio</code> what <code>libuv</code> is to <code>Node</code>. </p>
-<p><code>Tokio</code> powers many web frameworks, amongst those <a href="https://github.com/actix/actix-web">Actix Web</a> which is know to be very performant.</p>
+<p><code>Tokio</code> powers many web frameworks, amongst those <a href="https://github.com/actix/actix-web">Actix Web</a> which is known to be very performant.</p>
 <p>Since we want
 to understand how everything works I had to create an extremely
-simplified version of of an event queue. I called it <code>minimio</code> since it's greatly inspired by <code>mio</code>.</p>
+simplified version of an event queue. I called it <code>minimio</code> since it's greatly inspired by <code>mio</code>.</p>
 <blockquote>
 <p>I will write a short book (much shorter than this one) about how this works in
 detail, for now you can visit the code in the it's <a href="https://github.com/cfsamson/examples-minimio">Github repository if you're
@@ -170,7 +170,7 @@ curious</a>. This book will also briefly cover
 <h2><a class="header" href="#why-use-an-os-backed-event-queue" id="why-use-an-os-backed-event-queue">Why use an OS backed event queue?</a></h2>
 <p>If you remember my previous chapters you know that we need to cooperate closely
 with the OS to make I/O operations as efficient as possible. Operating systems like
-Linux, Macos and Windows provides several ways of performing I/O, both blocking and
+Linux, MacOS and Windows provide several ways of performing I/O, both blocking and
 non-blocking.</p>
 <p>So blocking operations are the least flexible to use for us as programmers since we yield control to the OS which suspends our thread. The big advantage is that our thread gets woken up again once the event we're waiting for is ready.</p>
 <p>Non-blocking methods are more flexible but need to have a way to tell us if a task is ready or not. This is most often done by returning some kind of data that says if it's <code>Ready</code> or <code>NotReady</code>. One drawback is that we need to check this status regularly to be able to tell if the state has changed. </p>
@@ -186,11 +186,11 @@ that since they let you know when an action is ready to be performed. For exampl
 when a socket is ready to be read from.</p>
 <p><strong>Basically this happens when we want to read data from a socket using epoll/kqueue:</strong></p>
 <ol>
-<li>We create an event queue by calling the syscall <code>epoll_create</code> or <code>kqueue</code></li>
-<li>We ask the OS for a file descriptor representing a network socket</li>
-<li>We register an interest in <code>Read</code> events on this socket with a second syscall to register our interest with the event queue we created in (1)</li>
-<li>Next, we call, <code>epoll_wait</code> or <code>kevent</code> to wait for an event - this will block (suspend) the thread it's called on.</li>
-<li>When the event is ready, our thread is unblocked (resumed) and we return from our call to &quot;wait&quot; with data about what event occurred.</li>
+<li>We create an event queue by calling the syscall <code>epoll_create</code> or <code>kqueue</code>.</li>
+<li>We ask the OS for a file descriptor representing a network socket.</li>
+<li>Through another syscall we register an interest in <code>Read</code> events on this socket. It's important that we also inform the OS that we'll be expecting to receive a notification when the event is ready in the event queue we created in (1).</li>
+<li>Next, we call <code>epoll_wait</code> or <code>kevent</code> to wait for an event. This will block (suspend) the thread it's called on.</li>
+<li>When the event is ready, our thread is unblocked (resumed) and we return from our &quot;wait&quot; call with data about what event occurred.</li>
 <li>We call <code>read</code> on the socket we created in 2.</li>
 </ol>
 <h2><a class="header" href="#completion-based-event-queues" id="completion-based-event-queues">Completion based event queues</a></h2>
@@ -198,20 +198,20 @@ when a socket is ready to be read from.</p>
 notification when events are completed. For example data is read to a buffer.</p>
 <p>This is the basics of what happens in an even queue:</p>
 <ol>
-<li>We create an event queue by calling the syscall <code>CreateIoCompletionPort</code></li>
-<li>We create a buffer and a ask the OS to give us a handle to a socket</li>
+<li>We create an event queue by calling the syscall <code>CreateIoCompletionPort</code>.</li>
+<li>We create a buffer and ask the OS to give us a handle to a socket.</li>
 <li>We register an interest in <code>Read</code> events on this socket with another syscall,
-but this time we also pass inn the buffer we created in (2) to which the data will
+but this time we also pass in the buffer we created in (2) to which the data will
 be read.</li>
 <li>Next, we call <code>GetQueuedCompletionStatusEx</code> which will block until an event has
-completed</li>
-<li>Our thread is unblocked and our buffer is filled with the data we're interested in</li>
+completed.</li>
+<li>Our thread is unblocked and our buffer is now filled with the data we're interested in.</li>
 </ol>
 <h2><a class="header" href="#epoll" id="epoll">Epoll</a></h2>
 <p><code>Epoll</code> is the Linux way of implementing an event queue. In terms of functionality it has a lot of common with <code>Kqueue</code>. The advantage of using <code>epoll</code> over other similar methods on Linux like <code>select</code> or <code>poll</code> is that <code>epoll</code> was designed to work very efficiently with a large number of events.</p>
 <h3><a class="header" href="#kqueue" id="kqueue">Kqueue</a></h3>
-<p><code>Kqueue</code> is the Macos way of implementing an event queue, well, actually it's 
-the BSD way of doing this that Macos uses. In terms of high level functionality
+<p><code>Kqueue</code> is the MacOS way of implementing an event queue, well, actually it's 
+the BSD way of doing this that MacOS uses. In terms of high level functionality
 it's similar to <code>Epoll</code> in concept but different to use.</p>
 <p>Some argue it's a bit more complex to use and a bit more abstract and &quot;general&quot;.</p>
 <h3><a class="header" href="#iocp" id="iocp">IOCP</a></h3>
