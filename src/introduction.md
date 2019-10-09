@@ -54,10 +54,10 @@ understanding of how async code works in general, and the different strategies t
 
 - Already know some Rust but want to learn more.
 
-So, what du you think? Is the answer yes to some of these questions? Well, then join me on this venture
+So, what do you think? Is the answer yes to some of these questions? Well, then join me on this venture
 as we try to get a better understanding of all these subjects.
 
-> We'll only use Rusts standard library. The reason for this is that we really want to know how tings
+> We'll only use Rusts standard library. The reason for this is that we really want to know how things
 > work, and Rusts standard library strikes the perfect balance for this task providing abstractions
 > but they're thin enough to let us easily peek under the covers and see what really happens.
 
