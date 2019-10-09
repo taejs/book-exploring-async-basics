@@ -9,11 +9,11 @@ languages has bindings for it.
 
 In Rust we have [mio - Metal IO](https://github.com/tokio-rs/mio). `Mio` powers the OS event queue used in [Tokio](https://github.com/tokio-rs/tokio) which is a runtime providing I/O, networking, scheduling etc. `Mio` is to `Tokio` what `libuv` is to `Node`. 
 
-`Tokio` powers many web frameworks, amongst those [Actix Web](https://github.com/actix/actix-web) which is know to be very performant.
+`Tokio` powers many web frameworks, amongst those [Actix Web](https://github.com/actix/actix-web) which is known to be very performant.
 
 Since we want
 to understand how everything works I had to create an extremely
-simplified version of of an event queue. I called it `minimio` since it's greatly inspired by `mio`.
+simplified version of an event queue. I called it `minimio` since it's greatly inspired by `mio`.
 
 > I will write a short book (much shorter than this one) about how this works in
 > detail, for now you can visit the code in the it's [Github repository if you're
@@ -26,7 +26,7 @@ However, we'll give each of them a brief introduction here so you know the basic
 
 If you remember my previous chapters you know that we need to cooperate closely
 with the OS to make I/O operations as efficient as possible. Operating systems like
-Linux, Macos and Windows provides several ways of performing I/O, both blocking and
+Linux, MacOS and Windows provide several ways of performing I/O, both blocking and
 non-blocking.
 
 So blocking operations are the least flexible to use for us as programmers since we yield control to the OS which suspends our thread. The big advantage is that our thread gets woken up again once the event we're waiting for is ready.
@@ -47,11 +47,11 @@ when a socket is ready to be read from.
 
 **Basically this happens when we want to read data from a socket using epoll/kqueue:**
 
-1. We create an event queue by calling the syscall `epoll_create` or `kqueue`
-2. We ask the OS for a file descriptor representing a network socket
-3. We register an interest in `Read` events on this socket with a second syscall to register our interest with the event queue we created in (1)
-4. Next, we call, `epoll_wait` or `kevent` to wait for an event - this will block (suspend) the thread it's called on.
-5. When the event is ready, our thread is unblocked (resumed) and we return from our call to "wait" with data about what event occurred.
+1. We create an event queue by calling the syscall `epoll_create` or `kqueue`.
+2. We ask the OS for a file descriptor representing a network socket.
+3. We register an interest in `Read` events on this socket with a second syscall to register our interest in the event queue we created in (1).
+4. Next, we call `epoll_wait` or `kevent` to wait for an event. This will block (suspend) the thread it's called on.
+5. When the event is ready, our thread is unblocked (resumed) and we return from our "wait" call with data about what event occurred.
 6. We call `read` on the socket we created in 2.
 
 ## Completion based event queues
@@ -61,14 +61,14 @@ notification when events are completed. For example data is read to a buffer.
 
 This is the basics of what happens in an even queue:
 
-1. We create an event queue by calling the syscall `CreateIoCompletionPort`
-2. We create a buffer and a ask the OS to give us a handle to a socket
+1. We create an event queue by calling the syscall `CreateIoCompletionPort`.
+2. We create a buffer and ask the OS to give us a handle to a socket.
 3. We register an interest in `Read` events on this socket with another syscall,
-   but this time we also pass inn the buffer we created in (2) to which the data will
+   but this time we also pass in the buffer we created in (2) to which the data will
    be read.
 4. Next, we call `GetQueuedCompletionStatusEx` which will block until an event has
-   completed
-5. Our thread is unblocked and our buffer is filled with the data we're interested in
+   completed.
+5. Our thread is unblocked and our buffer is now filled with the data we're interested in.
 
 
 ## Epoll 
@@ -77,8 +77,8 @@ This is the basics of what happens in an even queue:
 
 ### Kqueue
 
-`Kqueue` is the Macos way of implementing an event queue, well, actually it's 
-the BSD way of doing this that Macos uses. In terms of high level functionality
+`Kqueue` is the MacOS way of implementing an event queue, well, actually it's 
+the BSD way of doing this that MacOS uses. In terms of high level functionality
 it's similar to `Epoll` in concept but different to use.
 
 Some argue it's a bit more complex to use and a bit more abstract and "general".
