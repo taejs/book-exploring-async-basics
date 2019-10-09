@@ -34,7 +34,7 @@ have yet to confirm this).
 ## Who is this book for?
 
 I originally started out wanting to explore the fundamentals and inner workings
-of Rusts Futures. Reading through RFC's, motivations and discussions I realized
+of Rust's Futures. Reading through RFC's, motivations and discussions I realized
 that to really understand the **why** and **how** of Rust's Futures, I needed a very good
 understanding of how async code works in general, and the different strategies to handle it.
 
@@ -57,8 +57,8 @@ understanding of how async code works in general, and the different strategies t
 So, what do you think? Is the answer yes to some of these questions? Well, then join me on this venture
 as we try to get a better understanding of all these subjects.
 
-> We'll only use Rusts standard library. The reason for this is that we really want to know how things
-> work, and Rusts standard library strikes the perfect balance for this task providing abstractions
+> We'll only use Rust's standard library. The reason for this is that we really want to know how things
+> work, and Rust's standard library strikes the perfect balance for this task providing abstractions
 > but they're thin enough to let us easily peek under the covers and see what really happens.
 
 ## Following along
@@ -120,15 +120,15 @@ Everything from spelling mistakes to correcting errors or inaccuracies are great
 
 ## Why I wrote this and its companion books
 
-This started as a wish to write an article about Rusts Futures 3.0. The result so far is
-3 books about concurrency in general and hopefully, at some point a fourth about Rusts Futures exclusively.
+This started as a wish to write an article about Rust's Futures 3.0. The result so far is
+3 books about concurrency in general and hopefully, at some point a fourth about Rust's Futures exclusively.
 
 This process has also made me realize why I have vague memories from my childhood
 of threats being made about stopping the car and letting me off if I didn't stop
 asking "why?" to everything.
 
 Basically, the list below is a result of this urge to understand _why_ while
-reading the RFC's and discussions about Rusts async story: 
+reading the RFC's and discussions about Rust's async story: 
 
 - [Green threads explained in 200 lines of Rust](https://app.gitbook.com/@cfsamson/s/green-threads-explained-in-200-lines-of-rust/)
 
@@ -136,4 +136,4 @@ reading the RFC's and discussions about Rusts async story:
 
 - [Exploring Epoll, Kqueue and IOCP with Rust](https://github.com/cfsamson/book-exploring-epoll-kqueue-iocp) a companion book to the "Async Basics" book
 
-- Exploring Rusts Futures (TBD) - a different look on the **why** and **how** of Rusts futures
+- Exploring Rust's Futures (TBD) - a different look on the **why** and **how** of Rust's futures
