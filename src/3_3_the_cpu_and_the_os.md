@@ -58,7 +58,7 @@ know that we're not allowed to dereference this memory?
 ## Down the rabbit hole
 
 Yes, this is a small rabbit hole. It turns out that there
-is a great deal of corporation between the OS and the CPU, but maybe not the way you naively would think.
+is a great deal of co-operation between the OS and the CPU, but maybe not the way you naively would think.
 
 Many modern CPUs provide some basic infrastructure that Operating Systems use. This infrastructure give us the security and stability we expect. Actually, most 
 advanced CPUs provide a lot more options than operating systems like Linux, BSD and
