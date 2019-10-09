@@ -60,9 +60,7 @@ know that we're not allowed to dereference this memory?
 Yes, this is a small rabbit hole. It turns out that there
 is a great deal of co-operation between the OS and the CPU, but maybe not the way you naively would think.
 
-Many modern CPUs provide some basic infrastructure that Operating Systems use. This infrastructure give us the security and stability we expect. Actually, most 
-advanced CPUs provide a lot more options than operating systems like Linux, BSD and
-Windows actually uses.
+Many modern CPUs provide some basic infrastructure that Operating Systems use. This infrastructure gives us the security and stability we expect. Actually, most advanced CPUs provide a lot more options than operating systems like Linux, BSD and Windows actually uses.
 
 There is especially two that I want to address here:
 
@@ -72,13 +70,13 @@ There is especially two that I want to address here:
 _We'll cover the first one here and the second in the next chapter._
 
 > If you want to know more about how this works in detail I will absolutely
-> recommend that you give [Philipp Oppermann excelent series](https://os.phil-opp.com/)
+> recommend that you give [Philipp Oppermann's excellent series](https://os.phil-opp.com/)
 > a read. It's extremely well written and will answer all these questions and many more.
 
 
 ## How does the CPU prevent us from accessing memory we're not supposed to?
 
-As I mentioned, modern CPUs have already some definition of basic concepts. Some examples of this is:
+As I mentioned, modern CPUs have already some definition of basic concepts. Some examples of this are:
 
 - Virtual memory 
 - Page table
@@ -89,7 +87,7 @@ As I mentioned, modern CPUs have already some definition of basic concepts. Some
 Exactly how this works will differ depending on the exact CPU so we'll treat them 
 in general terms here.
 
-Most modern CPUs however has a MMU (Memory Management Unit). This is a part of the
+Most modern CPUs, however, has an MMU (Memory Management Unit). This is a part of the
 CPU (often etched on the same dye even). The MMUs job is to translate between
 the virtual address we use in our programs, to a physical address.
 
@@ -100,7 +98,7 @@ Now, when we try to dereference `t_ptr` in the code above, the address is at som
 sent to the MMU for translation, which looks it up in the page table to translate
 it to a physical address in memory where it can fetch the data.
 
-In the first case it will point to a memory address on our stack that holds the value `100`.
+In the first case, it will point to a memory address on our stack that holds the value `100`.
 
 When we pass in `99999999999999` and ask it to fetch what's stored at that address 
 (which is what dereferencing does) it looks for the translation in the page table but can't find it.
@@ -114,17 +112,15 @@ exceptions the CPU can encounter.
 Since the OS provided a pointer to a function that handles `Page Fault` the CPU 
 jumps to that function when we try to dereference `99999999999999` and thereby hands over control to the Operating System. 
 
-The OS then prints a nice message for us letting us know that we encountered 
-what it calls a `segmentation fault`. This message will therefore vary depending on the OS you 
-run the code on.
+The OS then prints a nice message for us letting us know that we encountered what it calls a `segmentation fault`. This message will therefore vary depending on the OS you run the code on.
 
 ## But can't we just change the page table in the CPU?
 
-Now this is where `Privelege Level` comes in. Most modern operating systems operate with two `Ring Levels`. Ring 0, the kernel space, and Ring 3, user space.
+Now, this is where `Privilege Level` comes in. Most modern operating systems operate with two `Ring Levels`. Ring 0, the kernel space, and Ring 3, user-space.
 
 ![Privelege rings](./images/priv_rings.png)
 
-Most CPUs has a concept of more rings that what most modern operating systems use. This has historical reasons, which is also why `Ring 0` and `Ring 3` are used (and not 1, 2).
+Most CPUs has a concept of more rings than what most modern operating systems use. This has historical reasons, which is also why `Ring 0` and `Ring 3` are used (and not 1, 2).
 
 Now every entry in the page table has additional information about it, amongst that information is the information about what ring it belongs to. This information is set up when your OS boots up.
 
