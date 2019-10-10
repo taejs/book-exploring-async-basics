@@ -16,7 +16,7 @@ to understand how everything works, I decided to create an extremely
 simplified version of an event queue. I called it `minimio` since it's greatly inspired by `mio`.
 
 > I will write a short book (much shorter than this one) about how this works in
-> detail; for now you can visit the code at its [Github repository if you're
+> detail.  For now, you can visit the code at its [Github repository if you're
 > curious](https://github.com/cfsamson/examples-minimio). This book will also briefly cover
 > `wepoll`, which is used as an optimization instead of IOCP in both the `mio` and `libuv` frameworks. 
 
@@ -41,7 +41,7 @@ Event queuing via Epoll/kqueue/IOCP is a way to combine the flexibility of a non
 
 ## Readiness-based event queues
 
-Epoll and Kqueue are known as readiness-based event queues; this is because they let you know when an action is ready to be performed, e.g., when a socket is ready to be read from.
+Epoll and Kqueue are known as readiness-based event queues, which means they let you know when an action is ready to be performed.  An example of this is a socket that is ready to be read from.
 
 **Basically this happens when we want to read data from a socket using epoll/kqueue:**
 
@@ -54,8 +54,7 @@ Epoll and Kqueue are known as readiness-based event queues; this is because they
 
 ## Completion-based event queues
 
-IOCP stands for I/O Completion Ports; in this type of queue you get a
-notification when events are completed, e.g., when data is read to a buffer.
+IOCP stands for I/O Completion Ports and is a completion-based event queue. This type of queue notifies you when events are completed.  An example of this is when data has been read into a buffer.
 
 Below is a basic breakdown of what happens in this type of event queue:
 

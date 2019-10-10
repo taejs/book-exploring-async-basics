@@ -62,6 +62,6 @@ Now, we still need a way to "suspend" many tasks while waiting, and this is wher
 
 ## Final note
 
-The Node runtime uses a combination of both 1 and 3, but it tries to force all I/O to use alternative 3. Node uses a callback-based approach to suspend tasks, which is also part of the reason why Node is so good at handling many connections concurrently.
+The Node runtime uses a combination of both 1 and 3, but it tries to force all I/O to use alternative 3. This design is also part of the reason why Node is so good at handling many connections concurrently.  Node uses a callback-based approach to suspend tasks.
 
 Rust's async story is modeled around option 3, and one of the reasons it has taken a long time is related to the _cons_ of this method and choosing a way to model how tasks should be suspended. Rust's Futures model a task as a [State Machine](https://en.wikipedia.org/wiki/Finite-state_machine) where a suspension point represents a `state`.
