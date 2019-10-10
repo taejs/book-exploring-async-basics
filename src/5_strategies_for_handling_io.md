@@ -56,7 +56,7 @@ Now, we still need a way to "suspend" many tasks while waiting, and this is wher
 
 - Different operating systems have different ways of handling these kind of queues. Some of them are difficult to reconcile with each other. Some operating systems have limitations on what I/O operations support this method.
 - Great flexibility comes with a good deal of complexity
-- Difficult to write an abstraction layer that accounts for the differences between the operating systems without introducing unwanted costs and, at the same time, providing an ergonomic API.
+- Difficult to write an ergonomic API with an abstraction layer that accounts for the differences between the operating systems without introducing unwanted costs.
 - Only solves part of the problem—the programmer still needs a strategy for suspending tasks that are waiting.
 
 
