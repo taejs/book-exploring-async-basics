@@ -17,14 +17,14 @@ In `Cargo.toml`
 
 ```toml
 [dependencies]
-minimio = {git = "https://github.com/cfsamson/examples-io-eventloop", branch = "master"}
+minimio = {git = "https://github.com/cfsamson/examples-minimio", branch = "master"}
 ```
 
 A second option is to clone the repository containing all the code we're going
 to write and go through that as we go along:
 
 ```
-git clone https://github.com/cfsamson/examples-minimio.git
+git clone https://github.com/cfsamson/examples-node-eventloop
 ```
 
 The next thing we need is a `Runtime` to hold all the state our `Runtime` needs.
