@@ -42,7 +42,7 @@ for i in 0..4 {
         .spawn(move || {
 
             while let Ok(task) = evt_reciever.recv() {
-                print(format!("recived a task of type: {}", task.kind));
+                print(format!("received a task of type: {}", task.kind));
                 
                 if let ThreadPoolTaskKind::Close = task.kind {
                     break;
@@ -110,7 +110,7 @@ out information for us to see:
 
 ```rust, no_run
 while let Ok(task) = evt_reciever.recv() {
-        print(format!("recived a task of type: {}", task.kind));
+        print(format!("received a task of type: {}", task.kind));
         
         if let ThreadPoolTaskKind::Close = task.kind {
             break;
@@ -189,7 +189,7 @@ let epoll_thread = thread::Builder::new()
                     event_sender.send(PollEvent::Timeout).expect("epoll timeout");
                 }
                 Err(ref e) if e.kind() == io::ErrorKind::Interrupted => {
-                    print("recieved event of type: Close");
+                    print("received event of type: Close");
                     break;
                 }
                 Err(e) => panic!("{:?}", e),
@@ -320,7 +320,7 @@ match poll.poll(&mut events, timeout) {
         event_sender.send(PollEvent::Timeout).expect("epoll timeout");
     }
     Err(ref e) if e.kind() == io::ErrorKind::Interrupted => {
-        print("recieved event of type: Close");
+        print("received event of type: Close");
         break;
     }
     Err(e) => panic!("{:?}", e),
@@ -409,7 +409,7 @@ impl Runtime {
                 .spawn(move || {
 
                     while let Ok(task) = evt_reciever.recv() {
-                        print(format!("recived a task of type: {}", task.kind));
+                        print(format!("received a task of type: {}", task.kind));
                         
                         if let ThreadPoolTaskKind::Close = task.kind {
                             break;
@@ -463,7 +463,7 @@ impl Runtime {
                             event_sender.send(PollEvent::Timeout).expect("epoll timeout");
                         }
                         Err(ref e) if e.kind() == io::ErrorKind::Interrupted => {
-                            print("recieved event of type: Close");
+                            print("received event of type: Close");
                             break;
                         }
                         Err(e) => panic!("{:?}", e),

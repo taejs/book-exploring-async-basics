@@ -128,8 +128,8 @@ Thread: main	 Registered timer event id: 5
 Thread: main	 Registering a 1000 ms timeout
 Thread: main	 Registered timer event id: 6
 Thread: main	 Registering http get request to google.com
-Thread: pool3	 recived a task of type: File read
-Thread: pool2	 recived a task of type: File read
+Thread: pool3	 received a task of type: File read
+Thread: pool2	 received a task of type: File read
 Thread: main	 Event with id: 7 registered.
 Thread: main	 ===== TICK 1 =====
 Thread: main	 Immediate1 timed out
@@ -138,13 +138,13 @@ Thread: pool3	 finished running a task of type: File read.
 Thread: pool2	 finished running a task of type: File read.
 Thread: main	 First count: 39 characters.
 Thread: main	 I want to create a "magic" number based on the text.
-Thread: pool3	 recived a task of type: Encrypt
+Thread: pool3	 received a task of type: Encrypt
 Thread: main	 ===== TICK 2 =====
 Thread: main	 SETTIMEOUT
 Thread: main	 Second count: 39 characters.
 Thread: main	 Third call to read test.txt
 Thread: main	 ===== TICK 3 =====
-Thread: pool2	 recived a task of type: File read
+Thread: pool2	 received a task of type: File read
 Thread: pool3	 finished running a task of type: Encrypt.
 Thread: main	 "Encrypted" number is: 63245986
 Thread: main	 ===== TICK 4 =====
@@ -173,11 +173,11 @@ Thread: main	 Registered timer event id: 10
 Thread: epoll	 epoll event timeout is ready
 Thread: main	 ===== TICK 8 =====
 Thread: main	 500ms timer(nested) timed out
-Thread: pool0	 recived a task of type: Close
-Thread: pool1	 recived a task of type: Close
-Thread: pool2	 recived a task of type: Close
-Thread: pool3	 recived a task of type: Close
-Thread: epoll	 recieved event of type: Close
+Thread: pool0	 received a task of type: Close
+Thread: pool1	 received a task of type: Close
+Thread: pool2	 received a task of type: Close
+Thread: pool3	 received a task of type: Close
+Thread: epoll	 received event of type: Close
 Thread: main	 FINISHED
 ```
 

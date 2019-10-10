@@ -21,7 +21,7 @@ why when we reach the `[Http module](./8_3_http_module.md) chapter, but the main
 point is that the I/O queue doesn't return any data itself, it just tells us that
 data is ready to be read.
 
-Lastly it's only for our own bookeeping we decrement the count of outstanding
+Lastly it's only for our own bookkeeping we decrement the count of outstanding
 `epoll_pending_events` so we keep track of how many events we have pending.
 
 > **Why even keep track of how many `epoll_events` are pending?**

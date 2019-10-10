@@ -39,7 +39,7 @@ To be honest, we only set this once, and it's set at the start of of our eventlo
 
 The variable `timers_to_remove` is for us to keep track of the timers we've set. `ticks` is only a counter for us to keep track of how many times we've looped which for display.
 
-The last and least visible part of this code is actually where we kick everythin off, calling `f()`. `f` will be the code we wrote in the `javascript` function in the last chapter. If this is empty nothing will happen.
+The last and least visible part of this code is actually where we kick everything off, calling `f()`. `f` will be the code we wrote in the `javascript` function in the last chapter. If this is empty nothing will happen.
 
 ## Starting the event loop
 

@@ -300,7 +300,7 @@ reading the RFC's and discussions about Rust's async story: </p>
 <p>We call the concept of progressing multiple tasks at the same time <code>Multitasking</code>.
 There are several ways to multitask. One is by <strong>progressing</strong> tasks concurrently,
 but not at the same time. Another is to progress two tasks at the exact same time in parallel.</p>
-<p><img src="./images/definitions.jpg" alt="paralell vs concurrency" /></p>
+<p><img src="./images/definitions.jpg" alt="parallel vs concurrency" /></p>
 <h2><a class="header" href="#lets-start-off-with-some-definitions" id="lets-start-off-with-some-definitions">Lets start off with some definitions</a></h2>
 <h3><a class="header" href="#resource" id="resource">Resource</a></h3>
 <p>Something we need to be able to progress a task. Our resources are limited. This
@@ -426,7 +426,7 @@ processes), was accomplished by what we call <code>non-preemptive multitasking</
 for your platform, this was naturally error-prone. A small mistake in a programs code
 could halt or crash the entire system. </p>
 <blockquote>
-<p>If you remember Windows 95, you also remember the times when a window hung and you could paint the entire screen with it (almost the same way as the end in Solitare, the card game that came with Windows).</p>
+<p>If you remember Windows 95, you also remember the times when a window hung and you could paint the entire screen with it (almost the same way as the end in Solitaire, the card game that came with Windows).</p>
 <p>This was reportedly a typical error in the code that was supposed to yield control
 to the operating system.</p>
 </blockquote>
@@ -1000,7 +1000,7 @@ a read. It's extremely well written and will answer all these questions and many
 <li>Page table</li>
 <li>Page fault</li>
 <li>Exceptions</li>
-<li><a href="https://en.wikipedia.org/wiki/Protection_ring">Privelege level</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Protection_ring">Privilege level</a></li>
 </ul>
 <p>Exactly how this works will differ depending on the exact CPU so we'll treat them 
 in general terms here.</p>
@@ -1024,7 +1024,7 @@ jumps to that function when we try to dereference <code>99999999999999</code> an
 <p>The OS then prints a nice message for us letting us know that we encountered what it calls a <code>segmentation fault</code>. This message will therefore vary depending on the OS you run the code on.</p>
 <h2><a class="header" href="#but-cant-we-just-change-the-page-table-in-the-cpu" id="but-cant-we-just-change-the-page-table-in-the-cpu">But can't we just change the page table in the CPU?</a></h2>
 <p>Now, this is where <code>Privilege Level</code> comes in. Most modern operating systems operate with two <code>Ring Levels</code>. Ring 0, the kernel space, and Ring 3, user-space.</p>
-<p><img src="./images/priv_rings.png" alt="Privelege rings" /></p>
+<p><img src="./images/priv_rings.png" alt="Privilege rings" /></p>
 <p>Most CPUs has a concept of more rings than what most modern operating systems use. This has historical reasons, which is also why <code>Ring 0</code> and <code>Ring 3</code> are used (and not 1, 2).</p>
 <p>Now every entry in the page table has additional information about it, amongst that information is the information about what ring it belongs to. This information is set up when your OS boots up.</p>
 <p>Code executed in <code>Ring 0</code> has almost unrestricted access to external devices, memory and is free to change registers that provide security at the hardware level.</p>
@@ -1396,8 +1396,8 @@ Thread: main	 Registered timer event id: 5
 Thread: main	 Registering a 1000 ms timeout
 Thread: main	 Registered timer event id: 6
 Thread: main	 Registering http get request to google.com
-Thread: pool3	 recived a task of type: File read
-Thread: pool2	 recived a task of type: File read
+Thread: pool3	 received a task of type: File read
+Thread: pool2	 received a task of type: File read
 Thread: main	 Event with id: 7 registered.
 Thread: main	 ===== TICK 1 =====
 Thread: main	 Immediate1 timed out
@@ -1406,13 +1406,13 @@ Thread: pool3	 finished running a task of type: File read.
 Thread: pool2	 finished running a task of type: File read.
 Thread: main	 First count: 39 characters.
 Thread: main	 I want to create a &quot;magic&quot; number based on the text.
-Thread: pool3	 recived a task of type: Encrypt
+Thread: pool3	 received a task of type: Encrypt
 Thread: main	 ===== TICK 2 =====
 Thread: main	 SETTIMEOUT
 Thread: main	 Second count: 39 characters.
 Thread: main	 Third call to read test.txt
 Thread: main	 ===== TICK 3 =====
-Thread: pool2	 recived a task of type: File read
+Thread: pool2	 received a task of type: File read
 Thread: pool3	 finished running a task of type: Encrypt.
 Thread: main	 &quot;Encrypted&quot; number is: 63245986
 Thread: main	 ===== TICK 4 =====
@@ -1441,11 +1441,11 @@ Thread: main	 Registered timer event id: 10
 Thread: epoll	 epoll event timeout is ready
 Thread: main	 ===== TICK 8 =====
 Thread: main	 500ms timer(nested) timed out
-Thread: pool0	 recived a task of type: Close
-Thread: pool1	 recived a task of type: Close
-Thread: pool2	 recived a task of type: Close
-Thread: pool3	 recived a task of type: Close
-Thread: epoll	 recieved event of type: Close
+Thread: pool0	 received a task of type: Close
+Thread: pool1	 received a task of type: Close
+Thread: pool2	 received a task of type: Close
+Thread: pool3	 received a task of type: Close
+Thread: epoll	 received event of type: Close
 Thread: main	 FINISHED
 </code></pre>
 <p>Don't worry, we'll explain everything, but I just wanted to start off by
@@ -1453,7 +1453,7 @@ explaining where we want to end up.</p>
 <h1><a class="header" href="#what-is-node" id="what-is-node">What is Node?</a></h1>
 <p>We have to start with a short explanation of what Node is, just so we're on the same page.</p>
 <p>Node is a Javascript runtime allowing Javascript to run on you'r desktop (or server). Javascript was originally designed as a scripting language for the browser, which means that it relies on the browser to both interpret it and provide a runtime for it. </p>
-<p>This also means that Javascript on the desktop needs to be both interpreted (or compiled) and provided with a runtime to be able to do anything meaninful. On the desktop, the <a href="https://en.wikipedia.org/wiki/V8_JavaScript_engine">V8 javascript engine</a> compiles Javascript, and <a href="https://en.wikipedia.org/wiki/Node.js">Node</a> provides the runtime.</p>
+<p>This also means that Javascript on the desktop needs to be both interpreted (or compiled) and provided with a runtime to be able to do anything meaningful. On the desktop, the <a href="https://en.wikipedia.org/wiki/V8_JavaScript_engine">V8 javascript engine</a> compiles Javascript, and <a href="https://en.wikipedia.org/wiki/Node.js">Node</a> provides the runtime.</p>
 <p>Javascript has one advantage from a language design perspective: Everything is designed to be handled asynchronously. An as you know by now, this pretty crucial if we want to make the most out of our hardware especially if you have a lot of I/O operations to take care of.</p>
 <p>One such scenario is a Web server. Web servers handle a lot of I/O tasks whether it's reading from the file system or communicating via the network card.</p>
 <h2><a class="header" href="#why-node" id="why-node">Why Node</a></h2>
@@ -1480,7 +1480,7 @@ explaining where we want to end up.</p>
 <h3><a class="header" href="#nodes-eventloops" id="nodes-eventloops">Nodes eventloop(s)</a></h3>
 <p>Node internally divides it's real work into two categories:</p>
 <h4><a class="header" href="#io-bound-tasks" id="io-bound-tasks">I/O bound tasks</a></h4>
-<p>Tasks that mainly wait for some external event to occur is handleded by the cross platform epoll/kqueue/IOCP event queue implemented in <code>libuv</code> and in our case <code>minimio</code>.</p>
+<p>Tasks that mainly wait for some external event to occur is handled by the cross platform epoll/kqueue/IOCP event queue implemented in <code>libuv</code> and in our case <code>minimio</code>.</p>
 <h4><a class="header" href="#cpu-bound-tasks" id="cpu-bound-tasks">CPU bound tasks</a></h4>
 <p>Tasks that are predominately CPU intensive are handled by a thread pool. The default size of this thread pool is 4 threads, but that can be configured by the Node runtime.</p>
 <p>I/O tasks which can't be handled by the cross platform event queue is also handled here which is the case with file reads which we use in our example.</p>
@@ -1770,7 +1770,7 @@ variable <code>RUNTIME</code>. </p>
 be very ergonomic. Another option would be to use <code>lazy_static</code> crate to initialize this field in a slightly safer way, but we'd have to explain what <code>lazy_static</code> do to keep our promise of minimal &quot;magic&quot;.</p>
 <p>To be honest, we only set this once, and it's set at the start of of our eventloop and we only access this from the same thread we created it. It might not be pretty but it's safe.</p>
 <p>The variable <code>timers_to_remove</code> is for us to keep track of the timers we've set. <code>ticks</code> is only a counter for us to keep track of how many times we've looped which for display.</p>
-<p>The last and least visible part of this code is actually where we kick everythin off, calling <code>f()</code>. <code>f</code> will be the code we wrote in the <code>javascript</code> function in the last chapter. If this is empty nothing will happen.</p>
+<p>The last and least visible part of this code is actually where we kick everything off, calling <code>f()</code>. <code>f</code> will be the code we wrote in the <code>javascript</code> function in the last chapter. If this is empty nothing will happen.</p>
 <h2><a class="header" href="#starting-the-event-loop" id="starting-the-event-loop">Starting the event loop</a></h2>
 <pre><pre class="playpen"><code class="language-rust no_run">
 # #![allow(unused_variables)]
@@ -2012,7 +2012,7 @@ for i in 0..4 {
         .spawn(move || {
 
             while let Ok(task) = evt_reciever.recv() {
-                print(format!(&quot;recived a task of type: {}&quot;, task.kind));
+                print(format!(&quot;received a task of type: {}&quot;, task.kind));
                 
                 if let ThreadPoolTaskKind::Close = task.kind {
                     break;
@@ -2077,7 +2077,7 @@ out information for us to see:</p>
 # #![allow(unused_variables)]
 #fn main() {
 while let Ok(task) = evt_reciever.recv() {
-        print(format!(&quot;recived a task of type: {}&quot;, task.kind));
+        print(format!(&quot;received a task of type: {}&quot;, task.kind));
         
         if let ThreadPoolTaskKind::Close = task.kind {
             break;
@@ -2147,7 +2147,7 @@ let epoll_thread = thread::Builder::new()
                     event_sender.send(PollEvent::Timeout).expect(&quot;epoll timeout&quot;);
                 }
                 Err(ref e) if e.kind() == io::ErrorKind::Interrupted =&gt; {
-                    print(&quot;recieved event of type: Close&quot;);
+                    print(&quot;received event of type: Close&quot;);
                     break;
                 }
                 Err(e) =&gt; panic!(&quot;{:?}&quot;, e),
@@ -2272,7 +2272,7 @@ match poll.poll(&amp;mut events, timeout) {
         event_sender.send(PollEvent::Timeout).expect(&quot;epoll timeout&quot;);
     }
     Err(ref e) if e.kind() == io::ErrorKind::Interrupted =&gt; {
-        print(&quot;recieved event of type: Close&quot;);
+        print(&quot;received event of type: Close&quot;);
         break;
     }
     Err(e) =&gt; panic!(&quot;{:?}&quot;, e),
@@ -2355,7 +2355,7 @@ impl Runtime {
                 .spawn(move || {
 
                     while let Ok(task) = evt_reciever.recv() {
-                        print(format!(&quot;recived a task of type: {}&quot;, task.kind));
+                        print(format!(&quot;received a task of type: {}&quot;, task.kind));
                         
                         if let ThreadPoolTaskKind::Close = task.kind {
                             break;
@@ -2409,7 +2409,7 @@ impl Runtime {
                             event_sender.send(PollEvent::Timeout).expect(&quot;epoll timeout&quot;);
                         }
                         Err(ref e) if e.kind() == io::ErrorKind::Interrupted =&gt; {
-                            print(&quot;recieved event of type: Close&quot;);
+                            print(&quot;received event of type: Close&quot;);
                             break;
                         }
                         Err(e) =&gt; panic!(&quot;{:?}&quot;, e),
@@ -2524,7 +2524,7 @@ fn run_callbacks(&amp;mut self) {
 <blockquote>
 <p>Shortcut. Not all of Nodes callbacks are processed here. Some callbacks is called
 directly in the <code>poll</code> phase we'll introduce below. It's not difficult to implement
-but it adds unneccecary complexity to our example so we schedula all callbacks to be
+but it adds unnecessary complexity to our example so we schedule all callbacks to be
 run in this step of the process. As long as you know this is an oversimplification
 you're going to be alright :)</p>
 </blockquote>
@@ -2592,7 +2592,7 @@ in <code>Js::Undefined</code> since we'll not actually pass any data along here.
 why when we reach the `<a href="./8_3_http_module.html">Http module</a> chapter, but the main
 point is that the I/O queue doesn't return any data itself, it just tells us that
 data is ready to be read.</p>
-<p>Lastly it's only for our own bookeeping we decrement the count of outstanding
+<p>Lastly it's only for our own bookkeeping we decrement the count of outstanding
 <code>epoll_pending_events</code> so we keep track of how many events we have pending.</p>
 <blockquote>
 <p><strong>Why even keep track of how many <code>epoll_events</code> are pending?</strong>
@@ -3537,7 +3537,7 @@ impl Runtime {
                 .spawn(move || {
 
                     while let Ok(task) = evt_reciever.recv() {
-                        print(format!(&quot;recived a task of type: {}&quot;, task.kind));
+                        print(format!(&quot;received a task of type: {}&quot;, task.kind));
                         
                         if let ThreadPoolTaskKind::Close = task.kind {
                             break;
@@ -3591,7 +3591,7 @@ impl Runtime {
                             event_sender.send(PollEvent::Timeout).expect(&quot;epoll timeout&quot;);
                         }
                         Err(ref e) if e.kind() == io::ErrorKind::Interrupted =&gt; {
-                            print(&quot;recieved event of type: Close&quot;);
+                            print(&quot;received event of type: Close&quot;);
                             break;
                         }
                         Err(e) =&gt; panic!(&quot;{:?}&quot;, e),
@@ -3971,9 +3971,9 @@ fn current() -&gt; String {
 <p>One is to set a max backlog of callbacks to execute in a single tick, so we don't starve the threadpool or file handlers. In other words, limit the amount of callbacks we execute in a single iteration.</p>
 <p>Another is to dynamically decide if/and how long the thread could be allowed to be parked for example by looking at the backlog of events, and if there is any backlog disable any waiting at all. </p>
 <p>When it comes to data structures, there is lots we could have done.
-If you look closely, you'll see that some of our Vec's will only grow, and not resize ever, so if we have a period of very high load,the memory will stay higher than it needs to be until a restart. This could be dealt with or a different data structure whitout this property could have been chosen (like a linked list).</p>
+If you look closely, you'll see that some of our Vec's will only grow, and not resize ever, so if we have a period of very high load,the memory will stay higher than it needs to be until a restart. This could be dealt with or a different data structure without this property could have been chosen (like a linked list).</p>
 <p>Some of the shortcuts (like panicing when we have no available threads in the threadpool) is especially limiting. If you were to improve this example, that would be one of the first things to fix.</p>
-<p>There is probably several other aspects that deserve to be mentioned here, but I'll leve it with this for now.</p>
+<p>There is probably several other aspects that deserve to be mentioned here, but I'll leave it with this for now.</p>
 <h1><a class="header" href="#conclusion" id="conclusion">Conclusion</a></h1>
 <p>Congratulations!!</p>
 <p>What a ride, huh? We're finished, take a break and get som fresh air. You've deserved

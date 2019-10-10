@@ -29,7 +29,7 @@ Besides off-loading a huge responsibility to every programmer writing a program
 for your platform, this was naturally error-prone. A small mistake in a programs code
 could halt or crash the entire system. 
 
->If you remember Windows 95, you also remember the times when a window hung and you could paint the entire screen with it (almost the same way as the end in Solitare, the card game that came with Windows).
+>If you remember Windows 95, you also remember the times when a window hung and you could paint the entire screen with it (almost the same way as the end in Solitaire, the card game that came with Windows).
 >
 > This was reportedly a typical error in the code that was supposed to yield control
 to the operating system.
