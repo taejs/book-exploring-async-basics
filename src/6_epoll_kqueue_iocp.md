@@ -75,7 +75,7 @@ Below is a basic breakdown of what happens in this type of event queue:
 
 ### Kqueue
 
-`Kqueue` is the MacOS way of implementing an event queue, which originated from BSD's implementation, such as FreeBSD, OpenBSD, etc. In terms of high level functionality,
+`Kqueue` is the MacOS way of implementing an event queue, which originated from BSD implementation, such as FreeBSD, OpenBSD, etc. In terms of high level functionality,
 it's similar to `Epoll` in concept but different in actual use.
 
 Some argue it's a bit more complex to use and a bit more abstract and "general".
