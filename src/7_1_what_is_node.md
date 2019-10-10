@@ -4,7 +4,7 @@ We have to start with a short explanation of what Node is, just so we're on the 
 
 Node is a Javascript runtime allowing Javascript to run on you'r desktop (or server). Javascript was originally designed as a scripting language for the browser, which means that it relies on the browser to both interpret it and provide a runtime for it. 
 
-This also means that Javascript on the desktop needs to be both interpreted (or compiled) and provided with a runtime to be able to do anything meaninful. On the desktop, the [V8 javascript engine](https://en.wikipedia.org/wiki/V8_JavaScript_engine) compiles Javascript, and [Node](https://en.wikipedia.org/wiki/Node.js) provides the runtime.
+This also means that Javascript on the desktop needs to be both interpreted (or compiled) and provided with a runtime to be able to do anything meaningful. On the desktop, the [V8 javascript engine](https://en.wikipedia.org/wiki/V8_JavaScript_engine) compiles Javascript, and [Node](https://en.wikipedia.org/wiki/Node.js) provides the runtime.
 
 Javascript has one advantage from a language design perspective: Everything is designed to be handled asynchronously. An as you know by now, this pretty crucial if we want to make the most out of our hardware especially if you have a lot of I/O operations to take care of.
 
@@ -47,7 +47,7 @@ Node internally divides it's real work into two categories:
 
 #### I/O bound tasks
 
-Tasks that mainly wait for some external event to occur is handleded by the cross platform epoll/kqueue/IOCP event queue implemented in `libuv` and in our case `minimio`.
+Tasks that mainly wait for some external event to occur is handled by the cross platform epoll/kqueue/IOCP event queue implemented in `libuv` and in our case `minimio`.
 
 #### CPU bound tasks
 

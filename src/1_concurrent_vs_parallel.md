@@ -10,7 +10,7 @@ We call the concept of progressing multiple tasks at the same time `Multitasking
 There are several ways to multitask. One is by **progressing** tasks concurrently,
 but not at the same time. Another is to progress two tasks at the exact same time in parallel.
 
-![paralell vs concurrency](./images/definitions.jpg)
+![parallel vs concurrency](./images/definitions.jpg)
 
 ## Lets start off with some definitions
 

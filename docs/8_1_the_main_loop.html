@@ -182,7 +182,7 @@ variable <code>RUNTIME</code>. </p>
 be very ergonomic. Another option would be to use <code>lazy_static</code> crate to initialize this field in a slightly safer way, but we'd have to explain what <code>lazy_static</code> do to keep our promise of minimal &quot;magic&quot;.</p>
 <p>To be honest, we only set this once, and it's set at the start of of our eventloop and we only access this from the same thread we created it. It might not be pretty but it's safe.</p>
 <p>The variable <code>timers_to_remove</code> is for us to keep track of the timers we've set. <code>ticks</code> is only a counter for us to keep track of how many times we've looped which for display.</p>
-<p>The last and least visible part of this code is actually where we kick everythin off, calling <code>f()</code>. <code>f</code> will be the code we wrote in the <code>javascript</code> function in the last chapter. If this is empty nothing will happen.</p>
+<p>The last and least visible part of this code is actually where we kick everything off, calling <code>f()</code>. <code>f</code> will be the code we wrote in the <code>javascript</code> function in the last chapter. If this is empty nothing will happen.</p>
 <h2><a class="header" href="#starting-the-event-loop" id="starting-the-event-loop">Starting the event loop</a></h2>
 <pre><pre class="playpen"><code class="language-rust no_run">
 # #![allow(unused_variables)]

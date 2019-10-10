@@ -228,7 +228,7 @@ impl Runtime {
                 .spawn(move || {
 
                     while let Ok(task) = evt_reciever.recv() {
-                        print(format!("recived a task of type: {}", task.kind));
+                        print(format!("received a task of type: {}", task.kind));
                         
                         if let ThreadPoolTaskKind::Close = task.kind {
                             break;
@@ -282,7 +282,7 @@ impl Runtime {
                             event_sender.send(PollEvent::Timeout).expect("epoll timeout");
                         }
                         Err(ref e) if e.kind() == io::ErrorKind::Interrupted => {
-                            print("recieved event of type: Close");
+                            print("received event of type: Close");
                             break;
                         }
                         Err(e) => panic!("{:?}", e),

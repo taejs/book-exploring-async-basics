@@ -82,7 +82,7 @@ As I mentioned, modern CPUs have already some definition of basic concepts. Some
 - Page table
 - Page fault
 - Exceptions
-- [Privelege level](https://en.wikipedia.org/wiki/Protection_ring)
+- [Privilege level](https://en.wikipedia.org/wiki/Protection_ring)
 
 Exactly how this works will differ depending on the exact CPU so we'll treat them 
 in general terms here.
@@ -118,7 +118,7 @@ The OS then prints a nice message for us letting us know that we encountered wha
 
 Now, this is where `Privilege Level` comes in. Most modern operating systems operate with two `Ring Levels`. Ring 0, the kernel space, and Ring 3, user-space.
 
-![Privelege rings](./images/priv_rings.png)
+![Privilege rings](./images/priv_rings.png)
 
 Most CPUs has a concept of more rings than what most modern operating systems use. This has historical reasons, which is also why `Ring 0` and `Ring 3` are used (and not 1, 2).
 
