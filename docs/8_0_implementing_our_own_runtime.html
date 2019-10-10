@@ -159,11 +159,11 @@ cd async-basics
 <p>Now, as I've explained we'll need to use the <code>minimio</code> library (which will be explained in a separate book, but you can already look through the source code if you want to):</p>
 <p>In <code>Cargo.toml</code></p>
 <pre><code class="language-toml">[dependencies]
-minimio = {git = &quot;https://github.com/cfsamson/examples-io-eventloop&quot;, branch = &quot;master&quot;}
+minimio = {git = &quot;https://github.com/cfsamson/examples-minimio&quot;, branch = &quot;master&quot;}
 </code></pre>
 <p>A second option is to clone the repository containing all the code we're going
 to write and go through that as we go along:</p>
-<pre><code>git clone https://github.com/cfsamson/examples-minimio.git
+<pre><code>git clone https://github.com/cfsamson/examples-node-eventloop
 </code></pre>
 <p>The next thing we need is a <code>Runtime</code> to hold all the state our <code>Runtime</code> needs.</p>
 <p>First navigate to <code>main.rs</code> (located in <code>src/main.rs</code>).</p>
