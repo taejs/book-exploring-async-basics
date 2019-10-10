@@ -57,7 +57,7 @@ Epoll and Kqueue are known as readiness-based event queues; this is because they
 IOCP stands for I/O Completion Ports; in this type of queue you get a
 notification when events are completed, e.g., when data is read to a buffer.
 
-This is a basic breakdown of what happens in this type of event queue:
+Below is a basic breakdown of what happens in this type of event queue:
 
 1. We create an event queue by calling the syscall `CreateIoCompletionPort`.
 2. We create a buffer and ask the OS to give us a handle to a socket.
@@ -93,5 +93,5 @@ return.
 
 > My experience investigating this suggests that getting `readiness-based`
 > models to behave like the `completion-based` models is easier than the other
-> way around. This means you should get IOCP to work first and then fit `epoll` and `kqueue`
+> way around. This means you should get IOCP to work first and then fit `epoll` or `kqueue`
 > into that design.
