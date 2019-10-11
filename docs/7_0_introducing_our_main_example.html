@@ -150,13 +150,13 @@
                 <div id="content" class="content">
                     <main>
                         <h1><a class="header" href="#introducing-our-main-example" id="introducing-our-main-example">Introducing our main example</a></h1>
-<p>Now we've finally come to the part of this book where we will write som more code.</p>
+<p>Now we've finally come to the part of this book where we will write some code.</p>
 <p>The Node event loop is a complex piece of software developed over many years. We
 will have to simplify things a lot. </p>
 <p>We'll try to implement the parts that are important for us to understand Node a
 little better and most importantly use it as an example where we can use our
 knowledge from the previous chapters to make something that actually works.</p>
-<p>Our main goal here is to explore async concepts, using Node as an example is
+<p>Our main goal here is to explore async concepts.  Using Node as an example is
 mostly for fun.</p>
 <p><strong>We want to write something like this:</strong></p>
 <pre><pre class="playpen"><code class="language-rust no_run">/// Think of this function as the javascript program you have written
@@ -211,7 +211,7 @@ fn javascript() {
         print(&quot;SETTIMEOUT&quot;);
     });
 
-    // `http_get_slow` let's us define a latency we want to simulate
+    // `http_get_slow` lets us define a latency we want to simulate
     print(&quot;Registering http get request to google.com&quot;);
     Io::http_get_slow(&quot;http//www.google.com&quot;, 2000, |result| {
         let result = result.into_string().unwrap();
@@ -225,7 +225,7 @@ fn main() {
 }
 </code></pre></pre>
 <blockquote>
-<p>We'll have print statements at strategic places in our code so we can get a view on what's actually happening when and where.</p>
+<p>We'll have print statements at strategic places in our code so we can get a view of what's actually happening when and where.</p>
 </blockquote>
 <p>Right off the bat you'll see that something is strange with the Rust code we
 have written in our example.</p>
@@ -242,10 +242,10 @@ set_timeout(0, |_res| {
     print(&quot;Immediate1 timed out&quot;);
 });
 #}</code></pre></pre>
-<p>What we really do here is to register interest in a <code>timeout</code> event, and when that event occurs we want to run the
+<p>What we really do here is register interest in a <code>timeout</code> event, and when that event occurs we want to run the
 the callback <code>|_res| { print(&quot;Immediate1 timed out&quot;); }</code>. </p>
 <p>Now the parameter <code>_res</code> is
-an argument that is passed in to our callback. In javascript it would be left out, but since we use a typed language we have created a type called <code>Js</code>.</p>
+an argument that is passed into our callback. In javascript it would be left out, but since we use a typed language we have created a type called <code>Js</code>.</p>
 <p><code>Js</code> is an enum that represents Javascript types. In the case of <code>set_timeout</code> it's <code>Js::undefined</code>. In the case of <code>Fs::read</code> it's an <code>Js::String</code> and so on.</p>
 <p>When we run this code we'll get something looking like this:</p>
 <video autoplay loop>
@@ -287,7 +287,7 @@ Thread: main	 ===== TICK 4 =====
 Thread: pool2	 finished running a task of type: File read.
 
 ===== THREAD main START CONTENT - FILE READ =====
-Hello world! This is a text to encrypt!
+Hello world! This is text to encrypt!
 ... [Note: Abbreviated for display] ...
 ===== END CONTENT =====
 

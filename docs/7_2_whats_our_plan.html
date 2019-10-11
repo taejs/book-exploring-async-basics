@@ -149,16 +149,16 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1><a class="header" href="#whats-our-plan" id="whats-our-plan">What's our plan</a></h1>
+                        <h1><a class="header" href="#whats-our-plan" id="whats-our-plan">What's our plan?</a></h1>
 <p>I'll briefly list what we need to do to get this working here:</p>
 <h2><a class="header" href="#we-need-two-event-queues" id="we-need-two-event-queues">We need two event queues:</a></h2>
 <ol>
-<li>We need a threadpool to execute our CPU intensive tasks, or tasks that we want
+<li>We need a thread pool to execute our CPU intensive tasks or tasks that we want
 too run asynchronously but not in our OS backed event queue</li>
-<li>We need to make a simple cross platform <code>epoll/kqueue/IOCP</code> eventloop. Now
-this turns out to be extremely interesting, but also a lot of code so I split
-that off to a separate &quot;companion book&quot; for those that want to explore this further.
-We use this library here (called <code>minimio</code>). </li>
+<li>We need to make a simple cross platform <code>epoll/kqueue/IOCP</code> event loop. Now
+this turns out to be extremely interesting, but it's also a lot of code, so I split
+this section off into a separate &quot;companion book&quot; for those that want to explore this further.
+We use this library here called <code>minimio</code>. </li>
 </ol>
 <blockquote>
 <p>Granted, we're breaking our rule that we don't use any dependencies, but it's our own dependency which we'll explain fully in due time.</p>
@@ -166,7 +166,7 @@ We use this library here (called <code>minimio</code>). </li>
 <h2><a class="header" href="#we-need-a-runtime" id="we-need-a-runtime">We need a runtime</a></h2>
 <p><strong>Our runtime will:</strong></p>
 <ol>
-<li>Store our callbacks to be run in a later point</li>
+<li>Store our callbacks to be run at a later point</li>
 <li>Send tasks to be executed on the thread pool</li>
 <li>Register interests with the OS (through <code>minimio</code>)</li>
 <li>Poll our two event sources for new events</li>
@@ -180,16 +180,16 @@ We use this library here (called <code>minimio</code>). </li>
 <li>For handling http calls <code>Http</code></li>
 <li>For handling cryptological tasks <code>Crypto</code></li>
 </ol>
-<h2><a class="header" href="#we-need-to-make-som-helpers" id="we-need-to-make-som-helpers">We need to make som helpers</a></h2>
+<h2><a class="header" href="#we-need-to-make-some-helpers" id="we-need-to-make-some-helpers">We need to make some helpers</a></h2>
 <p>We need some helpers to make our code readable and to provide the output we want
 to see. In contrast to any real runtime, we're interested in knowing what happens
-when. To help with that we define three extra methods:</p>
-<p><code>print</code> which prints out a message that first tells us what thread the message is being outputted from, and then a message we provide:</p>
+and when. To help with that we define three extra methods:</p>
+<p><code>print</code> which prints out a message that first tells us what thread the message is being outputted from and then a message we provide.</p>
 <p><code>print_content</code> does the same as <code>print</code> but is a way for us to print out more than a message in a nice way.</p>
-<p><code>current</code> is just a shortcut for us to get the name of the current thread. Since we want to track what's happening where we're going to need to print out what thread is issuing what output so this will avoid cluttering up our code too much along the way.</p>
+<p><code>current</code> is just a shortcut for us to get the name of the current thread. Since we want to track what's happening, we're going to need to print out which thread is issuing what output, so this will avoid cluttering up our code too much along the way.</p>
 <h2><a class="header" href="#minimio" id="minimio">Minimio</a></h2>
-<p>Minimio is a cross platform epoll/kqueue/IOCP based event loop that we will cover in the next book. I originally included it here but implementing that for three architectures turned out to be a bit more involved than I first thought and needed more space than would fit in this book.</p>
-<p>It's also easier to just read up on Epoll/Kqueue/IOCP when it's concentrated in a separate book.</p>
+<p>Minimio is a cross platform epoll/kqueue/IOCP based event loop that we will cover in the next book. I originally included it here, but implementing that for three architectures turned out to be a bit more involved than I first thought and needed more space than would fit in this book.</p>
+<p>It's also easier to just read up on epoll/kqueue/IOCP when it's concentrated in a separate book.</p>
 
                     </main>
 

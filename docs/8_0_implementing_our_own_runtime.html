@@ -150,13 +150,13 @@
                 <div id="content" class="content">
                     <main>
                         <h1><a class="header" href="#implementing-our-own-runtime" id="implementing-our-own-runtime">Implementing our own runtime</a></h1>
-<p>Let's start to get some code written down, we have a lot to do.</p>
-<p>The way we'll go about this is that I'll go through everything the way I find it easiest to parse and understand. That also means that sometimes I have to introduce a bit of code that will be explained later, just don't worry. I'll go through everything.</p>
+<p>Let's start to get some code written down; we have a lot to do.</p>
+<p>The way we'll go about this is that I'll go through everything the way I find it easiest to parse and understand. That also means that sometimes I have to introduce a bit of code that will be explained later.  Try not to worry if you don't understand something at first.  I'll be going through everything.</p>
 <p>The very first thing we need to do is to create a Rust project to run our code in:</p>
 <pre><code>cargo new async-basics
 cd async-basics
 </code></pre>
-<p>Now, as I've explained we'll need to use the <code>minimio</code> library (which will be explained in a separate book, but you can already look through the source code if you want to):</p>
+<p>Now, as I've explained, we'll need to use the <code>minimio</code> library (which will be explained in a separate book, but you can already look through the source code if you want to):</p>
 <p>In <code>Cargo.toml</code></p>
 <pre><code class="language-toml">[dependencies]
 minimio = {git = &quot;https://github.com/cfsamson/examples-minimio&quot;, branch = &quot;master&quot;}

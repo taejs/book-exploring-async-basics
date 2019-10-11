@@ -1277,13 +1277,13 @@ way around. This means you should get IOCP to work first and then fit <code>epol
 into that design.</p>
 </blockquote>
 <h1><a class="header" href="#introducing-our-main-example" id="introducing-our-main-example">Introducing our main example</a></h1>
-<p>Now we've finally come to the part of this book where we will write som more code.</p>
+<p>Now we've finally come to the part of this book where we will write some code.</p>
 <p>The Node event loop is a complex piece of software developed over many years. We
 will have to simplify things a lot. </p>
 <p>We'll try to implement the parts that are important for us to understand Node a
 little better and most importantly use it as an example where we can use our
 knowledge from the previous chapters to make something that actually works.</p>
-<p>Our main goal here is to explore async concepts, using Node as an example is
+<p>Our main goal here is to explore async concepts.  Using Node as an example is
 mostly for fun.</p>
 <p><strong>We want to write something like this:</strong></p>
 <pre><pre class="playpen"><code class="language-rust no_run">/// Think of this function as the javascript program you have written
@@ -1338,7 +1338,7 @@ fn javascript() {
         print(&quot;SETTIMEOUT&quot;);
     });
 
-    // `http_get_slow` let's us define a latency we want to simulate
+    // `http_get_slow` lets us define a latency we want to simulate
     print(&quot;Registering http get request to google.com&quot;);
     Io::http_get_slow(&quot;http//www.google.com&quot;, 2000, |result| {
         let result = result.into_string().unwrap();
@@ -1352,7 +1352,7 @@ fn main() {
 }
 </code></pre></pre>
 <blockquote>
-<p>We'll have print statements at strategic places in our code so we can get a view on what's actually happening when and where.</p>
+<p>We'll have print statements at strategic places in our code so we can get a view of what's actually happening when and where.</p>
 </blockquote>
 <p>Right off the bat you'll see that something is strange with the Rust code we
 have written in our example.</p>
@@ -1369,10 +1369,10 @@ set_timeout(0, |_res| {
     print(&quot;Immediate1 timed out&quot;);
 });
 #}</code></pre></pre>
-<p>What we really do here is to register interest in a <code>timeout</code> event, and when that event occurs we want to run the
+<p>What we really do here is register interest in a <code>timeout</code> event, and when that event occurs we want to run the
 the callback <code>|_res| { print(&quot;Immediate1 timed out&quot;); }</code>. </p>
 <p>Now the parameter <code>_res</code> is
-an argument that is passed in to our callback. In javascript it would be left out, but since we use a typed language we have created a type called <code>Js</code>.</p>
+an argument that is passed into our callback. In javascript it would be left out, but since we use a typed language we have created a type called <code>Js</code>.</p>
 <p><code>Js</code> is an enum that represents Javascript types. In the case of <code>set_timeout</code> it's <code>Js::undefined</code>. In the case of <code>Fs::read</code> it's an <code>Js::String</code> and so on.</p>
 <p>When we run this code we'll get something looking like this:</p>
 <video autoplay loop>
@@ -1414,7 +1414,7 @@ Thread: main	 ===== TICK 4 =====
 Thread: pool2	 finished running a task of type: File read.
 
 ===== THREAD main START CONTENT - FILE READ =====
-Hello world! This is a text to encrypt!
+Hello world! This is text to encrypt!
 ... [Note: Abbreviated for display] ...
 ===== END CONTENT =====
 
@@ -1447,58 +1447,58 @@ Thread: main	 FINISHED
 explaining where we want to end up.</p>
 <h1><a class="header" href="#what-is-node" id="what-is-node">What is Node?</a></h1>
 <p>We have to start with a short explanation of what Node is, just so we're on the same page.</p>
-<p>Node is a Javascript runtime allowing Javascript to run on you'r desktop (or server). Javascript was originally designed as a scripting language for the browser, which means that it relies on the browser to both interpret it and provide a runtime for it. </p>
+<p>Node is a Javascript runtime allowing Javascript to run on your desktop (or server). Javascript was originally designed as a scripting language for the browser, which means that it relies on the browser to both interpret it and provide a runtime for it. </p>
 <p>This also means that Javascript on the desktop needs to be both interpreted (or compiled) and provided with a runtime to be able to do anything meaningful. On the desktop, the <a href="https://en.wikipedia.org/wiki/V8_JavaScript_engine">V8 javascript engine</a> compiles Javascript, and <a href="https://en.wikipedia.org/wiki/Node.js">Node</a> provides the runtime.</p>
-<p>Javascript has one advantage from a language design perspective: Everything is designed to be handled asynchronously. An as you know by now, this pretty crucial if we want to make the most out of our hardware especially if you have a lot of I/O operations to take care of.</p>
+<p>Javascript has one advantage from a language design perspective: Everything is designed to be handled asynchronously. And as you know by now, this is pretty crucial if we want to make the most out of our hardware, especially if you have a lot of I/O operations to take care of.</p>
 <p>One such scenario is a Web server. Web servers handle a lot of I/O tasks whether it's reading from the file system or communicating via the network card.</p>
-<h2><a class="header" href="#why-node" id="why-node">Why Node</a></h2>
+<h2><a class="header" href="#why-node-in-particular" id="why-node-in-particular">Why Node In Particular?</a></h2>
 <ul>
-<li>Javascript is unavoidable when doing web development for the browser. Using Javascript on the server allowed programmers to use the same language for both front end and back end development.</li>
-<li>There is a potential for code reuse between the back end and the front end</li>
+<li>Javascript is unavoidable when doing web development for the browser. Using Javascript on the server allows programmers to use the same language for both front-end and back-end development.</li>
+<li>There is a potential for code reuse between the back-end and the front-end</li>
 <li>The design of Node allows it to make very performant web servers</li>
 <li>Working with Json and web APIs is very easy when you only deal with Javascript</li>
 </ul>
-<h2><a class="header" href="#helpful-facts" id="helpful-facts">Helpful facts</a></h2>
+<h2><a class="header" href="#helpful-facts" id="helpful-facts">Helpful Facts</a></h2>
 <p>Let's start off by debunking some myths that might make it easier to follow along when we start to code.</p>
-<h3><a class="header" href="#the-javascript-eventloop" id="the-javascript-eventloop">The Javascript Eventloop</a></h3>
-<p>Javascript is a scripting language and can't do much on it's own. It doesn't hav an event loop. Now in a web browser, the browser provides a runtime, which includes an event loop. And on the server, Node provides this functionality. </p>
-<p>You might say that Javascript as a language would be difficult to run (due to it's callback based model) without some sort of event loop, but that's beside the point.</p>
-<h3><a class="header" href="#node-is-multithreaded" id="node-is-multithreaded">Node is multithreaded</a></h3>
-<p>Contrary to what I've seen claimed on several occasions, Node uses a thread pool so it's multithreaded. However, the part of Node that &quot;progresses&quot; your code, does indeed run on a single thread. When we say &quot;don't block the event loop&quot; we're referring to this thread since that will prevent Node to progress other tasks.</p>
+<h3><a class="header" href="#the-javascript-event-loop" id="the-javascript-event-loop">The Javascript Event Loop</a></h3>
+<p>Javascript is a scripting language and can't do much on its own. It doesn't have an event loop. Now in a web browser, the browser provides a runtime, which includes an event loop. And on the server, Node provides this functionality. </p>
+<p>You might say that Javascript as a language would be difficult to run (due to its callback-based model) without some sort of event loop, but that's beside the point.</p>
+<h3><a class="header" href="#node-is-multithreaded" id="node-is-multithreaded">Node is Multithreaded</a></h3>
+<p>Contrary to what I've seen claimed on several occasions, Node uses a thread pool so it's multithreaded. However, the part of Node that &quot;progresses&quot; your code, does indeed run on a single thread. When we say &quot;don't block the event loop&quot; we're referring to this thread since that will prevent Node from making progress on other tasks.</p>
 <p>We'll see exactly why blocking this thread is a problem and how that's handled.</p>
-<h3><a class="header" href="#the-v8-javascript-engine" id="the-v8-javascript-engine">The V8 javascript engine</a></h3>
+<h3><a class="header" href="#the-v8-javascript-engine" id="the-v8-javascript-engine">The V8 Javascript Engine</a></h3>
 <p>Now, this is where we need to focus a bit. The V8 engine is a javascript JIT compiler. That means that when you write a <code>for</code> loop, the V8 engine translates this to instructions that run on your CPU. There are many javascript engines, but Node was originally implemented on top of the V8 engine.</p>
-<p>The V8 engine itself can't do much useful for us, it just interprets our Javascript. It can't do I/O, set up a runtime or anything like that. Writing Javascript only with V8 will be a very limited experience.</p>
+<p>The V8 engine itself isn't very useful for us; it just interprets our Javascript. It can't do I/O, set up a runtime or anything like that. Writing Javascript only with V8 will be a very limited experience.</p>
 <blockquote>
-<p>Since we write Rust (even though we made it look a bit &quot;javascripty&quot;), we'll not cover the part of interpreting javascript. We'll just focus on how Node works and handles concurrency since that's our main focus right now.</p>
+<p>Since we write Rust (even though we made it look a bit &quot;javascripty&quot;), we'll not cover the part of interpreting javascript. We'll just focus on how Node works and how it handles concurrency since that's our main focus right now.</p>
 </blockquote>
-<h3><a class="header" href="#nodes-eventloops" id="nodes-eventloops">Nodes eventloop(s)</a></h3>
-<p>Node internally divides it's real work into two categories:</p>
-<h4><a class="header" href="#io-bound-tasks" id="io-bound-tasks">I/O bound tasks</a></h4>
-<p>Tasks that mainly wait for some external event to occur is handled by the cross platform epoll/kqueue/IOCP event queue implemented in <code>libuv</code> and in our case <code>minimio</code>.</p>
-<h4><a class="header" href="#cpu-bound-tasks" id="cpu-bound-tasks">CPU bound tasks</a></h4>
+<h3><a class="header" href="#nodes-event-loops" id="nodes-event-loops">Nodes Event Loop(s)</a></h3>
+<p>Node internally divides its real work into two categories:</p>
+<h4><a class="header" href="#io-bound-tasks" id="io-bound-tasks">I/O-bound tasks</a></h4>
+<p>Tasks that mainly wait for some external event to occur are handled by the cross platform epoll/kqueue/IOCP event queue implemented in <code>libuv</code> and in our case <code>minimio</code>.</p>
+<h4><a class="header" href="#cpu-bound-tasks" id="cpu-bound-tasks">CPU-bound tasks</a></h4>
 <p>Tasks that are predominately CPU intensive are handled by a thread pool. The default size of this thread pool is 4 threads, but that can be configured by the Node runtime.</p>
-<p>I/O tasks which can't be handled by the cross platform event queue is also handled here which is the case with file reads which we use in our example.</p>
-<p>Most C++ extensions for Node uses this thread pool to perform their work and that is one of many reasons they are used for calculation intensive tasks.</p>
-<h2><a class="header" href="#further-information" id="further-information">Further information</a></h2>
-<p>If you do want to know more about the Node eventloop I have one short page of the <code>libuv</code> documentation I can
+<p>I/O tasks which can't be handled by the cross platform event queue are also handled here, which is the case with file reads that we use in our example.</p>
+<p>Most C++ extensions for Node uses this thread pool to perform their work, and that is one of many reasons they are used for calculation-intensive tasks.</p>
+<h2><a class="header" href="#further-information" id="further-information">Further Information</a></h2>
+<p>If you do want to know more about the Node event loop, I have one short page of the <code>libuv</code> documentation I can
 refer you to and two talks for you that I find great (and correct) on this subject:</p>
 <p><a href="http://docs.libuv.org/en/v1.x/design.html#design-overview">Libuv Design Overview</a></p>
-<p>This first talk one is made held by <a href="https://github.com/piscisaureus">@piscisaureus</a> and is an excellent 15 minute overview - i especially recommend this one as its short and to the point:</p>
+<p>This first talk one is held by <a href="https://github.com/piscisaureus">@piscisaureus</a> and is an excellent 15 minute overview. I especially recommend this one as its short and to the point.</p>
 <iframe width="560" height="315" src="https://www.youtube.com/embed/PNa9OMajw9w" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 <p>The second one is slightly longer but is also an excellent talk held by <a href="https://github.com/nebrius">Bryan Hughes</a></p>
 <iframe width="560" height="315" src="https://www.youtube.com/embed/zphcsoSJMvM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 <p>Now, relax, get a cup of tea and sit back while we go through everything together.</p>
-<h1><a class="header" href="#whats-our-plan" id="whats-our-plan">What's our plan</a></h1>
+<h1><a class="header" href="#whats-our-plan" id="whats-our-plan">What's our plan?</a></h1>
 <p>I'll briefly list what we need to do to get this working here:</p>
 <h2><a class="header" href="#we-need-two-event-queues" id="we-need-two-event-queues">We need two event queues:</a></h2>
 <ol>
-<li>We need a threadpool to execute our CPU intensive tasks, or tasks that we want
+<li>We need a thread pool to execute our CPU intensive tasks or tasks that we want
 too run asynchronously but not in our OS backed event queue</li>
-<li>We need to make a simple cross platform <code>epoll/kqueue/IOCP</code> eventloop. Now
-this turns out to be extremely interesting, but also a lot of code so I split
-that off to a separate &quot;companion book&quot; for those that want to explore this further.
-We use this library here (called <code>minimio</code>). </li>
+<li>We need to make a simple cross platform <code>epoll/kqueue/IOCP</code> event loop. Now
+this turns out to be extremely interesting, but it's also a lot of code, so I split
+this section off into a separate &quot;companion book&quot; for those that want to explore this further.
+We use this library here called <code>minimio</code>. </li>
 </ol>
 <blockquote>
 <p>Granted, we're breaking our rule that we don't use any dependencies, but it's our own dependency which we'll explain fully in due time.</p>
@@ -1506,7 +1506,7 @@ We use this library here (called <code>minimio</code>). </li>
 <h2><a class="header" href="#we-need-a-runtime" id="we-need-a-runtime">We need a runtime</a></h2>
 <p><strong>Our runtime will:</strong></p>
 <ol>
-<li>Store our callbacks to be run in a later point</li>
+<li>Store our callbacks to be run at a later point</li>
 <li>Send tasks to be executed on the thread pool</li>
 <li>Register interests with the OS (through <code>minimio</code>)</li>
 <li>Poll our two event sources for new events</li>
@@ -1520,24 +1520,24 @@ We use this library here (called <code>minimio</code>). </li>
 <li>For handling http calls <code>Http</code></li>
 <li>For handling cryptological tasks <code>Crypto</code></li>
 </ol>
-<h2><a class="header" href="#we-need-to-make-som-helpers" id="we-need-to-make-som-helpers">We need to make som helpers</a></h2>
+<h2><a class="header" href="#we-need-to-make-some-helpers" id="we-need-to-make-some-helpers">We need to make some helpers</a></h2>
 <p>We need some helpers to make our code readable and to provide the output we want
 to see. In contrast to any real runtime, we're interested in knowing what happens
-when. To help with that we define three extra methods:</p>
-<p><code>print</code> which prints out a message that first tells us what thread the message is being outputted from, and then a message we provide:</p>
+and when. To help with that we define three extra methods:</p>
+<p><code>print</code> which prints out a message that first tells us what thread the message is being outputted from and then a message we provide.</p>
 <p><code>print_content</code> does the same as <code>print</code> but is a way for us to print out more than a message in a nice way.</p>
-<p><code>current</code> is just a shortcut for us to get the name of the current thread. Since we want to track what's happening where we're going to need to print out what thread is issuing what output so this will avoid cluttering up our code too much along the way.</p>
+<p><code>current</code> is just a shortcut for us to get the name of the current thread. Since we want to track what's happening, we're going to need to print out which thread is issuing what output, so this will avoid cluttering up our code too much along the way.</p>
 <h2><a class="header" href="#minimio" id="minimio">Minimio</a></h2>
-<p>Minimio is a cross platform epoll/kqueue/IOCP based event loop that we will cover in the next book. I originally included it here but implementing that for three architectures turned out to be a bit more involved than I first thought and needed more space than would fit in this book.</p>
-<p>It's also easier to just read up on Epoll/Kqueue/IOCP when it's concentrated in a separate book.</p>
+<p>Minimio is a cross platform epoll/kqueue/IOCP based event loop that we will cover in the next book. I originally included it here, but implementing that for three architectures turned out to be a bit more involved than I first thought and needed more space than would fit in this book.</p>
+<p>It's also easier to just read up on epoll/kqueue/IOCP when it's concentrated in a separate book.</p>
 <h1><a class="header" href="#implementing-our-own-runtime" id="implementing-our-own-runtime">Implementing our own runtime</a></h1>
-<p>Let's start to get some code written down, we have a lot to do.</p>
-<p>The way we'll go about this is that I'll go through everything the way I find it easiest to parse and understand. That also means that sometimes I have to introduce a bit of code that will be explained later, just don't worry. I'll go through everything.</p>
+<p>Let's start to get some code written down; we have a lot to do.</p>
+<p>The way we'll go about this is that I'll go through everything the way I find it easiest to parse and understand. That also means that sometimes I have to introduce a bit of code that will be explained later.  Try not to worry if you don't understand something at first.  I'll be going through everything.</p>
 <p>The very first thing we need to do is to create a Rust project to run our code in:</p>
 <pre><code>cargo new async-basics
 cd async-basics
 </code></pre>
-<p>Now, as I've explained we'll need to use the <code>minimio</code> library (which will be explained in a separate book, but you can already look through the source code if you want to):</p>
+<p>Now, as I've explained, we'll need to use the <code>minimio</code> library (which will be explained in a separate book, but you can already look through the source code if you want to):</p>
 <p>In <code>Cargo.toml</code></p>
 <pre><code class="language-toml">[dependencies]
 minimio = {git = &quot;https://github.com/cfsamson/examples-minimio&quot;, branch = &quot;master&quot;}
