@@ -10,7 +10,7 @@ Javascript has one advantage from a language design perspective: Everything is d
 
 One such scenario is a Web server. Web servers handle a lot of I/O tasks whether it's reading from the file system or communicating via the network card.
 
-## Why Node
+## Why Node In Particular?
 
 - Javascript is unavoidable when doing web development for the browser. Using Javascript on the server allows programmers to use the same language for both front-end and back-end development.
 - There is a potential for code reuse between the back-end and the front-end
