@@ -1,6 +1,6 @@
 # Introducing our main example
 
-Now we've finally come to the part of this book where we will write som more code.
+Now we've finally come to the part of this book where we will write some code.
 
 The Node event loop is a complex piece of software developed over many years. We
 will have to simplify things a lot. 
@@ -9,7 +9,7 @@ We'll try to implement the parts that are important for us to understand Node a
 little better and most importantly use it as an example where we can use our
 knowledge from the previous chapters to make something that actually works.
 
-Our main goal here is to explore async concepts, using Node as an example is
+Our main goal here is to explore async concepts.  Using Node as an example is
 mostly for fun.
 
 **We want to write something like this:**
@@ -67,7 +67,7 @@ fn javascript() {
         print("SETTIMEOUT");
     });
 
-    // `http_get_slow` let's us define a latency we want to simulate
+    // `http_get_slow` lets us define a latency we want to simulate
     print("Registering http get request to google.com");
     Io::http_get_slow("http//www.google.com", 2000, |result| {
         let result = result.into_string().unwrap();
@@ -81,7 +81,7 @@ fn main() {
 }
 ```
 
-> We'll have print statements at strategic places in our code so we can get a view on what's actually happening when and where.
+> We'll have print statements at strategic places in our code so we can get a view of what's actually happening when and where.
 
 Right off the bat you'll see that something is strange with the Rust code we
 have written in our example.
@@ -100,11 +100,11 @@ set_timeout(0, |_res| {
 });
 ```
 
-What we really do here is to register interest in a `timeout` event, and when that event occurs we want to run the
+What we really do here is register interest in a `timeout` event, and when that event occurs we want to run the
 the callback `|_res| { print("Immediate1 timed out"); }`. 
 
 Now the parameter `_res` is
-an argument that is passed in to our callback. In javascript it would be left out, but since we use a typed language we have created a type called `Js`.
+an argument that is passed into our callback. In javascript it would be left out, but since we use a typed language we have created a type called `Js`.
 
 `Js` is an enum that represents Javascript types. In the case of `set_timeout` it's `Js::undefined`. In the case of `Fs::read` it's an `Js::String` and so on.
 
@@ -151,7 +151,7 @@ Thread: main	 ===== TICK 4 =====
 Thread: pool2	 finished running a task of type: File read.
 
 ===== THREAD main START CONTENT - FILE READ =====
-Hello world! This is a text to encrypt!
+Hello world! This is text to encrypt!
 ... [Note: Abbreviated for display] ...
 ===== END CONTENT =====
 
