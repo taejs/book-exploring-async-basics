@@ -1,8 +1,8 @@
 # Implementing our own runtime
 
-Let's start to get some code written down, we have a lot to do.
+Let's start to get some code written down; we have a lot to do.
 
-The way we'll go about this is that I'll go through everything the way I find it easiest to parse and understand. That also means that sometimes I have to introduce a bit of code that will be explained later, just don't worry. I'll go through everything.
+The way we'll go about this is that I'll go through everything the way I find it easiest to parse and understand. That also means that sometimes I have to introduce a bit of code that will be explained later.  Try not to worry if you don't understand something at first.  I'll be going through everything.
 
 The very first thing we need to do is to create a Rust project to run our code in:
 
@@ -11,7 +11,7 @@ cargo new async-basics
 cd async-basics
 ```
 
-Now, as I've explained we'll need to use the `minimio` library (which will be explained in a separate book, but you can already look through the source code if you want to):
+Now, as I've explained, we'll need to use the `minimio` library (which will be explained in a separate book, but you can already look through the source code if you want to):
 
 In `Cargo.toml`
 

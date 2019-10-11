@@ -57,7 +57,7 @@ I/O tasks which can't be handled by the cross platform event queue are also hand
 
 Most C++ extensions for Node uses this thread pool to perform their work, and that is one of many reasons they are used for calculation-intensive tasks.
 
-## Further information
+## Further Information
 
 If you do want to know more about the Node event loop, I have one short page of the `libuv` documentation I can
 refer you to and two talks for you that I find great (and correct) on this subject:
