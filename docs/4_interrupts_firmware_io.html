@@ -173,25 +173,25 @@ on the OS we either get a  <code>file descriptor</code> (Macos/Linux) or a <code
 <p>The next step is that we register our interest in <code>read</code> events on that socket.</p>
 <h2><a class="header" href="#2-registering-events-with-the-os" id="2-registering-events-with-the-os">2. Registering events with the OS</a></h2>
 <p><strong>This is handled in one of three ways:</strong></p>
-<ol>
+<ol type="A">
 <li>
-<p>We tell the operating system that we're interested in <code>Read</code> events but we want
-to wait for it to happen by <code>yielding</code> control over our thread to the OS. The OS
+We tell the operating system that we're interested in `Read` events but we want
+to wait for it to happen by `yielding` control over our thread to the OS. The OS
 then suspends our thread by storing the register state and switch to some other 
-thread. </p>
-<p><em>From our perspective this will be blocking our thread until we have data to read.</em></p>
+thread.
+<p><strong>From our perspective this will be blocking our thread until we have data to read.</strong></p>
 </li>
 <li>
-<p>We tell the operating system that we're interested in <code>Read</code> events but we
-just want a handle to a the task which we can <code>poll</code> to check if the event is
-ready or not. </p>
-<p><em>The OS will not suspend our thread, so this will not block our code</em></p>
+We tell the operating system that we're interested in `Read` events but we
+just want a handle to a the task which we can `poll` to check if the event is
+ready or not. 
+<p><strong>The OS will not suspend our thread, so this will not block our code</strong></p>
 </li>
 <li>
-<p>We tell the operating system that we are probably going to be interested in 
-many events, but we want to subscribe to one event queue. When we <code>poll</code> this
-queue it will block until one or more event occurs. </p>
-<p><em>This will block our thread while we <code>wait</code> for events to occur</em></p>
+We tell the operating system that we are probably going to be interested in 
+many events, but we want to subscribe to one event queue. When we `poll` this
+queue it will block until one or more event occurs. 
+<p><strong>This will block our thread while we <code>wait</code> for events to occur</strong></p>
 </li>
 </ol>
 <blockquote>
