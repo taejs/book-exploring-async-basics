@@ -35,24 +35,30 @@ The next step is that we register our interest in `read` events on that socket.
 
 **This is handled in one of three ways:**
 
-1. We tell the operating system that we're interested in `Read` events but we want
+<ol type="A">
+<li>
+We tell the operating system that we're interested in `Read` events but we want
 to wait for it to happen by `yielding` control over our thread to the OS. The OS
 then suspends our thread by storing the register state and switch to some other 
-thread. 
+thread.
 
-    _From our perspective this will be blocking our thread until we have data to read._
-
-2. We tell the operating system that we're interested in `Read` events but we
+**From our perspective this will be blocking our thread until we have data to read.**
+</li>
+<li>
+We tell the operating system that we're interested in `Read` events but we
 just want a handle to a the task which we can `poll` to check if the event is
 ready or not. 
 
-    _The OS will not suspend our thread, so this will not block our code_
-
-3. We tell the operating system that we are probably going to be interested in 
+**The OS will not suspend our thread, so this will not block our code**
+</li>
+<li>
+We tell the operating system that we are probably going to be interested in 
 many events, but we want to subscribe to one event queue. When we `poll` this
 queue it will block until one or more event occurs. 
 
-    _This will block our thread while we `wait` for events to occur_
+**This will block our thread while we `wait` for events to occur**
+</li>
+</ol>
 
 > My next book will be about about alternative C since that is a very interesting
 > model of handling I/O events that's going to be important later on to understand 
