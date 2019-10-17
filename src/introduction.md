@@ -17,7 +17,7 @@ This book aims to take a look at the **why** and **how** of concurrent programmi
 a good foundation of basic knowledge, before we use that knowledge to investigate how Node.js works
 by building a Node-inspired runtime.
 
-> This book is developed in the open and has [it's repository here](https://github.com/cfsamson/book-exploring-async-basics).
+> This book is developed in the open and has [its repository here](https://github.com/cfsamson/book-exploring-async-basics).
 > The book and the [accompanying code](https://github.com/cfsamson/examples-node-eventloop) is MIT licensed so feel free to clone away
 > and play with it.
 
@@ -34,7 +34,7 @@ have yet to confirm this).
 ## Who is this book for?
 
 I originally started out wanting to explore the fundamentals and inner workings
-of Rust's Futures. Reading through RFC's, motivations and discussions I realized
+of Rust's Futures. Reading through RFCs, motivations and discussions I realized
 that to really understand the **why** and **how** of Rust's Futures, I needed a very good
 understanding of how async code works in general, and the different strategies to handle it.
 
@@ -128,7 +128,7 @@ of threats being made about stopping the car and letting me off if I didn't stop
 asking "why?" to everything.
 
 Basically, the list below is a result of this urge to understand _why_ while
-reading the RFC's and discussions about Rust's async story: 
+reading the RFCs and discussions about Rust's async story: 
 
 - [Green threads explained in 200 lines of Rust](https://app.gitbook.com/@cfsamson/s/green-threads-explained-in-200-lines-of-rust/)
 
