@@ -15,7 +15,7 @@ As we'll see later on, the way we designed this, we actually made our `event_id`
 and `callback_id` the same value since both represents an unique value for this
 event. It simplifies things slightly for us.
 
-W add the `callback_id` to the collection of callbacks to run. We pass
+We add the `callback_id` to the collection of callbacks to run. We pass
 in `Js::Undefined` since we'll not actually pass any data along here. You'll see
 why when we reach the `[Http module](./8_3_http_module.md) chapter, but the main
 point is that the I/O queue doesn't return any data itself, it just tells us that
