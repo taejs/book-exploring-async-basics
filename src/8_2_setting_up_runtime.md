@@ -220,9 +220,9 @@ entry point into our `kqueue/epoll/iocp` event queue.
 > interest with the queue we're polling.
 
 Next up is also part of `minimio` we get a `Registrator`. This struct is "detached"
-from the `Poll` struct, but it holds a cpoy of the same handle to the event queue.
+from the `Poll` struct, but it holds a copy of the same handle to the event queue.
 
-This way we kan store the `Registrator` in our main thread and send off the `Poll`
+This way we can store the `Registrator` in our main thread and send off the `Poll`
 instance to our `epoll` thread. Our registrator can only register events to the
 queue and that's it.
 
@@ -231,7 +231,7 @@ queue and that's it.
 > We'll cover this in detail in the next book, but both `Poll` and `Registrator`
 > holds a reference to an `AtomicBool` which only job is to indicate if the queue
 > is "alive" or not. In the `Drop` implemenation of `Poll` we set this flag to
-> false in which case a coll to register an event will return an `Err`.
+> false in which case a call to register an event will return an `Err`.
 
 `epoll_timeout` is the time to the next timeout. If there is no more timeouts the
 value is `None`. We wrap this in a `Arc<Mutex<>>`, since we'll be writing to
