@@ -144,7 +144,7 @@ in some sort of reference frame.
 
 When you write code that is perfectly synchronous from your perspective, stop for a second and consider how that looks from the operating system perspective.
 
-The Operating System might not run your code from start to end at all. It might stop and resume your process many times. The CPU might get interrupted and handle som inputs while you think it's only focused on your task. 
+The Operating System might not run your code from start to end at all. It might stop and resume your process many times. The CPU might get interrupted and handle some inputs while you think it's only focused on your task. 
 
 So synchronous execution is only an illusion. But from the perspective of you as a programmer, it's not, and that is the important takeaway:
 

@@ -139,7 +139,7 @@ If it wasn't a `Close` task we run our task `let res = (task.task)();`. This is 
 actually be done. We know from the signature of this task that it returns a `Js`
 object once it's finished.
 
-The nest thing we do is to print out that we finished running a task, before we
+The next thing we do is to print out that we finished running a task, before we
 send a `PollEvent::Threadpool` event with `thread_id`, the `callback_id` and the data returned as a `Js` object back
 to our main thread.
 
@@ -278,7 +278,7 @@ drop(epoll_timeout_handle);
 ```
 
 To do this we first need to `lock` the mutex so we know we have exclusive access
-to the `timeout` value. Now, `timeout` is of the type `Option<i32>`, since `i32`
+to the `timeout` value. Now, `epoll_timeout_handle` is of the type `Option<i32>`, since `i32`
 implements the `Copy` trait we can dereference it, which in this case will copy,
 the value and store it in our `timeout` variable.
 
