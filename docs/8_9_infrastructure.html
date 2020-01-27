@@ -245,7 +245,7 @@ know the size of so we store that reference in our <code>callback_queue</code> H
 <blockquote>
 <p>What makes a closure?
 A function in rust can be defined as easily as <code>|| { }</code>. If this is all we write
-it's the same as a function pointer, equivalent to just referencing <code>my_method</code> (whithout parenthesis).
+it's the same as a function pointer, equivalent to just referencing <code>my_method</code> (without parenthesis).
 It becomes a <code>closure</code> as soon as you &quot;close&quot; over your environment by referencing
 variables that's not owned by the <code>function</code>.</p>
 <p><code>Fn</code> traits are automatically implemented, and whether it implements <code>Fn</code>, <code>FnMut</code>
@@ -327,8 +327,8 @@ you want to schedule your work to the thread pool. In our case we just get an
 available thread (and <code>panic!</code> if we're out of thread - ouch), and we send our task
 to the thread which then runs it until it's finished.</p>
 <p>You could make priorities based on <code>TaskKind</code>, you could try to decide which tasks
-are short and which are long and prioritize them based on load. A lot of exiting
-stuff could be done here. We will choose the simplest possible one though and just
+are short and which are long and prioritize them based on load. A lot of exciting
+things could be done here. We will choose the simplest possible one though, and just
 push them directly to a thread in the order they come.</p>
 <p>The last part of the &quot;infrastructure&quot; is a function to set a timeout. </p>
 <pre><pre class="playpen"><code class="language-rust">
@@ -362,7 +362,7 @@ the collection we store timers in.</p>
 <p>From the documentation we can read <em>&quot;In theory, a binary search tree (BST) is the optimal choice for a sorted map, as a perfectly balanced BST performs the theoretical minimum amount of comparisons necessary to find an element (log2n).&quot;</em>
 Now, this isn't a Binary Tree but a BTree. While a BST allocates one node for each value, a BTree allocates
 a small <code>Vec</code> of values for each node. Modern computers reads much more data than we normally ask for
-into its caches, and thats one reason they love contagious parts of memory. A BTree will result in
+into its caches, and thats one reason they love contiguous parts of memory. A BTree will result in
 a more optimal &quot;cache efficiency&quot; which often trumps the gains of the theoretically more optimal
 algorithm in a true BST.</p>
 <p>Lastly, since we're talking about searching sorted collections here, and timeouts, is a perfect example

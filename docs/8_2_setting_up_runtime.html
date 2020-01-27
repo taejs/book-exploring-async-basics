@@ -275,7 +275,7 @@ we break out of our loop which in turn will close the thread.</p>
 <p>If it wasn't a <code>Close</code> task we run our task <code>let res = (task.task)();</code>. This is where the work will
 actually be done. We know from the signature of this task that it returns a <code>Js</code>
 object once it's finished.</p>
-<p>The nest thing we do is to print out that we finished running a task, before we
+<p>The next thing we do is to print out that we finished running a task, before we
 send a <code>PollEvent::Threadpool</code> event with <code>thread_id</code>, the <code>callback_id</code> and the data returned as a <code>Js</code> object back
 to our main thread.</p>
 <p>Back in our <code>main</code> thread again we'll finally we store the <code>JoinHandle</code>, and the
@@ -406,7 +406,7 @@ let timeout = *epoll_timeout_handle;
 drop(epoll_timeout_handle);
 #}</code></pre></pre>
 <p>To do this we first need to <code>lock</code> the mutex so we know we have exclusive access
-to the <code>timeout</code> value. Now, <code>timeout</code> is of the type <code>Option&lt;i32&gt;</code>, since <code>i32</code>
+to the <code>timeout</code> value. Now, <code>epoll_timeout_handle</code> is of the type <code>Option&lt;i32&gt;</code>, since <code>i32</code>
 implements the <code>Copy</code> trait we can dereference it, which in this case will copy,
 the value and store it in our <code>timeout</code> variable.</p>
 <p><code>drop(epoll_timeout_handle)</code> is not something you'll see often. The <code>MutexGuard</code> we

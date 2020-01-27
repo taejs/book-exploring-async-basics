@@ -398,7 +398,7 @@ be a means to achieve concurrency.</p>
 in some sort of reference frame.</p>
 <h2><a class="header" href="#changing-the-reference-frame" id="changing-the-reference-frame">Changing the reference frame</a></h2>
 <p>When you write code that is perfectly synchronous from your perspective, stop for a second and consider how that looks from the operating system perspective.</p>
-<p>The Operating System might not run your code from start to end at all. It might stop and resume your process many times. The CPU might get interrupted and handle som inputs while you think it's only focused on your task. </p>
+<p>The Operating System might not run your code from start to end at all. It might stop and resume your process many times. The CPU might get interrupted and handle some inputs while you think it's only focused on your task. </p>
 <p>So synchronous execution is only an illusion. But from the perspective of you as a programmer, it's not, and that is the important takeaway:</p>
 <p><strong>When we talk about concurrency without providing any other context we are using you as a programmer and your code (your process) as the reference frame. If you start pondering about concurrency
 without keeping this in the back of your head it will get confusing very fast.</strong></p>
@@ -824,8 +824,8 @@ together with the <code>GetStdHandle</code> documentation:</p>
 <tr><td>Stdout</td><td>-11</td></tr>
 <tr><td>StdErr</td><td>-12</td></tr>
 </tbody></table>
-<p>Now, we're lucky here, it's not that common that we find this information 
-together with the documentation for the function, we call but it's very convenient when we do.</p>
+<p>Now we're lucky here, it's not that common that we find this information 
+together with the documentation for the function we call, but it's very convenient when we do.</p>
 <p>The return codes to expect is also documented thoroughly for all functions so we handle potential errors here in the same way as we did for the Linux/MacOS syscalls.</p>
 <pre><pre class="playpen"><code class="language-rust no_run">
 # #![allow(unused_variables)]
@@ -2096,7 +2096,7 @@ we break out of our loop which in turn will close the thread.</p>
 <p>If it wasn't a <code>Close</code> task we run our task <code>let res = (task.task)();</code>. This is where the work will
 actually be done. We know from the signature of this task that it returns a <code>Js</code>
 object once it's finished.</p>
-<p>The nest thing we do is to print out that we finished running a task, before we
+<p>The next thing we do is to print out that we finished running a task, before we
 send a <code>PollEvent::Threadpool</code> event with <code>thread_id</code>, the <code>callback_id</code> and the data returned as a <code>Js</code> object back
 to our main thread.</p>
 <p>Back in our <code>main</code> thread again we'll finally we store the <code>JoinHandle</code>, and the
@@ -2227,7 +2227,7 @@ let timeout = *epoll_timeout_handle;
 drop(epoll_timeout_handle);
 #}</code></pre></pre>
 <p>To do this we first need to <code>lock</code> the mutex so we know we have exclusive access
-to the <code>timeout</code> value. Now, <code>timeout</code> is of the type <code>Option&lt;i32&gt;</code>, since <code>i32</code>
+to the <code>timeout</code> value. Now, <code>epoll_timeout_handle</code> is of the type <code>Option&lt;i32&gt;</code>, since <code>i32</code>
 implements the <code>Copy</code> trait we can dereference it, which in this case will copy,
 the value and store it in our <code>timeout</code> variable.</p>
 <p><code>drop(epoll_timeout_handle)</code> is not something you'll see often. The <code>MutexGuard</code> we
@@ -2528,7 +2528,7 @@ you're going to be alright :)</p>
 <code>Box&lt;dyn FnOnce(Js)&gt;</code>. We're going to explain this type more later but it's basically a closure stored on the heap that takes one argument of type <code>Js</code>.</p>
 <p><code>cb(data)</code> runs the code in this closure. After it's done it's time to decrease our counter of pending events: <code>self.pending_events -= 1;</code>.</p>
 <blockquote>
-<p>Now, this step is important. As you might understand, any long running code in this callback is going to block our <code>eventloop</code>, preventing it from progressing. So no new callbacks are handleded and no new events are registered. This is why it's bad to write code that blocks the eventloop.</p>
+<p>Now, this step is important. As you might understand, any long running code in this callback is going to block our <code>eventloop</code>, preventing it from progressing. So no new callbacks are handled and no new events are registered. This is why it's bad to write code that blocks the eventloop.</p>
 </blockquote>
 <p>Let's recap by looking at what members of the <code>Runtime</code> struct we used here:</p>
 <pre><pre class="playpen"><code class="language-rust no_run">
@@ -2730,7 +2730,7 @@ know the size of so we store that reference in our <code>callback_queue</code> H
 <blockquote>
 <p>What makes a closure?
 A function in rust can be defined as easily as <code>|| { }</code>. If this is all we write
-it's the same as a function pointer, equivalent to just referencing <code>my_method</code> (whithout parenthesis).
+it's the same as a function pointer, equivalent to just referencing <code>my_method</code> (without parenthesis).
 It becomes a <code>closure</code> as soon as you &quot;close&quot; over your environment by referencing
 variables that's not owned by the <code>function</code>.</p>
 <p><code>Fn</code> traits are automatically implemented, and whether it implements <code>Fn</code>, <code>FnMut</code>
@@ -2812,8 +2812,8 @@ you want to schedule your work to the thread pool. In our case we just get an
 available thread (and <code>panic!</code> if we're out of thread - ouch), and we send our task
 to the thread which then runs it until it's finished.</p>
 <p>You could make priorities based on <code>TaskKind</code>, you could try to decide which tasks
-are short and which are long and prioritize them based on load. A lot of exiting
-stuff could be done here. We will choose the simplest possible one though and just
+are short and which are long and prioritize them based on load. A lot of exciting
+things could be done here. We will choose the simplest possible one though, and just
 push them directly to a thread in the order they come.</p>
 <p>The last part of the &quot;infrastructure&quot; is a function to set a timeout. </p>
 <pre><pre class="playpen"><code class="language-rust">
@@ -2847,7 +2847,7 @@ the collection we store timers in.</p>
 <p>From the documentation we can read <em>&quot;In theory, a binary search tree (BST) is the optimal choice for a sorted map, as a perfectly balanced BST performs the theoretical minimum amount of comparisons necessary to find an element (log2n).&quot;</em>
 Now, this isn't a Binary Tree but a BTree. While a BST allocates one node for each value, a BTree allocates
 a small <code>Vec</code> of values for each node. Modern computers reads much more data than we normally ask for
-into its caches, and thats one reason they love contagious parts of memory. A BTree will result in
+into its caches, and thats one reason they love contiguous parts of memory. A BTree will result in
 a more optimal &quot;cache efficiency&quot; which often trumps the gains of the theoretically more optimal
 algorithm in a true BST.</p>
 <p>Lastly, since we're talking about searching sorted collections here, and timeouts, is a perfect example
