@@ -99,7 +99,7 @@ know the size of so we store that reference in our `callback_queue` HashMap.
 
 >What makes a closure?
 > A function in rust can be defined as easily as `|| { }`. If this is all we write
-> it's the same as a function pointer, equivalent to just referencing `my_method` (whithout parenthesis).
+> it's the same as a function pointer, equivalent to just referencing `my_method` (without parenthesis).
 > It becomes a `closure` as soon as you "close" over your environment by referencing
 > variables that's not owned by the `function`.
 > 
@@ -189,8 +189,8 @@ available thread (and `panic!` if we're out of thread - ouch), and we send our t
 to the thread which then runs it until it's finished.
 
 You could make priorities based on `TaskKind`, you could try to decide which tasks
-are short and which are long and prioritize them based on load. A lot of exiting
-stuff could be done here. We will choose the simplest possible one though and just
+are short and which are long and prioritize them based on load. A lot of exciting
+things could be done here. We will choose the simplest possible one though, and just
 push them directly to a thread in the order they come.
 
 The last part of the "infrastructure" is a function to set a timeout. 
@@ -230,7 +230,7 @@ be able to follow the flow of our program.
 > From the documentation we can read _"In theory, a binary search tree (BST) is the optimal choice for a sorted map, as a perfectly balanced BST performs the theoretical minimum amount of comparisons necessary to find an element (log2n)."_
 > Now, this isn't a Binary Tree but a BTree. While a BST allocates one node for each value, a BTree allocates
 > a small `Vec` of values for each node. Modern computers reads much more data than we normally ask for
-> into its caches, and thats one reason they love contagious parts of memory. A BTree will result in
+> into its caches, and thats one reason they love contiguous parts of memory. A BTree will result in
 > a more optimal "cache efficiency" which often trumps the gains of the theoretically more optimal
 > algorithm in a true BST.
 >

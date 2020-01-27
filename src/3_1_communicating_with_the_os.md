@@ -358,8 +358,8 @@ together with the `GetStdHandle` documentation:
 |StdErr|-12|
 
 
-Now, we're lucky here, it's not that common that we find this information 
-together with the documentation for the function, we call but it's very convenient when we do.
+Now we're lucky here, it's not that common that we find this information 
+together with the documentation for the function we call, but it's very convenient when we do.
 
 The return codes to expect is also documented thoroughly for all functions so we handle potential errors here in the same way as we did for the Linux/MacOS syscalls.
 
