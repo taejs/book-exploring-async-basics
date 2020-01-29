@@ -110,7 +110,7 @@ stream
 > benefit that much (the understanding of how a web server works would though but thats
 > beyond our scope today)
 
-Now we get to the exiting part.
+Now we get to the exciting part.
 
 First we need to generate a `token`. This token will follow our `event` and be passed
 on to the OS. When the OS returns it also returns this token so we know what event
