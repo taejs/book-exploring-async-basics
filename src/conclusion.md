@@ -2,7 +2,7 @@
 
 Congratulations!!
 
-What a ride, huh? We're finished, take a break and get som fresh air. You've deserved
+What a ride, huh? We're finished, take a break and get some fresh air. You've deserved
 it.
 
 We did cover a lot in this book in a fairly condensed manner. I hope I kept my
