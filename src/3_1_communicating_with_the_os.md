@@ -191,7 +191,7 @@ fn syscall_libc(message: String) {
     unsafe { write(1, msg_ptr, len) };
 }
 ```
-The first thing we do is to get the pointer to the underlying buffer for our
+First, we get a pointer to the underlying buffer of our
 string. This will be a pointer of type `*const u8` which matches our `buf`
 argument. The `len` of the buffer corresponds to the `count` argument.
 
