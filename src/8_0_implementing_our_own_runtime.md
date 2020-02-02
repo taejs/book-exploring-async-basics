@@ -99,9 +99,9 @@ We need a task object, which represents a task we want to finish in our thread
 pool. I'll go through the types in this object in a later [chapter](./7_9_infrastructure.md) so don't worry too much about them now if you find them
 hard to grasp. Everything will be explained.
 
-We also create an implementation of a `Close` task. We need this to clean up after ourselves and close down the thread pool. 
+We also create an implementation of a `Close` task. We need this to clean up after ourselves and close down the thread pool.
 
-`|| Js::Undefined` might seem strange but it's only a function that returns `Js::Undefined`, we need it since we won't make `task` an `Option` just for this one case. 
+`|| Js::Undefined` might seem strange but it's only a function that returns `Js::Undefined`, we need it since we won't make `task` an `Option` just for this one case.
 
 It's just so we don't have to `match` or `map` on `task` all the way through our code, it's more than enough to parse already.
 
@@ -158,7 +158,7 @@ to make our code look more "javascripty", but it's also convenient for us to
 abstract over the return types of closures.
 
 We'll also implement two convenience methods on this object to make our "javascripty"
-code look a bit cleaner. 
+code look a bit cleaner.
 
 We know the return types already based on our modules
 documentation - just like you would know it from the documentation when using a
@@ -202,7 +202,7 @@ that we can accept back from both our `epoll based` event queue and our `threadp
 enum PollEvent {
     /// An event from the `threadpool` with a tuple containing the `thread id`,
     /// the `callback_id` and the data which the we expect to process in our
-    /// callback 
+    /// callback
     Threadpool((usize, usize, Js)),
     /// An event from the epoll-based eventloop holding the `event_id` for the
     /// event
@@ -234,4 +234,4 @@ Let's now move on and look at what the heart of the runtime looks like: the main
 
 ## Moving on
 
-Now we've already gotten really far by introducing most of our runtime already in the first chapter. The next chapter will focus on implementing all the functionality we need for this to work. 
+Now we've already gotten really far by introducing most of our runtime already in the first chapter. The next chapter will focus on implementing all the functionality we need for this to work.

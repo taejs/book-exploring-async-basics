@@ -1,4 +1,4 @@
-# What's the difference between concurrency and parallelism? 
+# What's the difference between concurrency and parallelism?
 
 We’ll right off the bat dive into this subject by defining what concurrency is, and since it’s very easy to confuse concurrent with parallel we have to try to make the difference clear from the get-go.
 
@@ -27,17 +27,17 @@ Something happening independently at the **exact** same time.
 
 ### Concurrent
 Tasks that are **`in progress`** at the same time, but not *necessarily* progressing
-simultaneously. 
+simultaneously.
 
-This is an important distinction. If two tasks are running concurrently, 
-but are not running in parallel, they must be able to stop and resume their progress. 
+This is an important distinction. If two tasks are running concurrently,
+but are not running in parallel, they must be able to stop and resume their progress.
 We say that a task is `interruptable` if it allows for this kind of concurrency.
 
 
 ## The mental model I use.
 
-I firmly believe the main reason we find parallel and concurrent programming hard to reason about stems from how we model events in our everyday life. We tend to define these terms loosely so our intuition is often wrong. 
-> It doesn't help that **concurrent** is defined in the dictionary as: _operating or occurring at the same time_ which 
+I firmly believe the main reason we find parallel and concurrent programming hard to reason about stems from how we model events in our everyday life. We tend to define these terms loosely so our intuition is often wrong.
+> It doesn't help that **concurrent** is defined in the dictionary as: _operating or occurring at the same time_ which
 > doesn't really help us much when trying to describe how it differs from **parallel**
 
 For me, this first clicked when I started to understand why we want to make a distinction between parallel and concurrent in the first place!
@@ -53,13 +53,13 @@ Is increasing the resources we use to solve a task. It has nothing to do with _e
 
 ### Concurrency
 
-Has everything to do with efficiency and resource utilization. Concurrency can never make _one single task go faster_. 
+Has everything to do with efficiency and resource utilization. Concurrency can never make _one single task go faster_.
 It can only help us utilize our resources better and thereby _finish a set of tasks faster_.
 
 
 ### Let's draw some parallels to process economics
 
-In businesses that manufacture goods, we often talk about LEAN processes. And this is pretty easy to compare with why programmers care so much about what we can achieve if we handle tasks concurrently. 
+In businesses that manufacture goods, we often talk about LEAN processes. And this is pretty easy to compare with why programmers care so much about what we can achieve if we handle tasks concurrently.
 
 I'll let let this 3 minute video explain it for me:
 
@@ -71,20 +71,20 @@ Ok, so it's not the newest video on the subject, but it explains a lot in 3 minu
 
 Now would adding more resources (more workers) help in the video above? Yes, but we use double the resources to produce the same output as one person with an optimal process could do. That's not the best utilization of our resources.
 
-> To continue the parallel we started, we could say that we could solve the problem of a freezing UI while waiting for an I/O event to occur 
-> by spawning a new thread and `poll` in a loop or `block` there instead of our main thread. However, that new 
-> thread is either consuming resources doing nothing, or worse, using one core to busy loop while checking if 
+> To continue the parallel we started, we could say that we could solve the problem of a freezing UI while waiting for an I/O event to occur
+> by spawning a new thread and `poll` in a loop or `block` there instead of our main thread. However, that new
+> thread is either consuming resources doing nothing, or worse, using one core to busy loop while checking if
 > an event is ready. Either way, it's not optimal, especially if you run a server you want to utilize fully.
 
-If you consider the coffee machine as some I/O resource, we would like to start that process, then move on to preparing the 
+If you consider the coffee machine as some I/O resource, we would like to start that process, then move on to preparing the
 next job, or do other work that needs to be done instead of waiting.
 
 _But that means there are things happening in parallel here?_
 
 Yes, the coffee machine is doing work while the "worker" is doing
-maintenance and filling water. But this is the crux: _Our reference frame is the worker, not the whole system. The guy making coffee is your code._ 
+maintenance and filling water. But this is the crux: _Our reference frame is the worker, not the whole system. The guy making coffee is your code._
 
-> It's the same when you make a database query. After you've sent the query to the database server, 
+> It's the same when you make a database query. After you've sent the query to the database server,
 > the CPU on the database server will be working on your request while you wait for a response. In practice, it's a way
 > of parallelizing your work.
 
@@ -104,12 +104,12 @@ you can work on in parallel.
 **I can see two major use cases for concurrency:**
 
 1. When performing I/O and you need to wait for some external event to occur
-2. When you need to divide your attention and prevent one task from waiting too 
+2. When you need to divide your attention and prevent one task from waiting too
 long
 
 The first is the classic I/O example: you have to wait for a network
-call, a database query or something else to happen before you can progress a 
-task. However, you have many tasks to do so instead of waiting you continue work 
+call, a database query or something else to happen before you can progress a
+task. However, you have many tasks to do so instead of waiting you continue work
 elsewhere and either check in regularly to see if the task is ready to progress
 or make sure you are notified when that task is ready to progress.
 
@@ -144,7 +144,7 @@ in some sort of reference frame.
 
 When you write code that is perfectly synchronous from your perspective, stop for a second and consider how that looks from the operating system perspective.
 
-The Operating System might not run your code from start to end at all. It might stop and resume your process many times. The CPU might get interrupted and handle some inputs while you think it's only focused on your task. 
+The Operating System might not run your code from start to end at all. It might stop and resume your process many times. The CPU might get interrupted and handle some inputs while you think it's only focused on your task.
 
 So synchronous execution is only an illusion. But from the perspective of you as a programmer, it's not, and that is the important takeaway:
 

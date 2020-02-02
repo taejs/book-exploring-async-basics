@@ -2,7 +2,7 @@
 
 ## 1. Check expired timers
 
-The first step in the event loop is checking for expired timers, and we do this 
+The first step in the event loop is checking for expired timers, and we do this
 in the `self.check_expired_timers()` function
 
 ```rust

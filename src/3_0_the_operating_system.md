@@ -2,7 +2,7 @@
 
 The operating system stands in the centre of everything we do as programmers (well, unless you're [writing an Operating System](https://os.phil-opp.com/) or are in the [Embedded realm](https://rust-embedded.github.io/book/)),
 so there is no way for us to discuss any kind of fundamentals in programming
-without talking about operating systems in a bit of detail. 
+without talking about operating systems in a bit of detail.
 
 ## Concurrency from the operating systems' perspective
 
@@ -14,8 +14,8 @@ might stop and start your process at any time.
 
 What we call synchronous code is in most cases code that appears as synchronous to us as programmers. Neither the OS or the CPU live in a fully synchronous world.
 
-Operating systems uses `preemptive multitasking` and as long as the operating system you're running is preemptively scheduling processes, you won't have a 
-guarantee that your code runs instruction by instruction without interruption. 
+Operating systems uses `preemptive multitasking` and as long as the operating system you're running is preemptively scheduling processes, you won't have a
+guarantee that your code runs instruction by instruction without interruption.
 
 The operating system will make sure that all important processes get some time from the CPU to make progress.
 
@@ -35,7 +35,7 @@ operating system to talk to the network card for you.
 
 There is no way for you as a programmer to make your system optimally efficient
 without playing to the strengths of the operating system. You basically don't have
-access to the hardware directly. 
+access to the hardware directly.
 
 However, this also means that to understand everything from the ground up, you'll also need to know how your operating system handles these tasks.
 

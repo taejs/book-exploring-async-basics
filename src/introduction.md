@@ -65,7 +65,7 @@ as we try to get a better understanding of all these subjects.
 
 Even though I use `mdbook`, which has the nice benefit of being able to run
 the code we write directly in the book, we're working with I/O and cross
-platform syscalls in this book which is not a good fit for the Rust playground. 
+platform syscalls in this book which is not a good fit for the Rust playground.
 
 My best recommendation is to create a project on your local
 computer and follow along by copying the code over and run it locally.
@@ -101,7 +101,7 @@ shortcuts.
 > to learn anything from them in a small(ish) book. You can probably spend the better
 > part of a career becoming an expert in several of the fields we cover, so forgive
 > me already now for not being able to cover all of them with the precision,
-> thoroughness and respect they deserve. 
+> thoroughness and respect they deserve.
 
 ## Credits
 
@@ -128,7 +128,7 @@ of threats being made about stopping the car and letting me off if I didn't stop
 asking "why?" to everything.
 
 Basically, the list below is a result of this urge to understand _why_ while
-reading the RFCs and discussions about Rust's async story: 
+reading the RFCs and discussions about Rust's async story:
 
 - [Green threads explained in 200 lines of Rust](https://app.gitbook.com/@cfsamson/s/green-threads-explained-in-200-lines-of-rust/)
 

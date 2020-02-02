@@ -29,6 +29,6 @@ Now, we know this is safe for two reasons.
 Now it's not pretty, and that's also why I explain why we do it, and why it's safe here. Normally, all `unsafe`
 code should contain a reason why it's used, and why it's safe in a comment.
 
-Once we have referenced the pointer to `RUNTIME` we can call methods on it and in 
+Once we have referenced the pointer to `RUNTIME` we can call methods on it and in
 this case we simply call `rt.set_timeout(ms, cb)` which sets a timeout as you saw
 in the last chapter.

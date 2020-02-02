@@ -49,7 +49,7 @@ fn print_content(t: impl std::fmt::Display, descr: &str) {
         descr.to_uppercase()
     );
 
-    let content = format!("{}", t); 
+    let content = format!("{}", t);
     let lines = content.lines().take(2);
     let main_cont: String = lines.map(|l| format!("{}\n", l)).collect();
     let opt_location = content.find("Location");
@@ -60,14 +60,14 @@ fn print_content(t: impl std::fmt::Display, descr: &str) {
         .nth(0)
         .map(|l| format!("{}\n",l))
         .unwrap_or(String::new())
-    });    
+    });
 
     println!(
         "{}{}... [Note: Abbreviated for display] ...",
         main_cont,
         opt_location.unwrap_or(String::new())
     );
-    
+
     println!("===== END CONTENT =====\n");
 }
 
@@ -77,7 +77,7 @@ Let's explain the iterators step by step:
 
 First we have:
 ```rust, no_run
-let content = format!("{}", t); 
+let content = format!("{}", t);
 let lines = content.lines().take(2);
 let main_cont: String = lines.map(|l| format!("{}\n", l)).collect();
 ```
@@ -105,7 +105,7 @@ let opt_location = opt_location.map(|loc| {
         .nth(0)
         .map(|l| format!("{}\n",l))
         .unwrap_or(String::new())
-    }); 
+    });
 ```
 
 The next part finds the location of the "Location" header. `find` returns an `Option`,
@@ -120,7 +120,7 @@ of where we found the `Location` header, and all the way to the end of the strin
 
 From this range we access the iterator over its lines by calling `lines()`, we take the first
 line from this iterator `nth(0)`. Now again, this returns an `Option`, so we use `map`
-again to define what we'll do in the case if it's `Some`. 
+again to define what we'll do in the case if it's `Some`.
 
 This means that **if** the first line of `content[loc..]` is something we pass that
 into our closure `map(|l| format!("{}\n",l))`, which results in `l` as this line.

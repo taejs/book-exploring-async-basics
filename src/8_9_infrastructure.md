@@ -85,7 +85,7 @@ the environment.
 Since you consume the variable a `closure` implementing `FnOnce` can only be called
 once. Our closure will take ownership over resources we create in our `main` thread
 and consume it. We want this since once consumed, the resources we used will be cleaned
-up as a result of Rusts `RAII` pattern. It's implicit that `FnOnce` returns `()` in this 
+up as a result of Rusts `RAII` pattern. It's implicit that `FnOnce` returns `()` in this
 case so we don't have to write `FnOnce(Js) -> ()`.
 
 Since callbacks are meant to only be called once, this is a perfectly fine bound
@@ -102,7 +102,7 @@ know the size of so we store that reference in our `callback_queue` HashMap.
 > it's the same as a function pointer, equivalent to just referencing `my_method` (without parenthesis).
 > It becomes a `closure` as soon as you "close" over your environment by referencing
 > variables that's not owned by the `function`.
-> 
+>
 > `Fn` traits are automatically implemented, and whether it implements `Fn`, `FnMut`
 > or `FnOnce` depend whether you take ownership over a non-copy variable, take a shared
 > reference `&` or an exclusive reference `&mut` (often called a mutable reference).
@@ -193,7 +193,7 @@ are short and which are long and prioritize them based on load. A lot of excitin
 things could be done here. We will choose the simplest possible one though, and just
 push them directly to a thread in the order they come.
 
-The last part of the "infrastructure" is a function to set a timeout. 
+The last part of the "infrastructure" is a function to set a timeout.
 
 ```rust
     fn set_timeout(&mut self, ms: u64, cb: impl Fn(Js) + 'static) {

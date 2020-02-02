@@ -4,11 +4,11 @@ We're nearing an end of the general CS subjects in the book, and we'll start
 to dig our way out of the rabbit hole soon.
 
 This part tries to tie things together and look at how the whole computer works
-as a system to handle I/O and concurrency. 
+as a system to handle I/O and concurrency.
 
 Let's get to it!
 
-## A simplified overview 
+## A simplified overview
 
 Let's go through some of the steps where we imagine that we read from a
 network card:
@@ -39,7 +39,7 @@ The next step is that we register our interest in `read` events on that socket.
 <li>
 We tell the operating system that we're interested in `Read` events but we want
 to wait for it to happen by `yielding` control over our thread to the OS. The OS
-then suspends our thread by storing the register state and switch to some other 
+then suspends our thread by storing the register state and switch to some other
 thread.
 
 **From our perspective this will be blocking our thread until we have data to read.**
@@ -47,31 +47,31 @@ thread.
 <li>
 We tell the operating system that we're interested in `Read` events but we
 just want a handle to a the task which we can `poll` to check if the event is
-ready or not. 
+ready or not.
 
 **The OS will not suspend our thread, so this will not block our code**
 </li>
 <li>
-We tell the operating system that we are probably going to be interested in 
+We tell the operating system that we are probably going to be interested in
 many events, but we want to subscribe to one event queue. When we `poll` this
-queue it will block until one or more event occurs. 
+queue it will block until one or more event occurs.
 
 **This will block our thread while we `wait` for events to occur**
 </li>
 </ol>
 
 > My next book will be about about alternative C since that is a very interesting
-> model of handling I/O events that's going to be important later on to understand 
-> why Rusts concurrency abstractions are modeled the way they are. Of that reason 
+> model of handling I/O events that's going to be important later on to understand
+> why Rusts concurrency abstractions are modeled the way they are. Of that reason
 > we won't cover this in detail here.
 
 ## 3. The Network Card
 
-> We're skipping some steps here but it's not very vital to our understanding. 
+> We're skipping some steps here but it's not very vital to our understanding.
 
-Meanwhile on the network card there is a small microcontroller running 
+Meanwhile on the network card there is a small microcontroller running
 specialized firmware. We can imagine that this microcontroller is polling in a
-busy loop checking if any data is incoming. 
+busy loop checking if any data is incoming.
 
 > The exact way the Network Card handles it internals can be different from this
 > (and most likely are). The important part is that there is a very simple but specialized CPU running
@@ -88,7 +88,7 @@ Once the firmware registers incoming data it issues a Hardware Interrupt.
 Modern CPUs have a set of `Interrupt Request Lines` for it to handle events that occur from
 external devices. A CPU has a fixed set of interrupt lines.
 
-A hardware interrupt is an electrical signal that can occur at _any time_. The 
+A hardware interrupt is an electrical signal that can occur at _any time_. The
 CPU immediately **interrupts** its normal workflow to handle the interrupt by
 saving the state of it's registers and look up the interrupt handler. The interrupt handlers is defined in the Interrupt Descriptor Table.
 
@@ -103,7 +103,7 @@ The [Interrupt Descriptor Table (IDT)](https://en.wikipedia.org/wiki/Interrupt_d
 ## 6. Writing the data
 
 This is a step that might vary a lot depending on the CPU and the firmware on the
-network card. If the Network Card and the CPU supports [Direct Memory Access](https://en.wikipedia.org/wiki/Direct_memory_access) (which should be the standard on all modern systems today) the Network Card will write data directly to a set of buffers the OS already has set up in main memory. 
+network card. If the Network Card and the CPU supports [Direct Memory Access](https://en.wikipedia.org/wiki/Direct_memory_access) (which should be the standard on all modern systems today) the Network Card will write data directly to a set of buffers the OS already has set up in main memory.
 
 In such a system the `firmware` on the Network Card might issue an `Interrupt` when the data is **written** to memory. `DMA` is very efficient
 since the CPU is only notified when the data is already in memory. On older systems the
@@ -140,7 +140,7 @@ They are very different in nature.
 
 ### Hardware Interrupts
 
-Hardware interrupts are created by sending an electrical signal through an [Interrupt Request Line (IRQ)](https://en.wikipedia.org/wiki/Interrupt_request_(PC_architecture)#x86_IRQs). These hardware lines signals the CPU directly. 
+Hardware interrupts are created by sending an electrical signal through an [Interrupt Request Line (IRQ)](https://en.wikipedia.org/wiki/Interrupt_request_(PC_architecture)#x86_IRQs). These hardware lines signals the CPU directly.
 
 ### Software Interrupts
 

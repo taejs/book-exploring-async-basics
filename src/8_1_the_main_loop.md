@@ -21,7 +21,7 @@ impl Runtime {
 ```rust, no_run
 let rt_ptr: *mut Runtime = self;
 unsafe { RUNTIME = rt_ptr as usize };
-let mut timers_to_remove = vec![]; 
+let mut timers_to_remove = vec![];
 let mut ticks = 0; // just for us priting out
 
 // First we run our "main" function
@@ -30,7 +30,7 @@ f();
 
 The first two lines is just a `hack` we use in our code to make it "look" more
 like javascript. We take the pointer to `self` and set it in the global
-variable `RUNTIME`. 
+variable `RUNTIME`.
 
 We could instead pass our `runtime` around but that wouldn't
 be very ergonomic. Another option would be to use `lazy_static` crate to initialize this field in a slightly safer way, but we'd have to explain what `lazy_static` do to keep our promise of minimal "magic".
@@ -51,8 +51,8 @@ while self.pending_events > 0 {
 
 `self.pending_events` keeps track of how many pending events we have, so that when no events are left we exit the loop since our eventloop is finished.
 
-So where does these events come from? In our `javascript` function `f` which we introduced in the chapter [Introducing our main example](./7_0_introducing_our_main_example.md) you probably noticed that we called functions like 
-`set_timeout` and `Fs::read`. These functions are defined in the Node runtime 
+So where does these events come from? In our `javascript` function `f` which we introduced in the chapter [Introducing our main example](./7_0_introducing_our_main_example.md) you probably noticed that we called functions like
+`set_timeout` and `Fs::read`. These functions are defined in the Node runtime
 (as they are in ours), and their main responsibility is to create tasks and register interest on events. When one of these tasks or interests are registered this counter is increased.
 
 `ticks` is just increasing a `tick` in the counter.
@@ -84,7 +84,7 @@ documentation so you know where we're at in the loop at this point.
 
 ## 4. Poll
 
-This is an important step. This is where we'll receive events from our thread pool or our `epoll` event queue. 
+This is an important step. This is where we'll receive events from our thread pool or our `epoll` event queue.
 
 I refer to the `epoll/kqueue/IOCP` event queue as `epoll` here just so you know that it's not only `epoll` we're waiting for. From now on I will refer to the cross platform event queue as `epoll` in the code for brevity.
 
@@ -100,7 +100,7 @@ let mut epoll_timeout_lock = self.epoll_timeout.lock().unwrap();
 // We release the lock before we wait in `recv`
 drop(epoll_timeout_lock);
 ```
-`self.epoll_timeout` is a `Mutex` so we need to lock it to be able to change the value it holds. Now, this is important, we need to make sure the lock is released before we `poll`. `poll` will suspend our thread, and it will try to read the value in `self.epoll_timeout`. 
+`self.epoll_timeout` is a `Mutex` so we need to lock it to be able to change the value it holds. Now, this is important, we need to make sure the lock is released before we `poll`. `poll` will suspend our thread, and it will try to read the value in `self.epoll_timeout`.
 
 If we're still holding the lock we'll end up in a `deadlock`. `drop(epoll_timeout_lock)` releases the lock. We'll explain a bit more in detail how this works in the next chapter.
 
@@ -186,7 +186,7 @@ pub fn run(mut self, f: impl Fn()) {
     unsafe { RUNTIME = rt_ptr };
 
     // just for us priting out during execution
-    let mut ticks = 0; 
+    let mut ticks = 0;
 
     // First we run our "main" function
     f();

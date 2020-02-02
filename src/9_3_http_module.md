@@ -17,7 +17,7 @@ impl Http {
         // response from a server. Perfect for our use case.
         let adr = "slowwly.robertomurray.co.uk:80";
         let mut stream = minimio::TcpStream::connect(adr).unwrap();
-            
+
         let request = format!(
             "GET /delay/{}/url/http://{} HTTP/1.1\r\n\
              Host: slowwly.robertomurray.co.uk\r\n\
@@ -54,7 +54,7 @@ this is for us to see and control how the events will occur since we're trying t
 
 In the function body, the first thing we do is dereference our runtime. We need to use a bit of its functionality here so we do this right away.
 
-The next step is to create a `minimio::TcpStream`. 
+The next step is to create a `minimio::TcpStream`.
 
 ```rust, no_run
 let adr = "slowwly.robertomurray.co.uk:80";
@@ -64,10 +64,10 @@ let mut stream = minimio::TcpStream::connect(adr).unwrap();
 > **Now why not the regular `TcpStream` from the standard library?**
 >
 > Well, you do remember that `kqueue` and `epoll` are readiness based and `IOCP` is
-> completion based right? 
-> 
+> completion based right?
+>
 > Well, to have single ergonomic API for all platforms
-> we need to abstract over something and we (like `mio`) choose to abstract over `TcpStream`. 
+> we need to abstract over something and we (like `mio`) choose to abstract over `TcpStream`.
 >
 > While `kqueue` and `epoll` can just read when a `Read` event is ready, we need the `TcpStream` to create a buffer that it hands over to the OS on Windows. So when we call `TcpStream` read, we read from this buffer on Windows.
 
@@ -172,7 +172,7 @@ rt.register_event_epoll(token, wrapped);
 
 Now in a better implementation, we would not issue a blocking call like `read_to_string`
 because it might be that at some point this will block if not all the data we need
-is present at once. 
+is present at once.
 
 The right thing to do then would be to read parts of the
 data into a buffer while calling `stream.read(..)` in a loop, and at some point
@@ -190,12 +190,12 @@ our read event to read the rest.
 > OS to instruct the CPU to filter some interrupts for short periods. The OS can't be "optimistic" in the
 > sense that it assumes the event didn't happen since that would cause the process to wait indefinitely
 > if the event did occur. So instead it might just wake up the thread.
-> 
+>
 > Also, there are performance optimizations
 > in operating systems that might cause them to choose to wake up waiting threads in a process for unknown
 > reasons. Therefore, accounting for spurious wakeups is part of the "contract" between the programmer
 > and the OS.
-> 
+>
 > Either way, the OS assumes we have logic in place to account for this and just re-register our event
 > if it was a spurious wakeup.
 

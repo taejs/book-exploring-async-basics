@@ -2,7 +2,7 @@
 
 We have to start with a short explanation of what Node is, just so we're on the same page.
 
-Node is a Javascript runtime allowing Javascript to run on your desktop (or server). Javascript was originally designed as a scripting language for the browser, which means that it relies on the browser to both interpret it and provide a runtime for it. 
+Node is a Javascript runtime allowing Javascript to run on your desktop (or server). Javascript was originally designed as a scripting language for the browser, which means that it relies on the browser to both interpret it and provide a runtime for it.
 
 This also means that Javascript on the desktop needs to be both interpreted (or compiled) and provided with a runtime to be able to do anything meaningful. On the desktop, the [V8 javascript engine](https://en.wikipedia.org/wiki/V8_JavaScript_engine) compiles Javascript, and [Node](https://en.wikipedia.org/wiki/Node.js) provides the runtime.
 
@@ -23,7 +23,7 @@ Let's start off by debunking some myths that might make it easier to follow alon
 
 ### The Javascript Event Loop
 
-Javascript is a scripting language and can't do much on its own. It doesn't have an event loop. Now in a web browser, the browser provides a runtime, which includes an event loop. And on the server, Node provides this functionality. 
+Javascript is a scripting language and can't do much on its own. It doesn't have an event loop. Now in a web browser, the browser provides a runtime, which includes an event loop. And on the server, Node provides this functionality.
 
 You might say that Javascript as a language would be difficult to run (due to its callback-based model) without some sort of event loop, but that's beside the point.
 

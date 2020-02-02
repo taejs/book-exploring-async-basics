@@ -7,7 +7,7 @@ asynchronous I/O library. `libuv` is not only used in Node but also forms the fo
 of how [Julia](https://julialang.org/) and [Pyuv](https://github.com/saghul/pyuv) create a cross platform event queue; most
 languages have bindings for it.
 
-In Rust we have [mio - Metal IO](https://github.com/tokio-rs/mio). `Mio` powers the OS event queue used in [Tokio](https://github.com/tokio-rs/tokio), which is a runtime that provides I/O, networking, scheduling etc. `Mio` is to `Tokio` what `libuv` is to `Node`. 
+In Rust we have [mio - Metal IO](https://github.com/tokio-rs/mio). `Mio` powers the OS event queue used in [Tokio](https://github.com/tokio-rs/tokio), which is a runtime that provides I/O, networking, scheduling etc. `Mio` is to `Tokio` what `libuv` is to `Node`.
 
 `Tokio` powers many web frameworks, among those is [Actix Web](https://github.com/actix/actix-web), which is known to be very performant.
 
@@ -18,7 +18,7 @@ simplified version of an event queue. I called it `minimio` since it's greatly i
 > I will write a short book (much shorter than this one) about how this works in
 > detail.  For now, you can visit the code at its [Github repository if you're
 > curious](https://github.com/cfsamson/examples-minimio). This book will also briefly cover
-> `wepoll`, which is used as an optimization instead of IOCP in both the `mio` and `libuv` frameworks. 
+> `wepoll`, which is used as an optimization instead of IOCP in both the `mio` and `libuv` frameworks.
 
 Nevertheless, we'll give each of them a brief introduction here so you know the basics.
 
@@ -31,7 +31,7 @@ non-blocking.
 
 So blocking operations are the least flexible to use for us as programmers since we yield control to the OS, which suspends our thread. The big advantage is that our thread gets woken up once the event we're waiting for is ready.
 
-Non-blocking methods are more flexible but need to have a way to tell us if a task is ready or not. This is most often done by returning some kind of data that says if it's `Ready` or `NotReady`. One drawback is that we need to check this status regularly to be able to tell if the state has changed. 
+Non-blocking methods are more flexible but need to have a way to tell us if a task is ready or not. This is most often done by returning some kind of data that says if it's `Ready` or `NotReady`. One drawback is that we need to check this status regularly to be able to tell if the state has changed.
 
 Event queuing via Epoll/kqueue/IOCP is a way to combine the flexibility of a non-blocking method without its aforementioned drawback.
 
@@ -68,7 +68,7 @@ Below is a basic breakdown of what happens in this type of event queue:
 5. Our thread is unblocked, and our buffer is now filled with the data we're interested in.
 
 
-## Epoll 
+## Epoll
 
 `Epoll` is the Linux way of implementing an event queue. In terms of functionality, it has a lot in common with `Kqueue`. The advantage of using `epoll` over other similar methods on Linux like `select` or `poll` is that `epoll` was designed to work very efficiently with a large number of events.
 
@@ -81,7 +81,7 @@ Some argue it's a bit more complex to use and a bit more abstract and "general".
 
 ### IOCP
 
-`IOCP` or Input Output Completion Ports is the way Windows handles this type of event queue. 
+`IOCP` or Input Output Completion Ports is the way Windows handles this type of event queue.
 
 A `Completion Port` will let you know when an event has `Completed`. Now this might
 sound like a minor difference, but it's not. This is especially apparent when you want to write a library since abstracting over both means you'll either have to model `IOCP` as `readiness-based` or model `epoll/kqueue` as completion-based.

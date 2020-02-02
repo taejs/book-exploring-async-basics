@@ -19,15 +19,15 @@ windowed operating systems became the norm, this model simply couldn't work anym
 ## Non-Preemptive multitasking
 
 The first method used to be able to keep a UI interactive (and running background
-processes), was accomplished by what we call `non-preemptive multitasking`. 
+processes), was accomplished by what we call `non-preemptive multitasking`.
 
-This kind of multitasking put the responsibility of letting the OS run other tasks like responding to input from the mouse, or running a background task in the hands of the programmer. 
+This kind of multitasking put the responsibility of letting the OS run other tasks like responding to input from the mouse, or running a background task in the hands of the programmer.
 
 Typically the programmer `yielded` control to the OS.
 
 Besides off-loading a huge responsibility to every programmer writing a program
 for your platform, this was naturally error-prone. A small mistake in a programs code
-could halt or crash the entire system. 
+could halt or crash the entire system.
 
 >If you remember Windows 95, you also remember the times when a window hung and you could paint the entire screen with it (almost the same way as the end in Solitaire, the card game that came with Windows).
 >
@@ -68,8 +68,8 @@ Now, having hyperthreading, we could actually offload some work on one thread wh
 interactive by responding to events in the second thread even though we only
 had one CPU core thereby utilizing our hardware better.
 
-> You might wonder about the performance of Hyper Threading? 
-> 
+> You might wonder about the performance of Hyper Threading?
+>
 > It turns out that Hyperthreading has been continuously improved since the '90s.
 > Since you're not actually running two CPU's there will be some operations that
 > need to wait for each other to finish. The performance gain of hyperthreading
@@ -103,12 +103,12 @@ the CPU handles concurrency.
 > \* However, modern CPU can also do a lot of things in parallel. Most CPUs are
 > pipelined, meaning that the next instruction is loaded while the current is
 > executing. It might have a branch predictor that tries to figure out what
-> instructions to load next. 
-> 
+> instructions to load next.
+>
 > The processor can also reorder instructions by using
 > "out of order execution" if it believes it makes things faster this way without
-> "asking" or "telling" the programmer or the OS so you might not have any guarantee that A happens before B. 
-> 
+> "asking" or "telling" the programmer or the OS so you might not have any guarantee that A happens before B.
+>
 > The CPU offloads some work to separate "coprocessors" like the FPU for floating-point calculations leaving the main CPU ready to do other tasks et cetera.
 >
 > As a high-level overview, it's OK to model the CPU as operating in asynchronous
