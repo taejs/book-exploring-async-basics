@@ -56,7 +56,7 @@ This is now the prevailing way to design an operating system.
 
 ## Hyperthreading
 
-As CPU's evolved and added more functionality like several ALUs (Algorithmic Logical Unit) and more logical units in general, the CPU manufacturers realized that the entire CPU was never utilized fully. For example, when an operation only required some parts of the CPU, an instruction could be run on the ALU simultaneously. This became the start of Hyperthreading.
+As CPUs evolved and added more functionality, such as several ALUs (Arithmetic Logic Units), and additional logic units, the CPU manufacturers realized that the entire CPU was never utilized fully. For example, when an operation only required some parts of the CPU, an instruction could be run on the ALU simultaneously. This became the start of Hyperthreading.
 
 You see, on your computer today that it has i.e. 6 cores, and 12 logical cores.
 This is exactly where Hyperthreading comes in. It "simulates" two cores on the
