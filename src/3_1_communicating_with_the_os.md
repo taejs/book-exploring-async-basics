@@ -7,15 +7,15 @@
 - Challenges of writing low-level cross-platform code
 
 ## Syscall primer
-Communication with the operating system is done through `System Calls` or 
-"syscalls" as we'll call them from now on. This is a public API that the operating system provides and that programs we write in "userland" can use to communicate with the OS. 
+Communication with the operating system is done through `System Calls` or
+"syscalls" as we'll call them from now on. This is a public API that the operating system provides and that programs we write in "userland" can use to communicate with the OS.
 
-Most of the time these calls are abstracted away for us as programmers by the language or the runtime we use. A language like Rust makes it 
+Most of the time these calls are abstracted away for us as programmers by the language or the runtime we use. A language like Rust makes it
 trivial to make a `syscall` though which we'll see below.
 
 Now, `syscalls` is an example of something that is unique to the kernel you're communicating with, but the UNIX family of kernels has many similarities. UNIX systems expose this through **`libc`**.
 
-Windows, on the other hand, uses its own API, often referred to as WinAPI, and that can be radically different from how the UNIX based systems operate. 
+Windows, on the other hand, uses its own API, often referred to as WinAPI, and that can be radically different from how the UNIX based systems operate.
 
 Most often though there is a way to achieve the same things. In terms of functionality, you might not notice a big difference but as we'll see below and especially when we dig into how `epoll`, `kqueue` and `IOCP`, they can differ a lot in how this functionality is implemented.
 
@@ -108,7 +108,7 @@ As you see this is not that different from the one we wrote for Linux, with the 
 
 **What about Windows?**
 
-This is a good opportunity to explain why writing code like we do above is a bad idea. 
+This is a good opportunity to explain why writing code like we do above is a bad idea.
 
 You see, if you want your code to work for a long time you have to worry about what `guarantees` the OS gives you. As far as I know, both Linux and Macos give some guarantees that for example `$$0x2000004` on Macos will always refer to `write` (I'm not sure how strong these guarantees are though). Windows gives absolutely zero guarantees when it comes to low-level internals like this.
 
@@ -122,8 +122,8 @@ Already we can see that this abstraction helps us remove some code since fortuna
 
 ### Using the OS provided API in Linux and MacOS
 
-You can run this code directly here in the window. However, the Rust playground 
-runs on Linux, you'll need to copy the code over to a Windows machine if you 
+You can run this code directly here in the window. However, the Rust playground
+runs on Linux, you'll need to copy the code over to a Windows machine if you
 want to try it out the code for Windows further down.
 
 **Our syscall will now look like this** \
@@ -158,7 +158,7 @@ fn syscall(message: String) -> io::Result<()> {
 
 ```
 
-I'll explain what we just did here. I assume that the `main` method needs no 
+I'll explain what we just did here. I assume that the `main` method needs no
 comment.
 
 
@@ -176,11 +176,11 @@ extern "C" {
 
 `extern "C"` or only `extern` (C is assumed if nothing is specified) means we're linking to specific functions in the "c" library using the "C" calling convention. As you'll see on Windows we'll need to change this since it uses a different calling convention than the UNIX family.
 
-The function we're linking to needs to have the exact same name, in this case, `write`. The parameters don't need to have the same name but they must be in 
-the right order and it's good practice to name them the same as in the library 
+The function we're linking to needs to have the exact same name, in this case, `write`. The parameters don't need to have the same name but they must be in
+the right order and it's good practice to name them the same as in the library
 you're linking to.
 
-The write function takes a `file descriptor` which in this case is a handle to 
+The write function takes a `file descriptor` which in this case is a handle to
 `stdout`. In addition, it expects us to provide a pointer to an array of `u8` values and the length of the buffer.
 
 ```rust, no_run
@@ -191,11 +191,11 @@ fn syscall_libc(message: String) {
     unsafe { write(1, msg_ptr, len) };
 }
 ```
-The first thing we do is to get the pointer to the underlying buffer for our 
-string. This will be a pointer of type `*const u8` which matches our `buf` 
+First, we get a pointer to the underlying buffer of our
+string. This will be a pointer of type `*const u8` which matches our `buf`
 argument. The `len` of the buffer corresponds to the `count` argument.
 
-You might ask how we know that `1` is the file-handle to `stdout` and where we found that value. 
+You might ask how we know that `1` is the file-handle to `stdout` and where we found that value.
 
 You'll notice this a lot when writing syscalls from Rust. Usually, constants are defined in the C header files which we can't link to, so we need to search them up. 1 is always the file descriptor for `stdout` on UNIX systems.
 
@@ -203,7 +203,7 @@ You'll notice this a lot when writing syscalls from Rust. Usually, constants are
 > crate [libc](https://github.com/rust-lang/libc) provides for us and why you'll see that used instead of writing
 > the type of code we do here.
 
-A call to an FFI function is always unsafe so we need to use the `unsafe` keyword 
+A call to an FFI function is always unsafe so we need to use the `unsafe` keyword
 here.
 
 
@@ -241,15 +241,15 @@ fn syscall(message: String) -> io::Result<()> {
     let msg: Vec<u16> = message.encode_utf16().collect();
     let msg_ptr = msg.as_ptr();
     let len = msg.len() as u32;
-    
+
     let mut output: u32 = 0;
         let handle = unsafe { GetStdHandle(-11) };
         if handle  == -1 {
             return Err(io::Error::last_os_error())
         }
 
-        let res = unsafe { 
-            WriteConsoleW(handle, msg_ptr, len, &mut output, std::ptr::null()) 
+        let res = unsafe {
+            WriteConsoleW(handle, msg_ptr, len, &mut output, std::ptr::null())
             };
         if res  == 0 {
             return Err(io::Error::last_os_error());
@@ -258,10 +258,10 @@ fn syscall(message: String) -> io::Result<()> {
     assert_eq!(output as usize, len);
     Ok(())
 }
-``` 
+```
 
-Now, just by looking at the code above you see it starts to get a bit more 
-complex, but let's spend some time to go through line by line what we do here as 
+Now, just by looking at the code above you see it starts to get a bit more
+complex, but let's spend some time to go through line by line what we do here as
 well.
 
 ```text
@@ -289,13 +289,13 @@ extern "stdcall" {
 }
 ```
 
-First of all, `extern "stdcall"`, tells the compiler that we won't use the `C` 
+First of all, `extern "stdcall"`, tells the compiler that we won't use the `C`
 calling convention but use Windows calling convention called `stdcall`.
 
-The next part is the functions we want to link to. On Windows, we need to link to two functions to get this to work: `GetStdHandle` and `WriteConsoleW`. 
+The next part is the functions we want to link to. On Windows, we need to link to two functions to get this to work: `GetStdHandle` and `WriteConsoleW`.
 `GetStdHandle` retrieves a reference to a standard device like `stdout`.
 
-`WriteConsole` comes in two flavours, `WriteConsoleW` that takes in Unicode text and `WriteConsoleA` that takes ANSI encoded text. 
+`WriteConsole` comes in two flavours, `WriteConsoleW` that takes in Unicode text and `WriteConsoleA` that takes ANSI encoded text.
 
 Now, ANSI encoded text works fine if you only write English text, but as soon as you write text in other languages you might need to use special characters that are not possible to represent in `ANSI` but is possible in `utf-8` and our program will break.
 
@@ -309,15 +309,15 @@ fn syscall(message: String) -> io::Result<()> {
     let msg: Vec<u16> = message.encode_utf16().collect();
     let msg_ptr = msg.as_ptr();
     let len = msg.len() as u32;
-    
+
     let mut output: u32 = 0;
         let handle = unsafe { GetStdHandle(-11) };
         if handle  == -1 {
             return Err(io::Error::last_os_error())
         }
 
-        let res = unsafe { 
-            WriteConsoleW(handle, msg_ptr, len, &mut output, std::ptr::null()) 
+        let res = unsafe {
+            WriteConsoleW(handle, msg_ptr, len, &mut output, std::ptr::null())
             };
 
         if res  == 0 {
@@ -328,7 +328,7 @@ fn syscall(message: String) -> io::Result<()> {
     Ok(())
 }
 ```
-The first thing we do is to convert the text to utf-16 encoded text which 
+The first thing we do is to convert the text to utf-16 encoded text which
 Windows uses. Fortunately, Rust has a built-in function to convert our `utf-8` encoded text to `utf-16` code points. `encode_utf16` returns an iterator over  `u16` code points that we can collect to a `Vec`.
 
 ```rust, no_run, noplaypen
@@ -337,7 +337,7 @@ let msg_ptr = msg.as_ptr();
 let len = msg.len() as u32;
 ```
 
-Next, we get the pointer to the underlying buffer of our `Vec` and get the 
+Next, we get the pointer to the underlying buffer of our `Vec` and get the
 length.
 
 ```rust, no_run, noplaypen
@@ -347,8 +347,8 @@ let handle = unsafe { GetStdHandle(-11) };
    }
 ```
 
-The next is a call to `GetStdHandle`. We pass in the value `-11`. The values we 
-need to pass in for the different standard devices is actually documented 
+The next is a call to `GetStdHandle`. We pass in the value `-11`. The values we
+need to pass in for the different standard devices is actually documented
 together with the `GetStdHandle` documentation:
 
 |Handle|Value|
@@ -358,14 +358,14 @@ together with the `GetStdHandle` documentation:
 |StdErr|-12|
 
 
-Now we're lucky here, it's not that common that we find this information 
+Now we're lucky here, it's not that common that we find this information
 together with the documentation for the function we call, but it's very convenient when we do.
 
 The return codes to expect is also documented thoroughly for all functions so we handle potential errors here in the same way as we did for the Linux/MacOS syscalls.
 
 ```rust, no_run
-let res = unsafe { 
-    WriteConsoleW(handle, msg_ptr, len, &mut output, std::ptr::null()) 
+let res = unsafe {
+    WriteConsoleW(handle, msg_ptr, len, &mut output, std::ptr::null())
     };
 
 if res  == 0 {
@@ -442,8 +442,8 @@ fn syscall(message: String) -> io::Result<()> {
             return Err(io::Error::last_os_error())
         }
 
-        let res = unsafe { 
-            WriteConsoleW(handle, msg_ptr, len, &mut output, std::ptr::null()) 
+        let res = unsafe {
+            WriteConsoleW(handle, msg_ptr, len, &mut output, std::ptr::null())
             };
 
         if res  == 0 {

@@ -42,7 +42,7 @@ We read the file into a buffer and then return `Js::String(buffer)`.
 > You might remember from the [Infrastructure chapter](./7_9_infrastructure.md) that
 > our `register_work` method received a task argument `task: impl Fn() -> Js + Send + 'static`.
 > As you see here, our closure returns a `Js`object and takes no arguments, which means
-> it conforms to this signature. The `Fn` trait will be automatically derived. 
+> it conforms to this signature. The `Fn` trait will be automatically derived.
 > `Send` is also an automatically derived trait, which means that we can't implement
 > `Send`. However if we tried to send types that are `!Send` to our thread by
 > referencing them in our closure we would get an error.
@@ -77,7 +77,7 @@ Better do that in the thread pool.
 Secondly, the support for async file operations is limited and to a varying degree
 well implemented. The only system that does this pretty good is Windows since it
 uses a `completion` based model (which means it can let you know when the data is
-read into your buffer). 
+read into your buffer).
 
 It makes sense for a completion based model to try to do this asynchronously, but
 since the real effect are so small and the code complexity is high (especially when you're

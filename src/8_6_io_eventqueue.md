@@ -28,10 +28,10 @@ Lastly it's only for our own bookkeeping we decrement the count of outstanding
 > We don't use this value here, but I added it to make it easier to create
 > some `print` statements showing the status of our runtime at different points.
 > However, there are good reasons to keep track of these events even if we don't use them.
-> 
+>
 > One area we're taking shortcuts on all the way here is security. If someone were
 > to build a public facing server out of this, we need to account for slow networks
-> and malicious users. 
+> and malicious users.
 >
 > Since we use `IOCP`, which is a completion based model, we allocate memory for
 > a buffer for each `Read` or `Write` event. When we lend this memory to the OS,

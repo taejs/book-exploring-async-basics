@@ -10,14 +10,14 @@ fn main() {
     let t = 100;
     let t_ptr: *const usize = &t;
     let x = dereference(t_ptr);
-    
+
     println!("{}", x);
 }
 
 fn dereference(ptr: *const usize) -> usize {
     let res: usize;
-    unsafe { 
-        asm!("mov ($1), $0":"=r"(res): "r"(ptr)) 
+    unsafe {
+        asm!("mov ($1), $0":"=r"(res): "r"(ptr))
         };
     res
 }
@@ -26,7 +26,7 @@ fn dereference(ptr: *const usize) -> usize {
 > Here we write a `dereference` function using assembly instructions. We know there
 is no way the OS is involved here.
 
-As you see, this code will output `100` as expected. But let's now instead create a pointer with the address `99999999999999` which we know is invalid and see what 
+As you see, this code will output `100` as expected. But let's now instead create a pointer with the address `99999999999999` which we know is invalid and see what
 happens when we pass that into the same function:
 
 ```rust
@@ -34,7 +34,7 @@ happens when we pass that into the same function:
 fn main() {
     let t = 99999999999999 as *const usize;
     let x = dereference(t);
-    
+
     println!("{}", x);
 }
 # fn dereference(ptr: *const usize) -> usize {
@@ -42,7 +42,7 @@ fn main() {
 #     unsafe {
 #     asm!("mov ($1), $0":"=r"(res): "r"(ptr));
 #     }
-# 
+#
 #     res
 # }
 ```
@@ -50,9 +50,9 @@ Now we get a segmentation fault. Not surprising really, but how does the CPU
 know that we're not allowed to dereference this memory?
 
 - Does the CPU ask the OS if this process is allowed to access this memory location every time we dereference something?
-- Won't that be very slow? 
+- Won't that be very slow?
 - How does the CPU know that it has an OS running on top of it at all?
-- Do all CPUs know what a segmentation fault is? 
+- Do all CPUs know what a segmentation fault is?
 - Why do we get an error message at all and not just a crash?
 
 ## Down the rabbit hole
@@ -78,13 +78,13 @@ _We'll cover the first one here and the second in the next chapter._
 
 As I mentioned, modern CPUs have already some definition of basic concepts. Some examples of this are:
 
-- Virtual memory 
+- Virtual memory
 - Page table
 - Page fault
 - Exceptions
 - [Privilege level](https://en.wikipedia.org/wiki/Protection_ring)
 
-Exactly how this works will differ depending on the exact CPU so we'll treat them 
+Exactly how this works will differ depending on the exact CPU so we'll treat them
 in general terms here.
 
 Most modern CPUs, however, has an MMU (Memory Management Unit). This is a part of the
@@ -100,17 +100,17 @@ it to a physical address in memory where it can fetch the data.
 
 In the first case, it will point to a memory address on our stack that holds the value `100`.
 
-When we pass in `99999999999999` and ask it to fetch what's stored at that address 
+When we pass in `99999999999999` and ask it to fetch what's stored at that address
 (which is what dereferencing does) it looks for the translation in the page table but can't find it.
 
 The CPU then treats this as a `page fault`.
 
 At boot, the OS provided the CPU with an Interrupt Descriptor Table. This table
-has a predefined format where the OS provides handlers for the predefined 
+has a predefined format where the OS provides handlers for the predefined
 exceptions the CPU can encounter.
 
-Since the OS provided a pointer to a function that handles `Page Fault` the CPU 
-jumps to that function when we try to dereference `99999999999999` and thereby hands over control to the Operating System. 
+Since the OS provided a pointer to a function that handles `Page Fault` the CPU
+jumps to that function when we try to dereference `99999999999999` and thereby hands over control to the Operating System.
 
 The OS then prints a nice message for us letting us know that we encountered what it calls a `segmentation fault`. This message will therefore vary depending on the OS you run the code on.
 
