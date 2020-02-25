@@ -193,7 +193,7 @@ fn print_content(t: impl std::fmt::Display, descr: &amp;str) {
         descr.to_uppercase()
     );
 
-    let content = format!(&quot;{}&quot;, t); 
+    let content = format!(&quot;{}&quot;, t);
     let lines = content.lines().take(2);
     let main_cont: String = lines.map(|l| format!(&quot;{}\n&quot;, l)).collect();
     let opt_location = content.find(&quot;Location&quot;);
@@ -204,14 +204,14 @@ fn print_content(t: impl std::fmt::Display, descr: &amp;str) {
         .nth(0)
         .map(|l| format!(&quot;{}\n&quot;,l))
         .unwrap_or(String::new())
-    });    
+    });
 
     println!(
         &quot;{}{}... [Note: Abbreviated for display] ...&quot;,
         main_cont,
         opt_location.unwrap_or(String::new())
     );
-    
+
     println!(&quot;===== END CONTENT =====\n&quot;);
 }
 
@@ -221,7 +221,7 @@ fn print_content(t: impl std::fmt::Display, descr: &amp;str) {
 <pre><pre class="playpen"><code class="language-rust no_run">
 # #![allow(unused_variables)]
 #fn main() {
-let content = format!(&quot;{}&quot;, t); 
+let content = format!(&quot;{}&quot;, t);
 let lines = content.lines().take(2);
 let main_cont: String = lines.map(|l| format!(&quot;{}\n&quot;, l)).collect();
 #}</code></pre></pre>
@@ -245,7 +245,7 @@ let opt_location = opt_location.map(|loc| {
         .nth(0)
         .map(|l| format!(&quot;{}\n&quot;,l))
         .unwrap_or(String::new())
-    }); 
+    });
 #}</code></pre></pre>
 <p>The next part finds the location of the &quot;Location&quot; header. <code>find</code> returns an <code>Option</code>,
 just keep that in mind.</p>
@@ -256,7 +256,7 @@ which means that <code>map(|loc| {...</code> loc is an index of the where the <c
 of where we found the <code>Location</code> header, and all the way to the end of the string.</p>
 <p>From this range we access the iterator over its lines by calling <code>lines()</code>, we take the first
 line from this iterator <code>nth(0)</code>. Now again, this returns an <code>Option</code>, so we use <code>map</code>
-again to define what we'll do in the case if it's <code>Some</code>. </p>
+again to define what we'll do in the case if it's <code>Some</code>.</p>
 <p>This means that <strong>if</strong> the first line of <code>content[loc..]</code> is something we pass that
 into our closure <code>map(|l| format!(&quot;{}\n&quot;,l))</code>, which results in <code>l</code> as this line.</p>
 <p>We simply map this line into a <code>String</code> which we have appended a line break to.</p>

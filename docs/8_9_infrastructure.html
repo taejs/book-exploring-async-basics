@@ -233,7 +233,7 @@ the environment.</p>
 <p>Since you consume the variable a <code>closure</code> implementing <code>FnOnce</code> can only be called
 once. Our closure will take ownership over resources we create in our <code>main</code> thread
 and consume it. We want this since once consumed, the resources we used will be cleaned
-up as a result of Rusts <code>RAII</code> pattern. It's implicit that <code>FnOnce</code> returns <code>()</code> in this 
+up as a result of Rusts <code>RAII</code> pattern. It's implicit that <code>FnOnce</code> returns <code>()</code> in this
 case so we don't have to write <code>FnOnce(Js) -&gt; ()</code>.</p>
 <p>Since callbacks are meant to only be called once, this is a perfectly fine bound
 for us to use here.</p>
@@ -330,7 +330,7 @@ to the thread which then runs it until it's finished.</p>
 are short and which are long and prioritize them based on load. A lot of exciting
 things could be done here. We will choose the simplest possible one though, and just
 push them directly to a thread in the order they come.</p>
-<p>The last part of the &quot;infrastructure&quot; is a function to set a timeout. </p>
+<p>The last part of the &quot;infrastructure&quot; is a function to set a timeout.</p>
 <pre><pre class="playpen"><code class="language-rust">
 # #![allow(unused_variables)]
 #fn main() {

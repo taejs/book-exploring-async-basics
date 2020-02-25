@@ -188,7 +188,7 @@ its a huge file that takes a second to read.</p>
 <p>You might remember from the <a href="./7_9_infrastructure.html">Infrastructure chapter</a> that
 our <code>register_work</code> method received a task argument <code>task: impl Fn() -&gt; Js + Send + 'static</code>.
 As you see here, our closure returns a <code>Js</code>object and takes no arguments, which means
-it conforms to this signature. The <code>Fn</code> trait will be automatically derived. 
+it conforms to this signature. The <code>Fn</code> trait will be automatically derived.
 <code>Send</code> is also an automatically derived trait, which means that we can't implement
 <code>Send</code>. However if we tried to send types that are <code>!Send</code> to our thread by
 referencing them in our closure we would get an error.</p>
@@ -215,7 +215,7 @@ your process memory (your buffer) and that will block our entire event loop.</p>
 <p>Secondly, the support for async file operations is limited and to a varying degree
 well implemented. The only system that does this pretty good is Windows since it
 uses a <code>completion</code> based model (which means it can let you know when the data is
-read into your buffer). </p>
+read into your buffer).</p>
 <p>It makes sense for a completion based model to try to do this asynchronously, but
 since the real effect are so small and the code complexity is high (especially when you're
 writing a server that is cross platform) most implementations find that using a thread pool

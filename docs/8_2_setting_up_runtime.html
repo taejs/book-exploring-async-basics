@@ -169,7 +169,7 @@ to set up a channel which our threads can use to send messages to our main threa
 <code>callback_id</code> and the data returned when we run our <code>Task</code>.</p>
 <p>The <code>Receiver</code> part will be stored in our <code>Runtime</code>, and the <code>Sender</code> part will
 be cloned to each of our threads.</p>
-<p>Node defaults to 4 threads which we will copy. This is configurable in <code>Node</code> 
+<p>Node defaults to 4 threads which we will copy. This is configurable in <code>Node</code>
 but we will take a shortcut and hard code it:</p>
 <pre><pre class="playpen"><code class="language-rust no_run">
 # #![allow(unused_variables)]
@@ -187,7 +187,7 @@ for i in 0..4 {
 
             while let Ok(task) = evt_reciever.recv() {
                 print(format!(&quot;received a task of type: {}&quot;, task.kind));
-                
+
                 if let ThreadPoolTaskKind::Close = task.kind {
                     break;
                 };
@@ -227,7 +227,7 @@ so they can send messages to our <code>main</code> thread.</p>
 <p>After that's done we build our thread. We'll use <code>thread::Builder::new()</code> instead
 of use <code>thread::spawn</code> since we want to give each thread a name. We'll only use this
 name when we <code>print</code> from our event since it will be clear from which thread
-we printed the message. </p>
+we printed the message.</p>
 <pre><pre class="playpen"><code class="language-rust no_run">
 # #![allow(unused_variables)]
 #fn main() {
@@ -252,7 +252,7 @@ out information for us to see:</p>
 #fn main() {
 while let Ok(task) = evt_reciever.recv() {
         print(format!(&quot;received a task of type: {}&quot;, task.kind));
-        
+
         if let ThreadPoolTaskKind::Close = task.kind {
             break;
         };
@@ -269,7 +269,7 @@ while let Ok(task) = evt_reciever.recv() {
 we gave the <code>Send</code> part to our <code>main</code> thread). This function will actually
 <code>park</code> our thread until we receive a message so it consumes no resources while
 waiting.</p>
-<p>When we get a <code>task</code> we first print out what kind of task we got. </p>
+<p>When we get a <code>task</code> we first print out what kind of task we got.</p>
 <p>The next thing we do is to check if this was a <code>Close</code> task, if thats true
 we break out of our loop which in turn will close the thread.</p>
 <p>If it wasn't a <code>Close</code> task we run our task <code>let res = (task.task)();</code>. This is where the work will
@@ -300,7 +300,7 @@ let epoll_thread = thread::Builder::new()
     .name(&quot;epoll&quot;.to_string())
     .spawn(move || {
         let mut events = minimio::Events::with_capacity(1024);
-        
+
         loop {
             let epoll_timeout_handle = epoll_timeout_clone.lock().unwrap();
             let timeout = *epoll_timeout_handle;
@@ -311,7 +311,7 @@ let epoll_thread = thread::Builder::new()
                     for i in 0..v {
                         let event = events.get_mut(i).expect(&quot;No events in event list.&quot;);
                         print(format!(&quot;epoll event {} is ready&quot;, event.id().value()));
-                        
+
                         let event = PollEvent::Epoll(event.id().value() as usize);
                         event_sender.send(event).expect(&quot;epoll event&quot;);
                     }
@@ -345,7 +345,7 @@ entry point into our <code>kqueue/epoll/iocp</code> event queue.</p>
 <blockquote>
 <p><code>minimio::Poll</code> does several things under the hood. It sets up a structure for
 us to store some information about the state of the event queue, and most
-importantly makes a syscall to the underlying OS and asks it for a handle to 
+importantly makes a syscall to the underlying OS and asks it for a handle to
 either an <code>epoll</code> instance, a <code>kqueue</code> or to an <code>Completion Port</code>. We won't
 register anything here yet, but we need this handle to later make sure we register
 interest with the queue we're polling.</p>
@@ -436,7 +436,7 @@ match poll.poll(&amp;mut events, timeout) {
         for i in 0..v {
             let event = events.get_mut(i).expect(&quot;No events in event list.&quot;);
             print(format!(&quot;epoll event {} is ready&quot;, event.id().value()));
-            
+
             let event = PollEvent::Epoll(event.id().value() as usize);
             event_sender.send(event).expect(&quot;epoll event&quot;);
         }
@@ -530,7 +530,7 @@ impl Runtime {
 
                     while let Ok(task) = evt_reciever.recv() {
                         print(format!(&quot;received a task of type: {}&quot;, task.kind));
-                        
+
                         if let ThreadPoolTaskKind::Close = task.kind {
                             break;
                         };
@@ -562,7 +562,7 @@ impl Runtime {
             .name(&quot;epoll&quot;.to_string())
             .spawn(move || {
                 let mut events = minimio::Events::with_capacity(1024);
-                
+
                 loop {
                     let epoll_timeout_handle = epoll_timeout_clone.lock().unwrap();
                     let timeout = *epoll_timeout_handle;
@@ -573,7 +573,7 @@ impl Runtime {
                             for i in 0..v {
                                 let event = events.get_mut(i).expect(&quot;No events in event list.&quot;);
                                 print(format!(&quot;epoll event {} is ready&quot;, event.id().value()));
-                                
+
                                 let event = PollEvent::Epoll(event.id().value() as usize);
                                 event_sender.send(event).expect(&quot;epoll event&quot;);
                             }
@@ -609,7 +609,7 @@ impl Runtime {
             timers_to_remove: vec![],
         }
     }
-} 
+}
 #}</code></pre></pre>
 
                     </main>

@@ -169,7 +169,7 @@ impl Runtime {
 #fn main() {
 let rt_ptr: *mut Runtime = self;
 unsafe { RUNTIME = rt_ptr as usize };
-let mut timers_to_remove = vec![]; 
+let mut timers_to_remove = vec![];
 let mut ticks = 0; // just for us priting out
 
 // First we run our &quot;main&quot; function
@@ -177,7 +177,7 @@ f();
 #}</code></pre></pre>
 <p>The first two lines is just a <code>hack</code> we use in our code to make it &quot;look&quot; more
 like javascript. We take the pointer to <code>self</code> and set it in the global
-variable <code>RUNTIME</code>. </p>
+variable <code>RUNTIME</code>.</p>
 <p>We could instead pass our <code>runtime</code> around but that wouldn't
 be very ergonomic. Another option would be to use <code>lazy_static</code> crate to initialize this field in a slightly safer way, but we'd have to explain what <code>lazy_static</code> do to keep our promise of minimal &quot;magic&quot;.</p>
 <p>To be honest, we only set this once, and it's set at the start of of our eventloop and we only access this from the same thread we created it. It might not be pretty but it's safe.</p>
@@ -192,8 +192,8 @@ while self.pending_events &gt; 0 {
     ticks += 1;
 #}</code></pre></pre>
 <p><code>self.pending_events</code> keeps track of how many pending events we have, so that when no events are left we exit the loop since our eventloop is finished.</p>
-<p>So where does these events come from? In our <code>javascript</code> function <code>f</code> which we introduced in the chapter <a href="./7_0_introducing_our_main_example.html">Introducing our main example</a> you probably noticed that we called functions like 
-<code>set_timeout</code> and <code>Fs::read</code>. These functions are defined in the Node runtime 
+<p>So where does these events come from? In our <code>javascript</code> function <code>f</code> which we introduced in the chapter <a href="./7_0_introducing_our_main_example.html">Introducing our main example</a> you probably noticed that we called functions like
+<code>set_timeout</code> and <code>Fs::read</code>. These functions are defined in the Node runtime
 (as they are in ours), and their main responsibility is to create tasks and register interest on events. When one of these tasks or interests are registered this counter is increased.</p>
 <p><code>ticks</code> is just increasing a <code>tick</code> in the counter.</p>
 <h2><a class="header" href="#1-effectuate-timers" id="1-effectuate-timers">1. Effectuate timers</a></h2>
@@ -214,7 +214,7 @@ this functionality in our example but it's worth noting.</p>
 the big picture here but I included it since it's something you see in Nodes
 documentation so you know where we're at in the loop at this point.</p>
 <h2><a class="header" href="#4-poll" id="4-poll">4. Poll</a></h2>
-<p>This is an important step. This is where we'll receive events from our thread pool or our <code>epoll</code> event queue. </p>
+<p>This is an important step. This is where we'll receive events from our thread pool or our <code>epoll</code> event queue.</p>
 <p>I refer to the <code>epoll/kqueue/IOCP</code> event queue as <code>epoll</code> here just so you know that it's not only <code>epoll</code> we're waiting for. From now on I will refer to the cross platform event queue as <code>epoll</code> in the code for brevity.</p>
 <h3><a class="header" href="#calculate-time-until-next-timeout-if-any" id="calculate-time-until-next-timeout-if-any">Calculate time until next timeout (if any)</a></h3>
 <p>The first thing we do is to check if we have any timers. If we have timers that will time out we calculate how many milliseconds it is to the first timer to timeout. We'll need this to make sure we don't block and forget about our timers.</p>
@@ -228,7 +228,7 @@ let mut epoll_timeout_lock = self.epoll_timeout.lock().unwrap();
 // We release the lock before we wait in `recv`
 drop(epoll_timeout_lock);
 #}</code></pre></pre>
-<p><code>self.epoll_timeout</code> is a <code>Mutex</code> so we need to lock it to be able to change the value it holds. Now, this is important, we need to make sure the lock is released before we <code>poll</code>. <code>poll</code> will suspend our thread, and it will try to read the value in <code>self.epoll_timeout</code>. </p>
+<p><code>self.epoll_timeout</code> is a <code>Mutex</code> so we need to lock it to be able to change the value it holds. Now, this is important, we need to make sure the lock is released before we <code>poll</code>. <code>poll</code> will suspend our thread, and it will try to read the value in <code>self.epoll_timeout</code>.</p>
 <p>If we're still holding the lock we'll end up in a <code>deadlock</code>. <code>drop(epoll_timeout_lock)</code> releases the lock. We'll explain a bit more in detail how this works in the next chapter.</p>
 <h3><a class="header" href="#wait-for-events" id="wait-for-events">Wait for events</a></h3>
 <pre><pre class="playpen"><code class="language-rust no_run">
@@ -304,7 +304,7 @@ pub fn run(mut self, f: impl Fn()) {
     unsafe { RUNTIME = rt_ptr };
 
     // just for us priting out during execution
-    let mut ticks = 0; 
+    let mut ticks = 0;
 
     // First we run our &quot;main&quot; function
     f();

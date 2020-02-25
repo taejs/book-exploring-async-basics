@@ -168,7 +168,7 @@ impl Http {
         // response from a server. Perfect for our use case.
         let adr = &quot;slowwly.robertomurray.co.uk:80&quot;;
         let mut stream = minimio::TcpStream::connect(adr).unwrap();
-            
+
         let request = format!(
             &quot;GET /delay/{}/url/http://{} HTTP/1.1\r\n\
              Host: slowwly.robertomurray.co.uk\r\n\
@@ -202,7 +202,7 @@ impl Http {
 <p>First we call the method <code>http_get_slow</code> since we're simulating a slow response, again
 this is for us to see and control how the events will occur since we're trying to learn.</p>
 <p>In the function body, the first thing we do is dereference our runtime. We need to use a bit of its functionality here so we do this right away.</p>
-<p>The next step is to create a <code>minimio::TcpStream</code>. </p>
+<p>The next step is to create a <code>minimio::TcpStream</code>.</p>
 <pre><pre class="playpen"><code class="language-rust no_run">
 # #![allow(unused_variables)]
 #fn main() {
@@ -212,9 +212,9 @@ let mut stream = minimio::TcpStream::connect(adr).unwrap();
 <blockquote>
 <p><strong>Now why not the regular <code>TcpStream</code> from the standard library?</strong></p>
 <p>Well, you do remember that <code>kqueue</code> and <code>epoll</code> are readiness based and <code>IOCP</code> is
-completion based right? </p>
+completion based right?</p>
 <p>Well, to have single ergonomic API for all platforms
-we need to abstract over something and we (like <code>mio</code>) choose to abstract over <code>TcpStream</code>. </p>
+we need to abstract over something and we (like <code>mio</code>) choose to abstract over <code>TcpStream</code>.</p>
 <p>While <code>kqueue</code> and <code>epoll</code> can just read when a <code>Read</code> event is ready, we need the <code>TcpStream</code> to create a buffer that it hands over to the OS on Windows. So when we call <code>TcpStream</code> read, we read from this buffer on Windows.</p>
 </blockquote>
 <p>We connect to <code>slowwly.robertomurray.co.uk:80</code> which is just a site <a href="https://github.com/rob-murray">Robert Murray</a> has created
@@ -311,7 +311,7 @@ rt.register_event_epoll(token, wrapped);
 <h2><a class="header" href="#bonus-section" id="bonus-section">Bonus section</a></h2>
 <p>Now in a better implementation, we would not issue a blocking call like <code>read_to_string</code>
 because it might be that at some point this will block if not all the data we need
-is present at once. </p>
+is present at once.</p>
 <p>The right thing to do then would be to read parts of the
 data into a buffer while calling <code>stream.read(..)</code> in a loop, and at some point
 this might return an <code>Err::WouldBlock</code> at which we re-wrap our callback and re-register

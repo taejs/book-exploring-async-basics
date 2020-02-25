@@ -151,7 +151,7 @@
                     <main>
                         <h1><a class="header" href="#what-is-node" id="what-is-node">What is Node?</a></h1>
 <p>We have to start with a short explanation of what Node is, just so we're on the same page.</p>
-<p>Node is a Javascript runtime allowing Javascript to run on your desktop (or server). Javascript was originally designed as a scripting language for the browser, which means that it relies on the browser to both interpret it and provide a runtime for it. </p>
+<p>Node is a Javascript runtime allowing Javascript to run on your desktop (or server). Javascript was originally designed as a scripting language for the browser, which means that it relies on the browser to both interpret it and provide a runtime for it.</p>
 <p>This also means that Javascript on the desktop needs to be both interpreted (or compiled) and provided with a runtime to be able to do anything meaningful. On the desktop, the <a href="https://en.wikipedia.org/wiki/V8_JavaScript_engine">V8 javascript engine</a> compiles Javascript, and <a href="https://en.wikipedia.org/wiki/Node.js">Node</a> provides the runtime.</p>
 <p>Javascript has one advantage from a language design perspective: Everything is designed to be handled asynchronously. And as you know by now, this is pretty crucial if we want to make the most out of our hardware, especially if you have a lot of I/O operations to take care of.</p>
 <p>One such scenario is a Web server. Web servers handle a lot of I/O tasks whether it's reading from the file system or communicating via the network card.</p>
@@ -165,7 +165,7 @@
 <h2><a class="header" href="#helpful-facts" id="helpful-facts">Helpful Facts</a></h2>
 <p>Let's start off by debunking some myths that might make it easier to follow along when we start to code.</p>
 <h3><a class="header" href="#the-javascript-event-loop" id="the-javascript-event-loop">The Javascript Event Loop</a></h3>
-<p>Javascript is a scripting language and can't do much on its own. It doesn't have an event loop. Now in a web browser, the browser provides a runtime, which includes an event loop. And on the server, Node provides this functionality. </p>
+<p>Javascript is a scripting language and can't do much on its own. It doesn't have an event loop. Now in a web browser, the browser provides a runtime, which includes an event loop. And on the server, Node provides this functionality.</p>
 <p>You might say that Javascript as a language would be difficult to run (due to its callback-based model) without some sort of event loop, but that's beside the point.</p>
 <h3><a class="header" href="#node-is-multithreaded" id="node-is-multithreaded">Node is Multithreaded</a></h3>
 <p>Contrary to what I've seen claimed on several occasions, Node uses a thread pool so it's multithreaded. However, the part of Node that &quot;progresses&quot; your code, does indeed run on a single thread. When we say &quot;don't block the event loop&quot; we're referring to this thread since that will prevent Node from making progress on other tasks.</p>

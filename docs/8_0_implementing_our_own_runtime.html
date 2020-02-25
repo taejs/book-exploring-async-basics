@@ -189,7 +189,7 @@ pub struct Runtime {
     epoll_registrator: minimio::Registrator,
     // The handle to our epoll thread
     epoll_thread: thread::JoinHandle&lt;()&gt;,
-    /// None = infinite, Some(n) = timeout in n ms, Some(0) = immidiate
+    /// None = infinite, Some(n) = timeout in n ms, Some(0) = immediate
     epoll_timeout: Arc&lt;Mutex&lt;Option&lt;i32&gt;&gt;&gt;,
     /// Channel used by both our threadpool and our epoll thread to send events
     /// to the main loop
@@ -233,8 +233,8 @@ impl Task {
 <p>We need a task object, which represents a task we want to finish in our thread
 pool. I'll go through the types in this object in a later <a href="./7_9_infrastructure.html">chapter</a> so don't worry too much about them now if you find them
 hard to grasp. Everything will be explained.</p>
-<p>We also create an implementation of a <code>Close</code> task. We need this to clean up after ourselves and close down the thread pool. </p>
-<p><code>|| Js::Undefined</code> might seem strange but it's only a function that returns <code>Js::Undefined</code>, we need it since we won't make <code>task</code> an <code>Option</code> just for this one case. </p>
+<p>We also create an implementation of a <code>Close</code> task. We need this to clean up after ourselves and close down the thread pool.</p>
+<p><code>|| Js::Undefined</code> might seem strange but it's only a function that returns <code>Js::Undefined</code>, we need it since we won't make <code>task</code> an <code>Option</code> just for this one case.</p>
 <p>It's just so we don't have to <code>match</code> or <code>map</code> on <code>task</code> all the way through our code, it's more than enough to parse already.</p>
 <h2><a class="header" href="#nodethread" id="nodethread">NodeThread</a></h2>
 <p>First is <code>NodeThread</code>, which represents a thread in our thread pool. As you
@@ -282,7 +282,7 @@ pub enum ThreadPoolTaskKind {
 to make our code look more &quot;javascripty&quot;, but it's also convenient for us to
 abstract over the return types of closures.</p>
 <p>We'll also implement two convenience methods on this object to make our &quot;javascripty&quot;
-code look a bit cleaner. </p>
+code look a bit cleaner.</p>
 <p>We know the return types already based on our modules
 documentation - just like you would know it from the documentation when using a
 Node module but we need to actually handle the types in Rust so this will make that just slightly easier for us.</p>
@@ -325,7 +325,7 @@ that we can accept back from both our <code>epoll based</code> event queue and o
 enum PollEvent {
     /// An event from the `threadpool` with a tuple containing the `thread id`,
     /// the `callback_id` and the data which the we expect to process in our
-    /// callback 
+    /// callback
     Threadpool((usize, usize, Js)),
     /// An event from the epoll-based eventloop holding the `event_id` for the
     /// event
@@ -350,7 +350,7 @@ static mut RUNTIME: *mut Runtime = std::ptr::null_mut();
 #}</code></pre></pre>
 <p>Let's now move on and look at what the heart of the runtime looks like: the main loop</p>
 <h2><a class="header" href="#moving-on" id="moving-on">Moving on</a></h2>
-<p>Now we've already gotten really far by introducing most of our runtime already in the first chapter. The next chapter will focus on implementing all the functionality we need for this to work. </p>
+<p>Now we've already gotten really far by introducing most of our runtime already in the first chapter. The next chapter will focus on implementing all the functionality we need for this to work.</p>
 
                     </main>
 

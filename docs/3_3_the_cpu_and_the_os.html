@@ -157,14 +157,14 @@ fn main() {
     let t = 100;
     let t_ptr: *const usize = &amp;t;
     let x = dereference(t_ptr);
-    
+
     println!(&quot;{}&quot;, x);
 }
 
 fn dereference(ptr: *const usize) -&gt; usize {
     let res: usize;
-    unsafe { 
-        asm!(&quot;mov ($1), $0&quot;:&quot;=r&quot;(res): &quot;r&quot;(ptr)) 
+    unsafe {
+        asm!(&quot;mov ($1), $0&quot;:&quot;=r&quot;(res): &quot;r&quot;(ptr))
         };
     res
 }
@@ -173,13 +173,13 @@ fn dereference(ptr: *const usize) -&gt; usize {
 <p>Here we write a <code>dereference</code> function using assembly instructions. We know there
 is no way the OS is involved here.</p>
 </blockquote>
-<p>As you see, this code will output <code>100</code> as expected. But let's now instead create a pointer with the address <code>99999999999999</code> which we know is invalid and see what 
+<p>As you see, this code will output <code>100</code> as expected. But let's now instead create a pointer with the address <code>99999999999999</code> which we know is invalid and see what
 happens when we pass that into the same function:</p>
 <pre><pre class="playpen"><code class="language-rust">#![feature(asm)]
 fn main() {
     let t = 99999999999999 as *const usize;
     let x = dereference(t);
-    
+
     println!(&quot;{}&quot;, x);
 }
 # fn dereference(ptr: *const usize) -&gt; usize {
@@ -187,7 +187,7 @@ fn main() {
 #     unsafe {
 #     asm!(&quot;mov ($1), $0&quot;:&quot;=r&quot;(res): &quot;r&quot;(ptr));
 #     }
-# 
+#
 #     res
 # }
 </code></pre></pre>
@@ -195,9 +195,9 @@ fn main() {
 know that we're not allowed to dereference this memory?</p>
 <ul>
 <li>Does the CPU ask the OS if this process is allowed to access this memory location every time we dereference something?</li>
-<li>Won't that be very slow? </li>
+<li>Won't that be very slow?</li>
 <li>How does the CPU know that it has an OS running on top of it at all?</li>
-<li>Do all CPUs know what a segmentation fault is? </li>
+<li>Do all CPUs know what a segmentation fault is?</li>
 <li>Why do we get an error message at all and not just a crash?</li>
 </ul>
 <h2><a class="header" href="#down-the-rabbit-hole" id="down-the-rabbit-hole">Down the rabbit hole</a></h2>
@@ -218,13 +218,13 @@ a read. It's extremely well written and will answer all these questions and many
 <h2><a class="header" href="#how-does-the-cpu-prevent-us-from-accessing-memory-were-not-supposed-to" id="how-does-the-cpu-prevent-us-from-accessing-memory-were-not-supposed-to">How does the CPU prevent us from accessing memory we're not supposed to?</a></h2>
 <p>As I mentioned, modern CPUs have already some definition of basic concepts. Some examples of this are:</p>
 <ul>
-<li>Virtual memory </li>
+<li>Virtual memory</li>
 <li>Page table</li>
 <li>Page fault</li>
 <li>Exceptions</li>
 <li><a href="https://en.wikipedia.org/wiki/Protection_ring">Privilege level</a></li>
 </ul>
-<p>Exactly how this works will differ depending on the exact CPU so we'll treat them 
+<p>Exactly how this works will differ depending on the exact CPU so we'll treat them
 in general terms here.</p>
 <p>Most modern CPUs, however, has an MMU (Memory Management Unit). This is a part of the
 CPU (often etched on the same dye even). The MMUs job is to translate between
@@ -235,14 +235,14 @@ process, and makes sure a special register on the CPU points to this page table.
 sent to the MMU for translation, which looks it up in the page table to translate
 it to a physical address in memory where it can fetch the data.</p>
 <p>In the first case, it will point to a memory address on our stack that holds the value <code>100</code>.</p>
-<p>When we pass in <code>99999999999999</code> and ask it to fetch what's stored at that address 
+<p>When we pass in <code>99999999999999</code> and ask it to fetch what's stored at that address
 (which is what dereferencing does) it looks for the translation in the page table but can't find it.</p>
 <p>The CPU then treats this as a <code>page fault</code>.</p>
 <p>At boot, the OS provided the CPU with an Interrupt Descriptor Table. This table
-has a predefined format where the OS provides handlers for the predefined 
+has a predefined format where the OS provides handlers for the predefined
 exceptions the CPU can encounter.</p>
-<p>Since the OS provided a pointer to a function that handles <code>Page Fault</code> the CPU 
-jumps to that function when we try to dereference <code>99999999999999</code> and thereby hands over control to the Operating System. </p>
+<p>Since the OS provided a pointer to a function that handles <code>Page Fault</code> the CPU
+jumps to that function when we try to dereference <code>99999999999999</code> and thereby hands over control to the Operating System.</p>
 <p>The OS then prints a nice message for us letting us know that we encountered what it calls a <code>segmentation fault</code>. This message will therefore vary depending on the OS you run the code on.</p>
 <h2><a class="header" href="#but-cant-we-just-change-the-page-table-in-the-cpu" id="but-cant-we-just-change-the-page-table-in-the-cpu">But can't we just change the page table in the CPU?</a></h2>
 <p>Now, this is where <code>Privilege Level</code> comes in. Most modern operating systems operate with two <code>Ring Levels</code>. Ring 0, the kernel space, and Ring 3, user-space.</p>

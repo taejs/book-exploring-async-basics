@@ -178,7 +178,7 @@ some <code>print</code> statements showing the status of our runtime at differen
 However, there are good reasons to keep track of these events even if we don't use them.</p>
 <p>One area we're taking shortcuts on all the way here is security. If someone were
 to build a public facing server out of this, we need to account for slow networks
-and malicious users. </p>
+and malicious users.</p>
 <p>Since we use <code>IOCP</code>, which is a completion based model, we allocate memory for
 a buffer for each <code>Read</code> or <code>Write</code> event. When we lend this memory to the OS,
 we're in a weird situation. We own it, but we can't touch it. There are several

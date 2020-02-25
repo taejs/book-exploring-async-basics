@@ -218,7 +218,7 @@ but they're thin enough to let us easily peek under the covers and see what real
 <h2><a class="header" href="#following-along" id="following-along">Following along</a></h2>
 <p>Even though I use <code>mdbook</code>, which has the nice benefit of being able to run
 the code we write directly in the book, we're working with I/O and cross
-platform syscalls in this book which is not a good fit for the Rust playground. </p>
+platform syscalls in this book which is not a good fit for the Rust playground.</p>
 <p>My best recommendation is to create a project on your local
 computer and follow along by copying the code over and run it locally.</p>
 <p><a href="https://github.com/cfsamson/examples-node-eventloop">You can also clone or download the example code from the git repository</a></p>
@@ -254,7 +254,7 @@ cover some complex topics we'll have to simplify them significantly to be able
 to learn anything from them in a small(ish) book. You can probably spend the better
 part of a career becoming an expert in several of the fields we cover, so forgive
 me already now for not being able to cover all of them with the precision,
-thoroughness and respect they deserve. </p>
+thoroughness and respect they deserve.</p>
 </blockquote>
 <h2><a class="header" href="#credits" id="credits">Credits</a></h2>
 <p>Substantial contributions will be credited here.</p>
@@ -274,7 +274,7 @@ contribute to make this better there are two places to go:</p>
 of threats being made about stopping the car and letting me off if I didn't stop
 asking &quot;why?&quot; to everything.</p>
 <p>Basically, the list below is a result of this urge to understand <em>why</em> while
-reading the RFCs and discussions about Rust's async story: </p>
+reading the RFCs and discussions about Rust's async story:</p>
 <ul>
 <li>
 <p><a href="https://app.gitbook.com/@cfsamson/s/green-threads-explained-in-200-lines-of-rust/">Green threads explained in 200 lines of Rust</a></p>
@@ -290,7 +290,9 @@ reading the RFCs and discussions about Rust's async story: </p>
 </li>
 </ul>
 <h1><a class="header" href="#whats-the-difference-between-concurrency-and-parallelism" id="whats-the-difference-between-concurrency-and-parallelism">What's the difference between concurrency and parallelism?</a></h1>
-<p>We’ll right off the bat dive into this subject by defining what concurrency is, and since it’s very easy to confuse concurrent with parallel we have to try to make the difference clear from the get-go.</p>
+<p>Right off the bat, we'll dive into this subject by defining what concurrency is.
+Since it is quite easy to confuse &quot;concurrent&quot; with &quot;parallel&quot;, we will try to make
+a clear distinction between the two from the get-go.</p>
 <blockquote>
 <p>Concurrency is about <strong>dealing</strong> with a lot of things at the same time.</p>
 </blockquote>
@@ -312,14 +314,14 @@ consist of several sub-operations.</p>
 <p>Something happening independently at the <strong>exact</strong> same time.</p>
 <h3><a class="header" href="#concurrent" id="concurrent">Concurrent</a></h3>
 <p>Tasks that are <strong><code>in progress</code></strong> at the same time, but not <em>necessarily</em> progressing
-simultaneously. </p>
-<p>This is an important distinction. If two tasks are running concurrently, 
-but are not running in parallel, they must be able to stop and resume their progress. 
+simultaneously.</p>
+<p>This is an important distinction. If two tasks are running concurrently,
+but are not running in parallel, they must be able to stop and resume their progress.
 We say that a task is <code>interruptable</code> if it allows for this kind of concurrency.</p>
 <h2><a class="header" href="#the-mental-model-i-use" id="the-mental-model-i-use">The mental model I use.</a></h2>
-<p>I firmly believe the main reason we find parallel and concurrent programming hard to reason about stems from how we model events in our everyday life. We tend to define these terms loosely so our intuition is often wrong. </p>
+<p>I firmly believe the main reason we find parallel and concurrent programming hard to reason about stems from how we model events in our everyday life. We tend to define these terms loosely so our intuition is often wrong.</p>
 <blockquote>
-<p>It doesn't help that <strong>concurrent</strong> is defined in the dictionary as: <em>operating or occurring at the same time</em> which 
+<p>It doesn't help that <strong>concurrent</strong> is defined in the dictionary as: <em>operating or occurring at the same time</em> which
 doesn't really help us much when trying to describe how it differs from <strong>parallel</strong></p>
 </blockquote>
 <p>For me, this first clicked when I started to understand why we want to make a distinction between parallel and concurrent in the first place!</p>
@@ -330,10 +332,10 @@ doesn't really help us much when trying to describe how it differs from <strong>
 <h3><a class="header" href="#parallelism" id="parallelism">Parallelism</a></h3>
 <p>Is increasing the resources we use to solve a task. It has nothing to do with <em>efficiency</em>.</p>
 <h3><a class="header" href="#concurrency" id="concurrency">Concurrency</a></h3>
-<p>Has everything to do with efficiency and resource utilization. Concurrency can never make <em>one single task go faster</em>. 
+<p>Has everything to do with efficiency and resource utilization. Concurrency can never make <em>one single task go faster</em>.
 It can only help us utilize our resources better and thereby <em>finish a set of tasks faster</em>.</p>
 <h3><a class="header" href="#lets-draw-some-parallels-to-process-economics" id="lets-draw-some-parallels-to-process-economics">Let's draw some parallels to process economics</a></h3>
-<p>In businesses that manufacture goods, we often talk about LEAN processes. And this is pretty easy to compare with why programmers care so much about what we can achieve if we handle tasks concurrently. </p>
+<p>In businesses that manufacture goods, we often talk about LEAN processes. And this is pretty easy to compare with why programmers care so much about what we can achieve if we handle tasks concurrently.</p>
 <p>I'll let let this 3 minute video explain it for me:</p>
 <iframe width="560" height="315" src="https://www.youtube.com/embed/Oz8BR5Lflzg" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 <p>Ok, so it's not the newest video on the subject, but it explains a lot in 3 minutes. Most importantly the gains we try to achieve when applying LEAN techniques, and most importantly: <strong>eliminate waiting and non-value-adding tasks.</strong></p>
@@ -342,18 +344,18 @@ It can only help us utilize our resources better and thereby <em>finish a set of
 </blockquote>
 <p>Now would adding more resources (more workers) help in the video above? Yes, but we use double the resources to produce the same output as one person with an optimal process could do. That's not the best utilization of our resources.</p>
 <blockquote>
-<p>To continue the parallel we started, we could say that we could solve the problem of a freezing UI while waiting for an I/O event to occur 
-by spawning a new thread and <code>poll</code> in a loop or <code>block</code> there instead of our main thread. However, that new 
-thread is either consuming resources doing nothing, or worse, using one core to busy loop while checking if 
+<p>To continue the parallel we started, we could say that we could solve the problem of a freezing UI while waiting for an I/O event to occur
+by spawning a new thread and <code>poll</code> in a loop or <code>block</code> there instead of our main thread. However, that new
+thread is either consuming resources doing nothing, or worse, using one core to busy loop while checking if
 an event is ready. Either way, it's not optimal, especially if you run a server you want to utilize fully.</p>
 </blockquote>
-<p>If you consider the coffee machine as some I/O resource, we would like to start that process, then move on to preparing the 
+<p>If you consider the coffee machine as some I/O resource, we would like to start that process, then move on to preparing the
 next job, or do other work that needs to be done instead of waiting.</p>
 <p><em>But that means there are things happening in parallel here?</em></p>
 <p>Yes, the coffee machine is doing work while the &quot;worker&quot; is doing
-maintenance and filling water. But this is the crux: <em>Our reference frame is the worker, not the whole system. The guy making coffee is your code.</em> </p>
+maintenance and filling water. But this is the crux: <em>Our reference frame is the worker, not the whole system. The guy making coffee is your code.</em></p>
 <blockquote>
-<p>It's the same when you make a database query. After you've sent the query to the database server, 
+<p>It's the same when you make a database query. After you've sent the query to the database server,
 the CPU on the database server will be working on your request while you wait for a response. In practice, it's a way
 of parallelizing your work.</p>
 </blockquote>
@@ -368,12 +370,12 @@ you can work on in parallel.</p>
 <p><strong>I can see two major use cases for concurrency:</strong></p>
 <ol>
 <li>When performing I/O and you need to wait for some external event to occur</li>
-<li>When you need to divide your attention and prevent one task from waiting too 
+<li>When you need to divide your attention and prevent one task from waiting too
 long</li>
 </ol>
 <p>The first is the classic I/O example: you have to wait for a network
-call, a database query or something else to happen before you can progress a 
-task. However, you have many tasks to do so instead of waiting you continue work 
+call, a database query or something else to happen before you can progress a
+task. However, you have many tasks to do so instead of waiting you continue work
 elsewhere and either check in regularly to see if the task is ready to progress
 or make sure you are notified when that task is ready to progress.</p>
 <p>The second is an example that is often the case when having a UI. Let's pretend
@@ -398,7 +400,7 @@ be a means to achieve concurrency.</p>
 in some sort of reference frame.</p>
 <h2><a class="header" href="#changing-the-reference-frame" id="changing-the-reference-frame">Changing the reference frame</a></h2>
 <p>When you write code that is perfectly synchronous from your perspective, stop for a second and consider how that looks from the operating system perspective.</p>
-<p>The Operating System might not run your code from start to end at all. It might stop and resume your process many times. The CPU might get interrupted and handle some inputs while you think it's only focused on your task. </p>
+<p>The Operating System might not run your code from start to end at all. It might stop and resume your process many times. The CPU might get interrupted and handle some inputs while you think it's only focused on your task.</p>
 <p>So synchronous execution is only an illusion. But from the perspective of you as a programmer, it's not, and that is the important takeaway:</p>
 <p><strong>When we talk about concurrency without providing any other context we are using you as a programmer and your code (your process) as the reference frame. If you start pondering about concurrency
 without keeping this in the back of your head it will get confusing very fast.</strong></p>
@@ -419,12 +421,12 @@ for their program. This worked fine, but as interactive UIs using a mouse and
 windowed operating systems became the norm, this model simply couldn't work anymore.</p>
 <h2><a class="header" href="#non-preemptive-multitasking" id="non-preemptive-multitasking">Non-Preemptive multitasking</a></h2>
 <p>The first method used to be able to keep a UI interactive (and running background
-processes), was accomplished by what we call <code>non-preemptive multitasking</code>. </p>
-<p>This kind of multitasking put the responsibility of letting the OS run other tasks like responding to input from the mouse, or running a background task in the hands of the programmer. </p>
+processes), was accomplished by what we call <code>non-preemptive multitasking</code>.</p>
+<p>This kind of multitasking put the responsibility of letting the OS run other tasks like responding to input from the mouse, or running a background task in the hands of the programmer.</p>
 <p>Typically the programmer <code>yielded</code> control to the OS.</p>
 <p>Besides off-loading a huge responsibility to every programmer writing a program
 for your platform, this was naturally error-prone. A small mistake in a programs code
-could halt or crash the entire system. </p>
+could halt or crash the entire system.</p>
 <blockquote>
 <p>If you remember Windows 95, you also remember the times when a window hung and you could paint the entire screen with it (almost the same way as the end in Solitaire, the card game that came with Windows).</p>
 <p>This was reportedly a typical error in the code that was supposed to yield control
@@ -446,7 +448,7 @@ has a lot of work or is idle.</p>
 <p>If you want to learn more about this kind of threaded multitasking I recommend reading my previous book about <a href="https://cfsamson.gitbook.io/green-threads-explained-in-200-lines-of-rust/">green threads</a>. This is a nice introduction where you'll be able to get the basic knowledge you need about threads, contexts, stacks and scheduling.</p>
 </blockquote>
 <h2><a class="header" href="#hyperthreading" id="hyperthreading">Hyperthreading</a></h2>
-<p>As CPU's evolved and added more functionality like several ALUs (Algorithmic Logical Unit) and more logical units in general, the CPU manufacturers realized that the entire CPU was never utilized fully. For example, when an operation only required some parts of the CPU, an instruction could be run on the ALU simultaneously. This became the start of Hyperthreading.</p>
+<p>As CPUs evolved and added more functionality, such as several ALUs (Arithmetic Logic Units), and additional logic units, the CPU manufacturers realized that the entire CPU was never utilized fully. For example, when an operation only required some parts of the CPU, an instruction could be run on the ALU simultaneously. This became the start of Hyperthreading.</p>
 <p>You see, on your computer today that it has i.e. 6 cores, and 12 logical cores.
 This is exactly where Hyperthreading comes in. It &quot;simulates&quot; two cores on the
 same core by using unused parts of the CPU to drive progress on thread &quot;2&quot;
@@ -456,7 +458,7 @@ number of smart tricks (like the one with the ALU).</p>
 interactive by responding to events in the second thread even though we only
 had one CPU core thereby utilizing our hardware better.</p>
 <blockquote>
-<p>You might wonder about the performance of Hyper Threading? </p>
+<p>You might wonder about the performance of Hyper Threading?</p>
 <p>It turns out that Hyperthreading has been continuously improved since the '90s.
 Since you're not actually running two CPU's there will be some operations that
 need to wait for each other to finish. The performance gain of hyperthreading
@@ -483,10 +485,10 @@ the CPU handles concurrency.</p>
 <p>* However, modern CPU can also do a lot of things in parallel. Most CPUs are
 pipelined, meaning that the next instruction is loaded while the current is
 executing. It might have a branch predictor that tries to figure out what
-instructions to load next. </p>
+instructions to load next.</p>
 <p>The processor can also reorder instructions by using
 &quot;out of order execution&quot; if it believes it makes things faster this way without
-&quot;asking&quot; or &quot;telling&quot; the programmer or the OS so you might not have any guarantee that A happens before B. </p>
+&quot;asking&quot; or &quot;telling&quot; the programmer or the OS so you might not have any guarantee that A happens before B.</p>
 <p>The CPU offloads some work to separate &quot;coprocessors&quot; like the FPU for floating-point calculations leaving the main CPU ready to do other tasks et cetera.</p>
 <p>As a high-level overview, it's OK to model the CPU as operating in asynchronous
 manner, but lets for now just make a mental note that this is a model with some
@@ -497,15 +499,15 @@ and operating systems.</p>
 <h1><a class="header" href="#the-operating-system" id="the-operating-system">The Operating System</a></h1>
 <p>The operating system stands in the centre of everything we do as programmers (well, unless you're <a href="https://os.phil-opp.com/">writing an Operating System</a> or are in the <a href="https://rust-embedded.github.io/book/">Embedded realm</a>),
 so there is no way for us to discuss any kind of fundamentals in programming
-without talking about operating systems in a bit of detail. </p>
+without talking about operating systems in a bit of detail.</p>
 <h2><a class="header" href="#concurrency-from-the-operating-systems-perspective" id="concurrency-from-the-operating-systems-perspective">Concurrency from the operating systems' perspective</a></h2>
-<div style="color: back;  font-style: italic; font-size: 1.2em">"Operating systems has been "faking" synchronous execution since the 90's."</div>
+<div style="color: back;  font-style: italic; font-size: 1.2em">"Operating systems has been "faking" synchronous execution since the 90s."</div>
 <p>This ties into what I talked about in the first chapter when I said that <code>concurrent</code>
 needs to be talked about within a reference frame and I explained that the OS
 might stop and start your process at any time.</p>
 <p>What we call synchronous code is in most cases code that appears as synchronous to us as programmers. Neither the OS or the CPU live in a fully synchronous world.</p>
-<p>Operating systems uses <code>preemptive multitasking</code> and as long as the operating system you're running is preemptively scheduling processes, you won't have a 
-guarantee that your code runs instruction by instruction without interruption. </p>
+<p>Operating systems use <code>preemptive multitasking</code> and as long as the operating system you're running is preemptively scheduling processes, you won't have a
+guarantee that your code runs instruction by instruction without interruption.</p>
 <p>The operating system will make sure that all important processes get some time from the CPU to make progress.</p>
 <blockquote>
 <p>This is not as simple when we're talking about modern machines with 4-6-8-12
@@ -521,7 +523,7 @@ asking the CPU or the network card to do something for you, you're asking the
 operating system to talk to the network card for you.</p>
 <p>There is no way for you as a programmer to make your system optimally efficient
 without playing to the strengths of the operating system. You basically don't have
-access to the hardware directly. </p>
+access to the hardware directly.</p>
 <p>However, this also means that to understand everything from the ground up, you'll also need to know how your operating system handles these tasks.</p>
 <p>To be able to work with the operating system, we'll need to know how we can communicate with it and that's exactly what we're going to go through next.</p>
 <h1><a class="header" href="#communicating-with-the-operating-system" id="communicating-with-the-operating-system">Communicating with the operating system</a></h1>
@@ -532,12 +534,12 @@ access to the hardware directly. </p>
 <li>Challenges of writing low-level cross-platform code</li>
 </ul>
 <h2><a class="header" href="#syscall-primer" id="syscall-primer">Syscall primer</a></h2>
-<p>Communication with the operating system is done through <code>System Calls</code> or 
-&quot;syscalls&quot; as we'll call them from now on. This is a public API that the operating system provides and that programs we write in &quot;userland&quot; can use to communicate with the OS. </p>
-<p>Most of the time these calls are abstracted away for us as programmers by the language or the runtime we use. A language like Rust makes it 
+<p>Communication with the operating system is done through <code>System Calls</code> or
+&quot;syscalls&quot; as we'll call them from now on. This is a public API that the operating system provides and that programs we write in &quot;userland&quot; can use to communicate with the OS.</p>
+<p>Most of the time these calls are abstracted away for us as programmers by the language or the runtime we use. A language like Rust makes it
 trivial to make a <code>syscall</code> though which we'll see below.</p>
 <p>Now, <code>syscalls</code> is an example of something that is unique to the kernel you're communicating with, but the UNIX family of kernels has many similarities. UNIX systems expose this through <strong><code>libc</code></strong>.</p>
-<p>Windows, on the other hand, uses its own API, often referred to as WinAPI, and that can be radically different from how the UNIX based systems operate. </p>
+<p>Windows, on the other hand, uses its own API, often referred to as WinAPI, and that can be radically different from how the UNIX based systems operate.</p>
 <p>Most often though there is a way to achieve the same things. In terms of functionality, you might not notice a big difference but as we'll see below and especially when we dig into how <code>epoll</code>, <code>kqueue</code> and <code>IOCP</code>, they can differ a lot in how this functionality is implemented.</p>
 <h2><a class="header" href="#syscall-example" id="syscall-example">Syscall example</a></h2>
 <p>To get a bit more familiar with <code>syscalls</code> we'll implement a very basic one for the three architectures: <code>BSD(macos)</code>, <code>Linux</code> and <code>Windows</code>. We'll also see how this is implemented in three levels of abstractions.</p>
@@ -614,15 +616,15 @@ fn syscall(message: String) {
 </code></pre></pre>
 <p>As you see this is not that different from the one we wrote for Linux, with the exception of the fact that syscall <code>write</code> has the code <code>0x2000004</code> instead of <code>1</code>.</p>
 <p><strong>What about Windows?</strong></p>
-<p>This is a good opportunity to explain why writing code like we do above is a bad idea. </p>
+<p>This is a good opportunity to explain why writing code like we do above is a bad idea.</p>
 <p>You see, if you want your code to work for a long time you have to worry about what <code>guarantees</code> the OS gives you. As far as I know, both Linux and Macos give some guarantees that for example <code>$$0x2000004</code> on Macos will always refer to <code>write</code> (I'm not sure how strong these guarantees are though). Windows gives absolutely zero guarantees when it comes to low-level internals like this.</p>
 <p>Windows has changed it's internals numerous times and provides no official documentation. The only thing we got is reverse engineered tables like <a href="https://j00ru.vexillium.org/syscalls/nt/64/">this</a>. That means that what was <code>write</code> can be changed to <code>delete</code> the next time you run Windows update.</p>
 <h2><a class="header" href="#the-next-level-of-abstraction" id="the-next-level-of-abstraction">The next level of abstraction</a></h2>
 <p>The next level of abstraction is to use the API which all three operating systems provide for us.</p>
 <p>Already we can see that this abstraction helps us remove some code since fortunately for us, in this specific example, the syscall is the same on Linux and on Macos so we only need to worry if we're on Windows and therefore use the <code>#[cfg(not(target_os = &quot;windows&quot;))]</code> conditional compilation flag. For the Windows syscall, we do the opposite.</p>
 <h3><a class="header" href="#using-the-os-provided-api-in-linux-and-macos" id="using-the-os-provided-api-in-linux-and-macos">Using the OS provided API in Linux and MacOS</a></h3>
-<p>You can run this code directly here in the window. However, the Rust playground 
-runs on Linux, you'll need to copy the code over to a Windows machine if you 
+<p>You can run this code directly here in the window. However, the Rust playground
+runs on Linux, you'll need to copy the code over to a Windows machine if you
 want to try it out the code for Windows further down.</p>
 <p><strong>Our syscall will now look like this</strong> <br />
 (You can run this code here. It will work for both Linux and MacOS)</p>
@@ -653,7 +655,7 @@ fn syscall(message: String) -&gt; io::Result&lt;()&gt; {
 }
 
 </code></pre></pre>
-<p>I'll explain what we just did here. I assume that the <code>main</code> method needs no 
+<p>I'll explain what we just did here. I assume that the <code>main</code> method needs no
 comment.</p>
 <pre><pre class="playpen"><code class="language-rust no_run">
 # #![allow(unused_variables)]
@@ -669,10 +671,10 @@ extern &quot;C&quot; {
 }
 #}</code></pre></pre>
 <p><code>extern &quot;C&quot;</code> or only <code>extern</code> (C is assumed if nothing is specified) means we're linking to specific functions in the &quot;c&quot; library using the &quot;C&quot; calling convention. As you'll see on Windows we'll need to change this since it uses a different calling convention than the UNIX family.</p>
-<p>The function we're linking to needs to have the exact same name, in this case, <code>write</code>. The parameters don't need to have the same name but they must be in 
-the right order and it's good practice to name them the same as in the library 
+<p>The function we're linking to needs to have the exact same name, in this case, <code>write</code>. The parameters don't need to have the same name but they must be in
+the right order and it's good practice to name them the same as in the library
 you're linking to.</p>
-<p>The write function takes a <code>file descriptor</code> which in this case is a handle to 
+<p>The write function takes a <code>file descriptor</code> which in this case is a handle to
 <code>stdout</code>. In addition, it expects us to provide a pointer to an array of <code>u8</code> values and the length of the buffer.</p>
 <pre><pre class="playpen"><code class="language-rust no_run">
 # #![allow(unused_variables)]
@@ -684,17 +686,17 @@ fn syscall_libc(message: String) {
     unsafe { write(1, msg_ptr, len) };
 }
 #}</code></pre></pre>
-<p>The first thing we do is to get the pointer to the underlying buffer for our 
-string. This will be a pointer of type <code>*const u8</code> which matches our <code>buf</code> 
+<p>First, we get a pointer to the underlying buffer of our
+string. This will be a pointer of type <code>*const u8</code> which matches our <code>buf</code>
 argument. The <code>len</code> of the buffer corresponds to the <code>count</code> argument.</p>
-<p>You might ask how we know that <code>1</code> is the file-handle to <code>stdout</code> and where we found that value. </p>
+<p>You might ask how we know that <code>1</code> is the file-handle to <code>stdout</code> and where we found that value.</p>
 <p>You'll notice this a lot when writing syscalls from Rust. Usually, constants are defined in the C header files which we can't link to, so we need to search them up. 1 is always the file descriptor for <code>stdout</code> on UNIX systems.</p>
 <blockquote>
 <p>Wrapping the <code>libc</code> functions and providing these constants is exactly what the
 crate <a href="https://github.com/rust-lang/libc">libc</a> provides for us and why you'll see that used instead of writing
 the type of code we do here.</p>
 </blockquote>
-<p>A call to an FFI function is always unsafe so we need to use the <code>unsafe</code> keyword 
+<p>A call to an FFI function is always unsafe so we need to use the <code>unsafe</code> keyword
 here.</p>
 <h3><a class="header" href="#using-the-api-on-windows" id="using-the-api-on-windows">Using the API on Windows</a></h3>
 <p><strong>This syscall will look like this on Windows:</strong> <br />
@@ -728,15 +730,15 @@ fn syscall(message: String) -&gt; io::Result&lt;()&gt; {
     let msg: Vec&lt;u16&gt; = message.encode_utf16().collect();
     let msg_ptr = msg.as_ptr();
     let len = msg.len() as u32;
-    
+
     let mut output: u32 = 0;
         let handle = unsafe { GetStdHandle(-11) };
         if handle  == -1 {
             return Err(io::Error::last_os_error())
         }
 
-        let res = unsafe { 
-            WriteConsoleW(handle, msg_ptr, len, &amp;mut output, std::ptr::null()) 
+        let res = unsafe {
+            WriteConsoleW(handle, msg_ptr, len, &amp;mut output, std::ptr::null())
             };
         if res  == 0 {
             return Err(io::Error::last_os_error());
@@ -746,8 +748,8 @@ fn syscall(message: String) -&gt; io::Result&lt;()&gt; {
     Ok(())
 }
 </code></pre></pre>
-<p>Now, just by looking at the code above you see it starts to get a bit more 
-complex, but let's spend some time to go through line by line what we do here as 
+<p>Now, just by looking at the code above you see it starts to get a bit more
+complex, but let's spend some time to go through line by line what we do here as
 well.</p>
 <pre><code class="language-text">#[cfg(target_os = &quot;windows&quot;)]
 #[link(name = &quot;kernel32&quot;)]
@@ -770,11 +772,11 @@ extern &quot;stdcall&quot; {
     ) -&gt; i32;
 }
 #}</code></pre></pre>
-<p>First of all, <code>extern &quot;stdcall&quot;</code>, tells the compiler that we won't use the <code>C</code> 
+<p>First of all, <code>extern &quot;stdcall&quot;</code>, tells the compiler that we won't use the <code>C</code>
 calling convention but use Windows calling convention called <code>stdcall</code>.</p>
-<p>The next part is the functions we want to link to. On Windows, we need to link to two functions to get this to work: <code>GetStdHandle</code> and <code>WriteConsoleW</code>. 
+<p>The next part is the functions we want to link to. On Windows, we need to link to two functions to get this to work: <code>GetStdHandle</code> and <code>WriteConsoleW</code>.
 <code>GetStdHandle</code> retrieves a reference to a standard device like <code>stdout</code>.</p>
-<p><code>WriteConsole</code> comes in two flavours, <code>WriteConsoleW</code> that takes in Unicode text and <code>WriteConsoleA</code> that takes ANSI encoded text. </p>
+<p><code>WriteConsole</code> comes in two flavours, <code>WriteConsoleW</code> that takes in Unicode text and <code>WriteConsoleA</code> that takes ANSI encoded text.</p>
 <p>Now, ANSI encoded text works fine if you only write English text, but as soon as you write text in other languages you might need to use special characters that are not possible to represent in <code>ANSI</code> but is possible in <code>utf-8</code> and our program will break.</p>
 <p>That's why we'll convert our <code>utf-8</code> encoded text to <code>utf-16</code> encoded Unicode codepoints that can represent these characters and use the <code>WriteConsoleW</code> function.</p>
 <pre><code class="language-rust no_run noplaypen">#[cfg(target_os = &quot;windows&quot;)]
@@ -784,15 +786,15 @@ fn syscall(message: String) -&gt; io::Result&lt;()&gt; {
     let msg: Vec&lt;u16&gt; = message.encode_utf16().collect();
     let msg_ptr = msg.as_ptr();
     let len = msg.len() as u32;
-    
+
     let mut output: u32 = 0;
         let handle = unsafe { GetStdHandle(-11) };
         if handle  == -1 {
             return Err(io::Error::last_os_error())
         }
 
-        let res = unsafe { 
-            WriteConsoleW(handle, msg_ptr, len, &amp;mut output, std::ptr::null()) 
+        let res = unsafe {
+            WriteConsoleW(handle, msg_ptr, len, &amp;mut output, std::ptr::null())
             };
 
         if res  == 0 {
@@ -803,35 +805,35 @@ fn syscall(message: String) -&gt; io::Result&lt;()&gt; {
     Ok(())
 }
 </code></pre>
-<p>The first thing we do is to convert the text to utf-16 encoded text which 
+<p>The first thing we do is to convert the text to utf-16 encoded text which
 Windows uses. Fortunately, Rust has a built-in function to convert our <code>utf-8</code> encoded text to <code>utf-16</code> code points. <code>encode_utf16</code> returns an iterator over  <code>u16</code> code points that we can collect to a <code>Vec</code>.</p>
 <pre><code class="language-rust no_run noplaypen">let msg: Vec&lt;u16&gt; = message.encode_utf16().collect();
 let msg_ptr = msg.as_ptr();
 let len = msg.len() as u32;
 </code></pre>
-<p>Next, we get the pointer to the underlying buffer of our <code>Vec</code> and get the 
+<p>Next, we get the pointer to the underlying buffer of our <code>Vec</code> and get the
 length.</p>
 <pre><code class="language-rust no_run noplaypen">let handle = unsafe { GetStdHandle(-11) };
    if handle  == -1 {
        return Err(io::Error::last_os_error())
    }
 </code></pre>
-<p>The next is a call to <code>GetStdHandle</code>. We pass in the value <code>-11</code>. The values we 
-need to pass in for the different standard devices is actually documented 
+<p>The next is a call to <code>GetStdHandle</code>. We pass in the value <code>-11</code>. The values we
+need to pass in for the different standard devices is actually documented
 together with the <code>GetStdHandle</code> documentation:</p>
 <table><thead><tr><th>Handle</th><th>Value</th></tr></thead><tbody>
 <tr><td>Stdin</td><td>-10</td></tr>
 <tr><td>Stdout</td><td>-11</td></tr>
 <tr><td>StdErr</td><td>-12</td></tr>
 </tbody></table>
-<p>Now we're lucky here, it's not that common that we find this information 
+<p>Now we're lucky here, it's not that common that we find this information
 together with the documentation for the function we call, but it's very convenient when we do.</p>
 <p>The return codes to expect is also documented thoroughly for all functions so we handle potential errors here in the same way as we did for the Linux/MacOS syscalls.</p>
 <pre><pre class="playpen"><code class="language-rust no_run">
 # #![allow(unused_variables)]
 #fn main() {
-let res = unsafe { 
-    WriteConsoleW(handle, msg_ptr, len, &amp;mut output, std::ptr::null()) 
+let res = unsafe {
+    WriteConsoleW(handle, msg_ptr, len, &amp;mut output, std::ptr::null())
     };
 
 if res  == 0 {
@@ -902,8 +904,8 @@ fn syscall(message: String) -&gt; io::Result&lt;()&gt; {
             return Err(io::Error::last_os_error())
         }
 
-        let res = unsafe { 
-            WriteConsoleW(handle, msg_ptr, len, &amp;mut output, std::ptr::null()) 
+        let res = unsafe {
+            WriteConsoleW(handle, msg_ptr, len, &amp;mut output, std::ptr::null())
             };
 
         if res  == 0 {
@@ -915,7 +917,7 @@ fn syscall(message: String) -&gt; io::Result&lt;()&gt; {
 }
 </code></pre></pre>
 <h1><a class="header" href="#about-writing-cross-platform-abstractions" id="about-writing-cross-platform-abstractions">About writing cross-platform abstractions</a></h1>
-<p>If you isolate the code needed only for Linux and MacOS you'll see that it's not many lines of code to write. But once you want to make a cross-platform variant, the amount of code explodes. </p>
+<p>If you isolate the code needed only for Linux and MacOS you'll see that it's not many lines of code to write. But once you want to make a cross-platform variant, the amount of code explodes.</p>
 <p>This is a recurring problem when we're curious about how this works on three different platforms, but we need some basic understanding of how the different operating systems work under the covers.</p>
 <p>My experience, in general, is that Linux and MacOS have simpler API requiring fewer lines of code, and often (but not always) the exact same call works for both systems.</p>
 <p>Windows, on the other hand, is more complex, requires you to set up more structures to pass information (instead of using primitives), and often way more lines of code. What Windows does have is very good documentation so even though it's more work you'll also find the official documentation very helpful.</p>
@@ -924,7 +926,7 @@ fn syscall(message: String) -&gt; io::Result&lt;()&gt; {
 <p>There is a lot of &quot;hidden&quot; complexity when writing cross-platform code at this
 level. One hurdle is to get something working, which can prove to be quite a
 challenge. Getting it to work <strong>correctly</strong> and <strong>safely</strong> while covering all
-edge cases is an additional challenge. </p>
+edge cases is an additional challenge.</p>
 <p><strong>Are we 100% sure that all valid <code>utf-8</code> code points which we use in Rust are valid <code>utf-16</code> encoded Unicode that Windows will display correctly?</strong></p>
 <p>I think so, but being 100 % sure about <a href="https://en.wikipedia.org/wiki/Comparison_of_Unicode_encodings">this is not as easy as one might think</a>.</p>
 <h1><a class="header" href="#does-the-cpu-cooperate-with-the-operating-system" id="does-the-cpu-cooperate-with-the-operating-system">Does the CPU cooperate with the Operating System?</a></h1>
@@ -935,14 +937,14 @@ fn main() {
     let t = 100;
     let t_ptr: *const usize = &amp;t;
     let x = dereference(t_ptr);
-    
+
     println!(&quot;{}&quot;, x);
 }
 
 fn dereference(ptr: *const usize) -&gt; usize {
     let res: usize;
-    unsafe { 
-        asm!(&quot;mov ($1), $0&quot;:&quot;=r&quot;(res): &quot;r&quot;(ptr)) 
+    unsafe {
+        asm!(&quot;mov ($1), $0&quot;:&quot;=r&quot;(res): &quot;r&quot;(ptr))
         };
     res
 }
@@ -951,13 +953,13 @@ fn dereference(ptr: *const usize) -&gt; usize {
 <p>Here we write a <code>dereference</code> function using assembly instructions. We know there
 is no way the OS is involved here.</p>
 </blockquote>
-<p>As you see, this code will output <code>100</code> as expected. But let's now instead create a pointer with the address <code>99999999999999</code> which we know is invalid and see what 
+<p>As you see, this code will output <code>100</code> as expected. But let's now instead create a pointer with the address <code>99999999999999</code> which we know is invalid and see what
 happens when we pass that into the same function:</p>
 <pre><pre class="playpen"><code class="language-rust">#![feature(asm)]
 fn main() {
     let t = 99999999999999 as *const usize;
     let x = dereference(t);
-    
+
     println!(&quot;{}&quot;, x);
 }
 # fn dereference(ptr: *const usize) -&gt; usize {
@@ -965,7 +967,7 @@ fn main() {
 #     unsafe {
 #     asm!(&quot;mov ($1), $0&quot;:&quot;=r&quot;(res): &quot;r&quot;(ptr));
 #     }
-# 
+#
 #     res
 # }
 </code></pre></pre>
@@ -973,9 +975,9 @@ fn main() {
 know that we're not allowed to dereference this memory?</p>
 <ul>
 <li>Does the CPU ask the OS if this process is allowed to access this memory location every time we dereference something?</li>
-<li>Won't that be very slow? </li>
+<li>Won't that be very slow?</li>
 <li>How does the CPU know that it has an OS running on top of it at all?</li>
-<li>Do all CPUs know what a segmentation fault is? </li>
+<li>Do all CPUs know what a segmentation fault is?</li>
 <li>Why do we get an error message at all and not just a crash?</li>
 </ul>
 <h2><a class="header" href="#down-the-rabbit-hole" id="down-the-rabbit-hole">Down the rabbit hole</a></h2>
@@ -996,13 +998,13 @@ a read. It's extremely well written and will answer all these questions and many
 <h2><a class="header" href="#how-does-the-cpu-prevent-us-from-accessing-memory-were-not-supposed-to" id="how-does-the-cpu-prevent-us-from-accessing-memory-were-not-supposed-to">How does the CPU prevent us from accessing memory we're not supposed to?</a></h2>
 <p>As I mentioned, modern CPUs have already some definition of basic concepts. Some examples of this are:</p>
 <ul>
-<li>Virtual memory </li>
+<li>Virtual memory</li>
 <li>Page table</li>
 <li>Page fault</li>
 <li>Exceptions</li>
 <li><a href="https://en.wikipedia.org/wiki/Protection_ring">Privilege level</a></li>
 </ul>
-<p>Exactly how this works will differ depending on the exact CPU so we'll treat them 
+<p>Exactly how this works will differ depending on the exact CPU so we'll treat them
 in general terms here.</p>
 <p>Most modern CPUs, however, has an MMU (Memory Management Unit). This is a part of the
 CPU (often etched on the same dye even). The MMUs job is to translate between
@@ -1013,14 +1015,14 @@ process, and makes sure a special register on the CPU points to this page table.
 sent to the MMU for translation, which looks it up in the page table to translate
 it to a physical address in memory where it can fetch the data.</p>
 <p>In the first case, it will point to a memory address on our stack that holds the value <code>100</code>.</p>
-<p>When we pass in <code>99999999999999</code> and ask it to fetch what's stored at that address 
+<p>When we pass in <code>99999999999999</code> and ask it to fetch what's stored at that address
 (which is what dereferencing does) it looks for the translation in the page table but can't find it.</p>
 <p>The CPU then treats this as a <code>page fault</code>.</p>
 <p>At boot, the OS provided the CPU with an Interrupt Descriptor Table. This table
-has a predefined format where the OS provides handlers for the predefined 
+has a predefined format where the OS provides handlers for the predefined
 exceptions the CPU can encounter.</p>
-<p>Since the OS provided a pointer to a function that handles <code>Page Fault</code> the CPU 
-jumps to that function when we try to dereference <code>99999999999999</code> and thereby hands over control to the Operating System. </p>
+<p>Since the OS provided a pointer to a function that handles <code>Page Fault</code> the CPU
+jumps to that function when we try to dereference <code>99999999999999</code> and thereby hands over control to the Operating System.</p>
 <p>The OS then prints a nice message for us letting us know that we encountered what it calls a <code>segmentation fault</code>. This message will therefore vary depending on the OS you run the code on.</p>
 <h2><a class="header" href="#but-cant-we-just-change-the-page-table-in-the-cpu" id="but-cant-we-just-change-the-page-table-in-the-cpu">But can't we just change the page table in the CPU?</a></h2>
 <p>Now, this is where <code>Privilege Level</code> comes in. Most modern operating systems operate with two <code>Ring Levels</code>. Ring 0, the kernel space, and Ring 3, user-space.</p>
@@ -1034,7 +1036,7 @@ jumps to that function when we try to dereference <code>99999999999999</code> an
 <p>We're nearing an end of the general CS subjects in the book, and we'll start
 to dig our way out of the rabbit hole soon.</p>
 <p>This part tries to tie things together and look at how the whole computer works
-as a system to handle I/O and concurrency. </p>
+as a system to handle I/O and concurrency.</p>
 <p>Let's get to it!</p>
 <h2><a class="header" href="#a-simplified-overview" id="a-simplified-overview">A simplified overview</a></h2>
 <p>Let's go through some of the steps where we imagine that we read from a
@@ -1058,36 +1060,36 @@ on the OS we either get a  <code>file descriptor</code> (Macos/Linux) or a <code
 <li>
 We tell the operating system that we're interested in `Read` events but we want
 to wait for it to happen by `yielding` control over our thread to the OS. The OS
-then suspends our thread by storing the register state and switch to some other 
+then suspends our thread by storing the register state and switch to some other
 thread.
 <p><strong>From our perspective this will be blocking our thread until we have data to read.</strong></p>
 </li>
 <li>
 We tell the operating system that we're interested in `Read` events but we
 just want a handle to a the task which we can `poll` to check if the event is
-ready or not. 
+ready or not.
 <p><strong>The OS will not suspend our thread, so this will not block our code</strong></p>
 </li>
 <li>
-We tell the operating system that we are probably going to be interested in 
+We tell the operating system that we are probably going to be interested in
 many events, but we want to subscribe to one event queue. When we `poll` this
-queue it will block until one or more event occurs. 
+queue it will block until one or more event occurs.
 <p><strong>This will block our thread while we <code>wait</code> for events to occur</strong></p>
 </li>
 </ol>
 <blockquote>
 <p>My next book will be about about alternative C since that is a very interesting
-model of handling I/O events that's going to be important later on to understand 
-why Rusts concurrency abstractions are modeled the way they are. Of that reason 
+model of handling I/O events that's going to be important later on to understand
+why Rusts concurrency abstractions are modeled the way they are. Of that reason
 we won't cover this in detail here.</p>
 </blockquote>
 <h2><a class="header" href="#3-the-network-card" id="3-the-network-card">3. The Network Card</a></h2>
 <blockquote>
-<p>We're skipping some steps here but it's not very vital to our understanding. </p>
+<p>We're skipping some steps here but it's not very vital to our understanding.</p>
 </blockquote>
-<p>Meanwhile on the network card there is a small microcontroller running 
+<p>Meanwhile on the network card there is a small microcontroller running
 specialized firmware. We can imagine that this microcontroller is polling in a
-busy loop checking if any data is incoming. </p>
+busy loop checking if any data is incoming.</p>
 <blockquote>
 <p>The exact way the Network Card handles it internals can be different from this
 (and most likely are). The important part is that there is a very simple but specialized CPU running
@@ -1102,7 +1104,7 @@ about how this works I can recommend Robert Mustacchi's excellent article
 </blockquote>
 <p>Modern CPUs have a set of <code>Interrupt Request Lines</code> for it to handle events that occur from
 external devices. A CPU has a fixed set of interrupt lines.</p>
-<p>A hardware interrupt is an electrical signal that can occur at <em>any time</em>. The 
+<p>A hardware interrupt is an electrical signal that can occur at <em>any time</em>. The
 CPU immediately <strong>interrupts</strong> its normal workflow to handle the interrupt by
 saving the state of it's registers and look up the interrupt handler. The interrupt handlers is defined in the Interrupt Descriptor Table.</p>
 <h2><a class="header" href="#5-interrupt-handler" id="5-interrupt-handler">5. Interrupt Handler</a></h2>
@@ -1114,7 +1116,7 @@ table in one of it's registers.</p>
 </blockquote>
 <h2><a class="header" href="#6-writing-the-data" id="6-writing-the-data">6. Writing the data</a></h2>
 <p>This is a step that might vary a lot depending on the CPU and the firmware on the
-network card. If the Network Card and the CPU supports <a href="https://en.wikipedia.org/wiki/Direct_memory_access">Direct Memory Access</a> (which should be the standard on all modern systems today) the Network Card will write data directly to a set of buffers the OS already has set up in main memory. </p>
+network card. If the Network Card and the CPU supports <a href="https://en.wikipedia.org/wiki/Direct_memory_access">Direct Memory Access</a> (which should be the standard on all modern systems today) the Network Card will write data directly to a set of buffers the OS already has set up in main memory.</p>
 <p>In such a system the <code>firmware</code> on the Network Card might issue an <code>Interrupt</code> when the data is <strong>written</strong> to memory. <code>DMA</code> is very efficient
 since the CPU is only notified when the data is already in memory. On older systems the
 CPU needed to devote resources to handle the data transfer from the
@@ -1141,7 +1143,7 @@ of interrupt is registered by the driver, so it's actually the driver that handl
 </ol>
 <p>They are very different in nature.</p>
 <h3><a class="header" href="#hardware-interrupts" id="hardware-interrupts">Hardware Interrupts</a></h3>
-<p>Hardware interrupts are created by sending an electrical signal through an <a href="https://en.wikipedia.org/wiki/Interrupt_request_(PC_architecture)#x86_IRQs">Interrupt Request Line (IRQ)</a>. These hardware lines signals the CPU directly. </p>
+<p>Hardware interrupts are created by sending an electrical signal through an <a href="https://en.wikipedia.org/wiki/Interrupt_request_(PC_architecture)#x86_IRQs">Interrupt Request Line (IRQ)</a>. These hardware lines signals the CPU directly.</p>
 <h3><a class="header" href="#software-interrupts" id="software-interrupts">Software Interrupts</a></h3>
 <p>This is interrupts issued from software instead of hardware. As in the case of a hardware interrupt the CPU jumps to the Interrupt Descriptor Table and runs the handler for the specified interrupt.</p>
 <h3><a class="header" href="#firmware" id="firmware">Firmware</a></h3>
@@ -1183,8 +1185,8 @@ of interrupt is registered by the driver, so it's actually the driver that handl
 <li>Can be difficult to implement in a flexible way to handle a wide variety of tasks</li>
 </ul>
 <h2><a class="header" href="#3-poll-based-event-loops-supported-by-the-os" id="3-poll-based-event-loops-supported-by-the-os">3. Poll based event loops supported by the OS</a></h2>
-<p>The third way we're covering today is the one that most closely matches an ideal solution. In this solution the we register an interest in an event, and then let the OS tell us when it's ready. </p>
-<p>The way this works is that we tell the OS that we're interested in knowing when data is arriving for us on the network card. The network card issues an interrupt when something has happened in which the driver lets the OS know that the data is ready. </p>
+<p>The third way we're covering today is the one that most closely matches an ideal solution. In this solution the we register an interest in an event, and then let the OS tell us when it's ready.</p>
+<p>The way this works is that we tell the OS that we're interested in knowing when data is arriving for us on the network card. The network card issues an interrupt when something has happened in which the driver lets the OS know that the data is ready.</p>
 <p>Now, we still need a way to &quot;suspend&quot; many tasks while waiting, and this is where Node's &quot;runtime&quot; or Rust's Futures come in to play.</p>
 <p><strong>Pros:</strong></p>
 <ul>
@@ -1208,7 +1210,7 @@ of interrupt is registered by the driver, so it's actually the driver that handl
 asynchronous I/O library. <code>libuv</code> is not only used in Node but also forms the foundation
 of how <a href="https://julialang.org/">Julia</a> and <a href="https://github.com/saghul/pyuv">Pyuv</a> create a cross platform event queue; most
 languages have bindings for it.</p>
-<p>In Rust we have <a href="https://github.com/tokio-rs/mio">mio - Metal IO</a>. <code>Mio</code> powers the OS event queue used in <a href="https://github.com/tokio-rs/tokio">Tokio</a>, which is a runtime that provides I/O, networking, scheduling etc. <code>Mio</code> is to <code>Tokio</code> what <code>libuv</code> is to <code>Node</code>. </p>
+<p>In Rust we have <a href="https://github.com/tokio-rs/mio">mio - Metal IO</a>. <code>Mio</code> powers the OS event queue used in <a href="https://github.com/tokio-rs/tokio">Tokio</a>, which is a runtime that provides I/O, networking, scheduling etc. <code>Mio</code> is to <code>Tokio</code> what <code>libuv</code> is to <code>Node</code>.</p>
 <p><code>Tokio</code> powers many web frameworks, among those is <a href="https://github.com/actix/actix-web">Actix Web</a>, which is known to be very performant.</p>
 <p>Since we want
 to understand how everything works, I decided to create an extremely
@@ -1217,7 +1219,7 @@ simplified version of an event queue. I called it <code>minimio</code> since it'
 <p>I will write a short book (much shorter than this one) about how this works in
 detail.  For now, you can visit the code at its <a href="https://github.com/cfsamson/examples-minimio">Github repository if you're
 curious</a>. This book will also briefly cover
-<code>wepoll</code>, which is used as an optimization instead of IOCP in both the <code>mio</code> and <code>libuv</code> frameworks. </p>
+<code>wepoll</code>, which is used as an optimization instead of IOCP in both the <code>mio</code> and <code>libuv</code> frameworks.</p>
 </blockquote>
 <p>Nevertheless, we'll give each of them a brief introduction here so you know the basics.</p>
 <h2><a class="header" href="#why-use-an-os-backed-event-queue" id="why-use-an-os-backed-event-queue">Why use an OS-backed event queue?</a></h2>
@@ -1226,7 +1228,7 @@ with the OS to make I/O operations as efficient as possible. Operating systems l
 Linux, MacOS and Windows provide several ways of performing I/O, both blocking and
 non-blocking.</p>
 <p>So blocking operations are the least flexible to use for us as programmers since we yield control to the OS, which suspends our thread. The big advantage is that our thread gets woken up once the event we're waiting for is ready.</p>
-<p>Non-blocking methods are more flexible but need to have a way to tell us if a task is ready or not. This is most often done by returning some kind of data that says if it's <code>Ready</code> or <code>NotReady</code>. One drawback is that we need to check this status regularly to be able to tell if the state has changed. </p>
+<p>Non-blocking methods are more flexible but need to have a way to tell us if a task is ready or not. This is most often done by returning some kind of data that says if it's <code>Ready</code> or <code>NotReady</code>. One drawback is that we need to check this status regularly to be able to tell if the state has changed.</p>
 <p>Event queuing via Epoll/kqueue/IOCP is a way to combine the flexibility of a non-blocking method without its aforementioned drawback.</p>
 <blockquote>
 <p>We will not cover methods like <code>poll</code> and <code>select</code>, but I have an <a href="https://people.eecs.berkeley.edu/%7Esangjin/2012/12/21/epoll-vs-kqueue.html">article for you
@@ -1264,7 +1266,7 @@ completed.</li>
 it's similar to <code>Epoll</code> in concept but different in actual use.</p>
 <p>Some argue it's a bit more complex to use and a bit more abstract and &quot;general&quot;.</p>
 <h3><a class="header" href="#iocp" id="iocp">IOCP</a></h3>
-<p><code>IOCP</code> or Input Output Completion Ports is the way Windows handles this type of event queue. </p>
+<p><code>IOCP</code> or Input Output Completion Ports is the way Windows handles this type of event queue.</p>
 <p>A <code>Completion Port</code> will let you know when an event has <code>Completed</code>. Now this might
 sound like a minor difference, but it's not. This is especially apparent when you want to write a library since abstracting over both means you'll either have to model <code>IOCP</code> as <code>readiness-based</code> or model <code>epoll/kqueue</code> as completion-based.</p>
 <p>Lending out a buffer to the OS also provides some challenges since it's very
@@ -1279,7 +1281,7 @@ into that design.</p>
 <h1><a class="header" href="#introducing-our-main-example" id="introducing-our-main-example">Introducing our main example</a></h1>
 <p>Now we've finally come to the part of this book where we will write some code.</p>
 <p>The Node event loop is a complex piece of software developed over many years. We
-will have to simplify things a lot. </p>
+will have to simplify things a lot.</p>
 <p>We'll try to implement the parts that are important for us to understand Node a
 little better and most importantly use it as an example where we can use our
 knowledge from the previous chapters to make something that actually works.</p>
@@ -1370,7 +1372,7 @@ set_timeout(0, |_res| {
 });
 #}</code></pre></pre>
 <p>What we really do here is register interest in a <code>timeout</code> event, and when that event occurs we want to run the
-the callback <code>|_res| { print(&quot;Immediate1 timed out&quot;); }</code>. </p>
+the callback <code>|_res| { print(&quot;Immediate1 timed out&quot;); }</code>.</p>
 <p>Now the parameter <code>_res</code> is
 an argument that is passed into our callback. In javascript it would be left out, but since we use a typed language we have created a type called <code>Js</code>.</p>
 <p><code>Js</code> is an enum that represents Javascript types. In the case of <code>set_timeout</code> it's <code>Js::undefined</code>. In the case of <code>Fs::read</code> it's an <code>Js::String</code> and so on.</p>
@@ -1380,46 +1382,46 @@ an argument that is passed into our callback. In javascript it would be left out
 Can't display video.
 </video>
 <p>And here is what our output will look like:</p>
-<pre><code>Thread: main	 First call to read test.txt
-Thread: main	 Registering immediate timeout 1
-Thread: main	 Registered timer event id: 2
-Thread: main	 Registering immediate timeout 2
-Thread: main	 Registered timer event id: 3
-Thread: main	 Second call to read test.txt
-Thread: main	 Registering a 3000 and a 500 ms timeout
-Thread: main	 Registered timer event id: 5
-Thread: main	 Registering a 1000 ms timeout
-Thread: main	 Registered timer event id: 6
-Thread: main	 Registering http get request to google.com
-Thread: pool3	 received a task of type: File read
-Thread: pool2	 received a task of type: File read
-Thread: main	 Event with id: 7 registered.
-Thread: main	 ===== TICK 1 =====
-Thread: main	 Immediate1 timed out
-Thread: main	 Immediate2 timed out
-Thread: pool3	 finished running a task of type: File read.
-Thread: pool2	 finished running a task of type: File read.
-Thread: main	 First count: 39 characters.
-Thread: main	 I want to create a &quot;magic&quot; number based on the text.
-Thread: pool3	 received a task of type: Encrypt
-Thread: main	 ===== TICK 2 =====
-Thread: main	 SETTIMEOUT
-Thread: main	 Second count: 39 characters.
-Thread: main	 Third call to read test.txt
-Thread: main	 ===== TICK 3 =====
-Thread: pool2	 received a task of type: File read
-Thread: pool3	 finished running a task of type: Encrypt.
-Thread: main	 &quot;Encrypted&quot; number is: 63245986
-Thread: main	 ===== TICK 4 =====
-Thread: pool2	 finished running a task of type: File read.
+<pre><code>Thread: main     First call to read test.txt
+Thread: main     Registering immediate timeout 1
+Thread: main     Registered timer event id: 2
+Thread: main     Registering immediate timeout 2
+Thread: main     Registered timer event id: 3
+Thread: main     Second call to read test.txt
+Thread: main     Registering a 3000 and a 500 ms timeout
+Thread: main     Registered timer event id: 5
+Thread: main     Registering a 1000 ms timeout
+Thread: main     Registered timer event id: 6
+Thread: main     Registering http get request to google.com
+Thread: pool3    received a task of type: File read
+Thread: pool2    received a task of type: File read
+Thread: main     Event with id: 7 registered.
+Thread: main     ===== TICK 1 =====
+Thread: main     Immediate1 timed out
+Thread: main     Immediate2 timed out
+Thread: pool3    finished running a task of type: File read.
+Thread: pool2    finished running a task of type: File read.
+Thread: main     First count: 39 characters.
+Thread: main     I want to create a &quot;magic&quot; number based on the text.
+Thread: pool3    received a task of type: Encrypt
+Thread: main     ===== TICK 2 =====
+Thread: main     SETTIMEOUT
+Thread: main     Second count: 39 characters.
+Thread: main     Third call to read test.txt
+Thread: main     ===== TICK 3 =====
+Thread: pool2    received a task of type: File read
+Thread: pool3    finished running a task of type: Encrypt.
+Thread: main     &quot;Encrypted&quot; number is: 63245986
+Thread: main     ===== TICK 4 =====
+Thread: pool2    finished running a task of type: File read.
 
 ===== THREAD main START CONTENT - FILE READ =====
 Hello world! This is text to encrypt!
 ... [Note: Abbreviated for display] ...
 ===== END CONTENT =====
 
-Thread: main	 ===== TICK 5 =====
-Thread: epoll	 epoll event 7 is ready
+Thread: main     ===== TICK 5 =====
+Thread: epoll    epoll event 7 is ready
 
 ===== THREAD main START CONTENT - WEB CALL =====
 HTTP/1.1 302 Found
@@ -1428,26 +1430,26 @@ Location: http://http/www.google.com
 ... [Note: Abbreviated for display] ...
 ===== END CONTENT =====
 
-Thread: main	 ===== TICK 6 =====
-Thread: epoll	 epoll event timeout is ready
-Thread: main	 ===== TICK 7 =====
-Thread: main	 3000ms timer timed out
-Thread: main	 Registered timer event id: 10
-Thread: epoll	 epoll event timeout is ready
-Thread: main	 ===== TICK 8 =====
-Thread: main	 500ms timer(nested) timed out
-Thread: pool0	 received a task of type: Close
-Thread: pool1	 received a task of type: Close
-Thread: pool2	 received a task of type: Close
-Thread: pool3	 received a task of type: Close
-Thread: epoll	 received event of type: Close
-Thread: main	 FINISHED
+Thread: main     ===== TICK 6 =====
+Thread: epoll    epoll event timeout is ready
+Thread: main     ===== TICK 7 =====
+Thread: main     3000ms timer timed out
+Thread: main     Registered timer event id: 10
+Thread: epoll    epoll event timeout is ready
+Thread: main     ===== TICK 8 =====
+Thread: main     500ms timer(nested) timed out
+Thread: pool0    received a task of type: Close
+Thread: pool1    received a task of type: Close
+Thread: pool2    received a task of type: Close
+Thread: pool3    received a task of type: Close
+Thread: epoll    received event of type: Close
+Thread: main     FINISHED
 </code></pre>
 <p>Don't worry, we'll explain everything, but I just wanted to start off by
 explaining where we want to end up.</p>
 <h1><a class="header" href="#what-is-node" id="what-is-node">What is Node?</a></h1>
 <p>We have to start with a short explanation of what Node is, just so we're on the same page.</p>
-<p>Node is a Javascript runtime allowing Javascript to run on your desktop (or server). Javascript was originally designed as a scripting language for the browser, which means that it relies on the browser to both interpret it and provide a runtime for it. </p>
+<p>Node is a Javascript runtime allowing Javascript to run on your desktop (or server). Javascript was originally designed as a scripting language for the browser, which means that it relies on the browser to both interpret it and provide a runtime for it.</p>
 <p>This also means that Javascript on the desktop needs to be both interpreted (or compiled) and provided with a runtime to be able to do anything meaningful. On the desktop, the <a href="https://en.wikipedia.org/wiki/V8_JavaScript_engine">V8 javascript engine</a> compiles Javascript, and <a href="https://en.wikipedia.org/wiki/Node.js">Node</a> provides the runtime.</p>
 <p>Javascript has one advantage from a language design perspective: Everything is designed to be handled asynchronously. And as you know by now, this is pretty crucial if we want to make the most out of our hardware, especially if you have a lot of I/O operations to take care of.</p>
 <p>One such scenario is a Web server. Web servers handle a lot of I/O tasks whether it's reading from the file system or communicating via the network card.</p>
@@ -1461,7 +1463,7 @@ explaining where we want to end up.</p>
 <h2><a class="header" href="#helpful-facts" id="helpful-facts">Helpful Facts</a></h2>
 <p>Let's start off by debunking some myths that might make it easier to follow along when we start to code.</p>
 <h3><a class="header" href="#the-javascript-event-loop" id="the-javascript-event-loop">The Javascript Event Loop</a></h3>
-<p>Javascript is a scripting language and can't do much on its own. It doesn't have an event loop. Now in a web browser, the browser provides a runtime, which includes an event loop. And on the server, Node provides this functionality. </p>
+<p>Javascript is a scripting language and can't do much on its own. It doesn't have an event loop. Now in a web browser, the browser provides a runtime, which includes an event loop. And on the server, Node provides this functionality.</p>
 <p>You might say that Javascript as a language would be difficult to run (due to its callback-based model) without some sort of event loop, but that's beside the point.</p>
 <h3><a class="header" href="#node-is-multithreaded" id="node-is-multithreaded">Node is Multithreaded</a></h3>
 <p>Contrary to what I've seen claimed on several occasions, Node uses a thread pool so it's multithreaded. However, the part of Node that &quot;progresses&quot; your code, does indeed run on a single thread. When we say &quot;don't block the event loop&quot; we're referring to this thread since that will prevent Node from making progress on other tasks.</p>
@@ -1498,7 +1500,7 @@ too run asynchronously but not in our OS backed event queue</li>
 <li>We need to make a simple cross platform <code>epoll/kqueue/IOCP</code> event loop. Now
 this turns out to be extremely interesting, but it's also a lot of code, so I split
 this section off into a separate &quot;companion book&quot; for those that want to explore this further.
-We use this library here called <code>minimio</code>. </li>
+We use this library here called <code>minimio</code>.</li>
 </ol>
 <blockquote>
 <p>Granted, we're breaking our rule that we don't use any dependencies, but it's our own dependency which we'll explain fully in due time.</p>
@@ -1570,7 +1572,7 @@ pub struct Runtime {
     epoll_registrator: minimio::Registrator,
     // The handle to our epoll thread
     epoll_thread: thread::JoinHandle&lt;()&gt;,
-    /// None = infinite, Some(n) = timeout in n ms, Some(0) = immidiate
+    /// None = infinite, Some(n) = timeout in n ms, Some(0) = immediate
     epoll_timeout: Arc&lt;Mutex&lt;Option&lt;i32&gt;&gt;&gt;,
     /// Channel used by both our threadpool and our epoll thread to send events
     /// to the main loop
@@ -1614,8 +1616,8 @@ impl Task {
 <p>We need a task object, which represents a task we want to finish in our thread
 pool. I'll go through the types in this object in a later <a href="./7_9_infrastructure.html">chapter</a> so don't worry too much about them now if you find them
 hard to grasp. Everything will be explained.</p>
-<p>We also create an implementation of a <code>Close</code> task. We need this to clean up after ourselves and close down the thread pool. </p>
-<p><code>|| Js::Undefined</code> might seem strange but it's only a function that returns <code>Js::Undefined</code>, we need it since we won't make <code>task</code> an <code>Option</code> just for this one case. </p>
+<p>We also create an implementation of a <code>Close</code> task. We need this to clean up after ourselves and close down the thread pool.</p>
+<p><code>|| Js::Undefined</code> might seem strange but it's only a function that returns <code>Js::Undefined</code>, we need it since we won't make <code>task</code> an <code>Option</code> just for this one case.</p>
 <p>It's just so we don't have to <code>match</code> or <code>map</code> on <code>task</code> all the way through our code, it's more than enough to parse already.</p>
 <h2><a class="header" href="#nodethread" id="nodethread">NodeThread</a></h2>
 <p>First is <code>NodeThread</code>, which represents a thread in our thread pool. As you
@@ -1663,7 +1665,7 @@ pub enum ThreadPoolTaskKind {
 to make our code look more &quot;javascripty&quot;, but it's also convenient for us to
 abstract over the return types of closures.</p>
 <p>We'll also implement two convenience methods on this object to make our &quot;javascripty&quot;
-code look a bit cleaner. </p>
+code look a bit cleaner.</p>
 <p>We know the return types already based on our modules
 documentation - just like you would know it from the documentation when using a
 Node module but we need to actually handle the types in Rust so this will make that just slightly easier for us.</p>
@@ -1706,7 +1708,7 @@ that we can accept back from both our <code>epoll based</code> event queue and o
 enum PollEvent {
     /// An event from the `threadpool` with a tuple containing the `thread id`,
     /// the `callback_id` and the data which the we expect to process in our
-    /// callback 
+    /// callback
     Threadpool((usize, usize, Js)),
     /// An event from the epoll-based eventloop holding the `event_id` for the
     /// event
@@ -1731,7 +1733,7 @@ static mut RUNTIME: *mut Runtime = std::ptr::null_mut();
 #}</code></pre></pre>
 <p>Let's now move on and look at what the heart of the runtime looks like: the main loop</p>
 <h2><a class="header" href="#moving-on" id="moving-on">Moving on</a></h2>
-<p>Now we've already gotten really far by introducing most of our runtime already in the first chapter. The next chapter will focus on implementing all the functionality we need for this to work. </p>
+<p>Now we've already gotten really far by introducing most of our runtime already in the first chapter. The next chapter will focus on implementing all the functionality we need for this to work.</p>
 <h1><a class="header" href="#the-main-loop" id="the-main-loop">The main loop</a></h1>
 <p>Let's put our event loop logic in the <code>run</code> function of our <code>Runtime</code>. The code
 which we present on this chapter is the body of this <code>run</code> function.</p>
@@ -1752,7 +1754,7 @@ impl Runtime {
 #fn main() {
 let rt_ptr: *mut Runtime = self;
 unsafe { RUNTIME = rt_ptr as usize };
-let mut timers_to_remove = vec![]; 
+let mut timers_to_remove = vec![];
 let mut ticks = 0; // just for us priting out
 
 // First we run our &quot;main&quot; function
@@ -1760,7 +1762,7 @@ f();
 #}</code></pre></pre>
 <p>The first two lines is just a <code>hack</code> we use in our code to make it &quot;look&quot; more
 like javascript. We take the pointer to <code>self</code> and set it in the global
-variable <code>RUNTIME</code>. </p>
+variable <code>RUNTIME</code>.</p>
 <p>We could instead pass our <code>runtime</code> around but that wouldn't
 be very ergonomic. Another option would be to use <code>lazy_static</code> crate to initialize this field in a slightly safer way, but we'd have to explain what <code>lazy_static</code> do to keep our promise of minimal &quot;magic&quot;.</p>
 <p>To be honest, we only set this once, and it's set at the start of of our eventloop and we only access this from the same thread we created it. It might not be pretty but it's safe.</p>
@@ -1775,8 +1777,8 @@ while self.pending_events &gt; 0 {
     ticks += 1;
 #}</code></pre></pre>
 <p><code>self.pending_events</code> keeps track of how many pending events we have, so that when no events are left we exit the loop since our eventloop is finished.</p>
-<p>So where does these events come from? In our <code>javascript</code> function <code>f</code> which we introduced in the chapter <a href="./7_0_introducing_our_main_example.html">Introducing our main example</a> you probably noticed that we called functions like 
-<code>set_timeout</code> and <code>Fs::read</code>. These functions are defined in the Node runtime 
+<p>So where does these events come from? In our <code>javascript</code> function <code>f</code> which we introduced in the chapter <a href="./7_0_introducing_our_main_example.html">Introducing our main example</a> you probably noticed that we called functions like
+<code>set_timeout</code> and <code>Fs::read</code>. These functions are defined in the Node runtime
 (as they are in ours), and their main responsibility is to create tasks and register interest on events. When one of these tasks or interests are registered this counter is increased.</p>
 <p><code>ticks</code> is just increasing a <code>tick</code> in the counter.</p>
 <h2><a class="header" href="#1-effectuate-timers" id="1-effectuate-timers">1. Effectuate timers</a></h2>
@@ -1797,7 +1799,7 @@ this functionality in our example but it's worth noting.</p>
 the big picture here but I included it since it's something you see in Nodes
 documentation so you know where we're at in the loop at this point.</p>
 <h2><a class="header" href="#4-poll" id="4-poll">4. Poll</a></h2>
-<p>This is an important step. This is where we'll receive events from our thread pool or our <code>epoll</code> event queue. </p>
+<p>This is an important step. This is where we'll receive events from our thread pool or our <code>epoll</code> event queue.</p>
 <p>I refer to the <code>epoll/kqueue/IOCP</code> event queue as <code>epoll</code> here just so you know that it's not only <code>epoll</code> we're waiting for. From now on I will refer to the cross platform event queue as <code>epoll</code> in the code for brevity.</p>
 <h3><a class="header" href="#calculate-time-until-next-timeout-if-any" id="calculate-time-until-next-timeout-if-any">Calculate time until next timeout (if any)</a></h3>
 <p>The first thing we do is to check if we have any timers. If we have timers that will time out we calculate how many milliseconds it is to the first timer to timeout. We'll need this to make sure we don't block and forget about our timers.</p>
@@ -1811,7 +1813,7 @@ let mut epoll_timeout_lock = self.epoll_timeout.lock().unwrap();
 // We release the lock before we wait in `recv`
 drop(epoll_timeout_lock);
 #}</code></pre></pre>
-<p><code>self.epoll_timeout</code> is a <code>Mutex</code> so we need to lock it to be able to change the value it holds. Now, this is important, we need to make sure the lock is released before we <code>poll</code>. <code>poll</code> will suspend our thread, and it will try to read the value in <code>self.epoll_timeout</code>. </p>
+<p><code>self.epoll_timeout</code> is a <code>Mutex</code> so we need to lock it to be able to change the value it holds. Now, this is important, we need to make sure the lock is released before we <code>poll</code>. <code>poll</code> will suspend our thread, and it will try to read the value in <code>self.epoll_timeout</code>.</p>
 <p>If we're still holding the lock we'll end up in a <code>deadlock</code>. <code>drop(epoll_timeout_lock)</code> releases the lock. We'll explain a bit more in detail how this works in the next chapter.</p>
 <h3><a class="header" href="#wait-for-events" id="wait-for-events">Wait for events</a></h3>
 <pre><pre class="playpen"><code class="language-rust no_run">
@@ -1887,7 +1889,7 @@ pub fn run(mut self, f: impl Fn()) {
     unsafe { RUNTIME = rt_ptr };
 
     // just for us priting out during execution
-    let mut ticks = 0; 
+    let mut ticks = 0;
 
     // First we run our &quot;main&quot; function
     f();
@@ -1990,7 +1992,7 @@ to set up a channel which our threads can use to send messages to our main threa
 <code>callback_id</code> and the data returned when we run our <code>Task</code>.</p>
 <p>The <code>Receiver</code> part will be stored in our <code>Runtime</code>, and the <code>Sender</code> part will
 be cloned to each of our threads.</p>
-<p>Node defaults to 4 threads which we will copy. This is configurable in <code>Node</code> 
+<p>Node defaults to 4 threads which we will copy. This is configurable in <code>Node</code>
 but we will take a shortcut and hard code it:</p>
 <pre><pre class="playpen"><code class="language-rust no_run">
 # #![allow(unused_variables)]
@@ -2008,7 +2010,7 @@ for i in 0..4 {
 
             while let Ok(task) = evt_reciever.recv() {
                 print(format!(&quot;received a task of type: {}&quot;, task.kind));
-                
+
                 if let ThreadPoolTaskKind::Close = task.kind {
                     break;
                 };
@@ -2048,7 +2050,7 @@ so they can send messages to our <code>main</code> thread.</p>
 <p>After that's done we build our thread. We'll use <code>thread::Builder::new()</code> instead
 of use <code>thread::spawn</code> since we want to give each thread a name. We'll only use this
 name when we <code>print</code> from our event since it will be clear from which thread
-we printed the message. </p>
+we printed the message.</p>
 <pre><pre class="playpen"><code class="language-rust no_run">
 # #![allow(unused_variables)]
 #fn main() {
@@ -2073,7 +2075,7 @@ out information for us to see:</p>
 #fn main() {
 while let Ok(task) = evt_reciever.recv() {
         print(format!(&quot;received a task of type: {}&quot;, task.kind));
-        
+
         if let ThreadPoolTaskKind::Close = task.kind {
             break;
         };
@@ -2090,7 +2092,7 @@ while let Ok(task) = evt_reciever.recv() {
 we gave the <code>Send</code> part to our <code>main</code> thread). This function will actually
 <code>park</code> our thread until we receive a message so it consumes no resources while
 waiting.</p>
-<p>When we get a <code>task</code> we first print out what kind of task we got. </p>
+<p>When we get a <code>task</code> we first print out what kind of task we got.</p>
 <p>The next thing we do is to check if this was a <code>Close</code> task, if thats true
 we break out of our loop which in turn will close the thread.</p>
 <p>If it wasn't a <code>Close</code> task we run our task <code>let res = (task.task)();</code>. This is where the work will
@@ -2121,7 +2123,7 @@ let epoll_thread = thread::Builder::new()
     .name(&quot;epoll&quot;.to_string())
     .spawn(move || {
         let mut events = minimio::Events::with_capacity(1024);
-        
+
         loop {
             let epoll_timeout_handle = epoll_timeout_clone.lock().unwrap();
             let timeout = *epoll_timeout_handle;
@@ -2132,7 +2134,7 @@ let epoll_thread = thread::Builder::new()
                     for i in 0..v {
                         let event = events.get_mut(i).expect(&quot;No events in event list.&quot;);
                         print(format!(&quot;epoll event {} is ready&quot;, event.id().value()));
-                        
+
                         let event = PollEvent::Epoll(event.id().value() as usize);
                         event_sender.send(event).expect(&quot;epoll event&quot;);
                     }
@@ -2166,7 +2168,7 @@ entry point into our <code>kqueue/epoll/iocp</code> event queue.</p>
 <blockquote>
 <p><code>minimio::Poll</code> does several things under the hood. It sets up a structure for
 us to store some information about the state of the event queue, and most
-importantly makes a syscall to the underlying OS and asks it for a handle to 
+importantly makes a syscall to the underlying OS and asks it for a handle to
 either an <code>epoll</code> instance, a <code>kqueue</code> or to an <code>Completion Port</code>. We won't
 register anything here yet, but we need this handle to later make sure we register
 interest with the queue we're polling.</p>
@@ -2257,7 +2259,7 @@ match poll.poll(&amp;mut events, timeout) {
         for i in 0..v {
             let event = events.get_mut(i).expect(&quot;No events in event list.&quot;);
             print(format!(&quot;epoll event {} is ready&quot;, event.id().value()));
-            
+
             let event = PollEvent::Epoll(event.id().value() as usize);
             event_sender.send(event).expect(&quot;epoll event&quot;);
         }
@@ -2351,7 +2353,7 @@ impl Runtime {
 
                     while let Ok(task) = evt_reciever.recv() {
                         print(format!(&quot;received a task of type: {}&quot;, task.kind));
-                        
+
                         if let ThreadPoolTaskKind::Close = task.kind {
                             break;
                         };
@@ -2383,7 +2385,7 @@ impl Runtime {
             .name(&quot;epoll&quot;.to_string())
             .spawn(move || {
                 let mut events = minimio::Events::with_capacity(1024);
-                
+
                 loop {
                     let epoll_timeout_handle = epoll_timeout_clone.lock().unwrap();
                     let timeout = *epoll_timeout_handle;
@@ -2394,7 +2396,7 @@ impl Runtime {
                             for i in 0..v {
                                 let event = events.get_mut(i).expect(&quot;No events in event list.&quot;);
                                 print(format!(&quot;epoll event {} is ready&quot;, event.id().value()));
-                                
+
                                 let event = PollEvent::Epoll(event.id().value() as usize);
                                 event_sender.send(event).expect(&quot;epoll event&quot;);
                             }
@@ -2430,11 +2432,11 @@ impl Runtime {
             timers_to_remove: vec![],
         }
     }
-} 
+}
 #}</code></pre></pre>
 <h1><a class="header" href="#timers" id="timers">Timers</a></h1>
 <h2><a class="header" href="#1-check-expired-timers" id="1-check-expired-timers">1. Check expired timers</a></h2>
-<p>The first step in the event loop is checking for expired timers, and we do this 
+<p>The first step in the event loop is checking for expired timers, and we do this
 in the <code>self.check_expired_timers()</code> function</p>
 <pre><pre class="playpen"><code class="language-rust">
 # #![allow(unused_variables)]
@@ -2596,7 +2598,7 @@ some <code>print</code> statements showing the status of our runtime at differen
 However, there are good reasons to keep track of these events even if we don't use them.</p>
 <p>One area we're taking shortcuts on all the way here is security. If someone were
 to build a public facing server out of this, we need to account for slow networks
-and malicious users. </p>
+and malicious users.</p>
 <p>Since we use <code>IOCP</code>, which is a completion based model, we allocate memory for
 a buffer for each <code>Read</code> or <code>Write</code> event. When we lend this memory to the OS,
 we're in a weird situation. We own it, but we can't touch it. There are several
@@ -2718,7 +2720,7 @@ the environment.</p>
 <p>Since you consume the variable a <code>closure</code> implementing <code>FnOnce</code> can only be called
 once. Our closure will take ownership over resources we create in our <code>main</code> thread
 and consume it. We want this since once consumed, the resources we used will be cleaned
-up as a result of Rusts <code>RAII</code> pattern. It's implicit that <code>FnOnce</code> returns <code>()</code> in this 
+up as a result of Rusts <code>RAII</code> pattern. It's implicit that <code>FnOnce</code> returns <code>()</code> in this
 case so we don't have to write <code>FnOnce(Js) -&gt; ()</code>.</p>
 <p>Since callbacks are meant to only be called once, this is a perfectly fine bound
 for us to use here.</p>
@@ -2815,7 +2817,7 @@ to the thread which then runs it until it's finished.</p>
 are short and which are long and prioritize them based on load. A lot of exciting
 things could be done here. We will choose the simplest possible one though, and just
 push them directly to a thread in the order they come.</p>
-<p>The last part of the &quot;infrastructure&quot; is a function to set a timeout. </p>
+<p>The last part of the &quot;infrastructure&quot; is a function to set a timeout.</p>
 <pre><pre class="playpen"><code class="language-rust">
 # #![allow(unused_variables)]
 #fn main() {
@@ -2879,7 +2881,7 @@ better Rust) we need to dereference a mutable pointer to our runtime.</p>
 </ol>
 <p>Now it's not pretty, and that's also why I explain why we do it, and why it's safe here. Normally, all <code>unsafe</code>
 code should contain a reason why it's used, and why it's safe in a comment.</p>
-<p>Once we have referenced the pointer to <code>RUNTIME</code> we can call methods on it and in 
+<p>Once we have referenced the pointer to <code>RUNTIME</code> we can call methods on it and in
 this case we simply call <code>rt.set_timeout(ms, cb)</code> which sets a timeout as you saw
 in the last chapter.</p>
 <h1><a class="header" href="#file-module" id="file-module">File module</a></h1>
@@ -2921,7 +2923,7 @@ its a huge file that takes a second to read.</p>
 <p>You might remember from the <a href="./7_9_infrastructure.html">Infrastructure chapter</a> that
 our <code>register_work</code> method received a task argument <code>task: impl Fn() -&gt; Js + Send + 'static</code>.
 As you see here, our closure returns a <code>Js</code>object and takes no arguments, which means
-it conforms to this signature. The <code>Fn</code> trait will be automatically derived. 
+it conforms to this signature. The <code>Fn</code> trait will be automatically derived.
 <code>Send</code> is also an automatically derived trait, which means that we can't implement
 <code>Send</code>. However if we tried to send types that are <code>!Send</code> to our thread by
 referencing them in our closure we would get an error.</p>
@@ -2948,7 +2950,7 @@ your process memory (your buffer) and that will block our entire event loop.</p>
 <p>Secondly, the support for async file operations is limited and to a varying degree
 well implemented. The only system that does this pretty good is Windows since it
 uses a <code>completion</code> based model (which means it can let you know when the data is
-read into your buffer). </p>
+read into your buffer).</p>
 <p>It makes sense for a completion based model to try to do this asynchronously, but
 since the real effect are so small and the code complexity is high (especially when you're
 writing a server that is cross platform) most implementations find that using a thread pool
@@ -3026,7 +3028,7 @@ impl Http {
         // response from a server. Perfect for our use case.
         let adr = &quot;slowwly.robertomurray.co.uk:80&quot;;
         let mut stream = minimio::TcpStream::connect(adr).unwrap();
-            
+
         let request = format!(
             &quot;GET /delay/{}/url/http://{} HTTP/1.1\r\n\
              Host: slowwly.robertomurray.co.uk\r\n\
@@ -3060,7 +3062,7 @@ impl Http {
 <p>First we call the method <code>http_get_slow</code> since we're simulating a slow response, again
 this is for us to see and control how the events will occur since we're trying to learn.</p>
 <p>In the function body, the first thing we do is dereference our runtime. We need to use a bit of its functionality here so we do this right away.</p>
-<p>The next step is to create a <code>minimio::TcpStream</code>. </p>
+<p>The next step is to create a <code>minimio::TcpStream</code>.</p>
 <pre><pre class="playpen"><code class="language-rust no_run">
 # #![allow(unused_variables)]
 #fn main() {
@@ -3070,9 +3072,9 @@ let mut stream = minimio::TcpStream::connect(adr).unwrap();
 <blockquote>
 <p><strong>Now why not the regular <code>TcpStream</code> from the standard library?</strong></p>
 <p>Well, you do remember that <code>kqueue</code> and <code>epoll</code> are readiness based and <code>IOCP</code> is
-completion based right? </p>
+completion based right?</p>
 <p>Well, to have single ergonomic API for all platforms
-we need to abstract over something and we (like <code>mio</code>) choose to abstract over <code>TcpStream</code>. </p>
+we need to abstract over something and we (like <code>mio</code>) choose to abstract over <code>TcpStream</code>.</p>
 <p>While <code>kqueue</code> and <code>epoll</code> can just read when a <code>Read</code> event is ready, we need the <code>TcpStream</code> to create a buffer that it hands over to the OS on Windows. So when we call <code>TcpStream</code> read, we read from this buffer on Windows.</p>
 </blockquote>
 <p>We connect to <code>slowwly.robertomurray.co.uk:80</code> which is just a site <a href="https://github.com/rob-murray">Robert Murray</a> has created
@@ -3169,7 +3171,7 @@ rt.register_event_epoll(token, wrapped);
 <h2><a class="header" href="#bonus-section" id="bonus-section">Bonus section</a></h2>
 <p>Now in a better implementation, we would not issue a blocking call like <code>read_to_string</code>
 because it might be that at some point this will block if not all the data we need
-is present at once. </p>
+is present at once.</p>
 <p>The right thing to do then would be to read parts of the
 data into a buffer while calling <code>stream.read(..)</code> in a loop, and at some point
 this might return an <code>Err::WouldBlock</code> at which we re-wrap our callback and re-register
@@ -3240,7 +3242,7 @@ fn print_content(t: impl std::fmt::Display, descr: &amp;str) {
         descr.to_uppercase()
     );
 
-    let content = format!(&quot;{}&quot;, t); 
+    let content = format!(&quot;{}&quot;, t);
     let lines = content.lines().take(2);
     let main_cont: String = lines.map(|l| format!(&quot;{}\n&quot;, l)).collect();
     let opt_location = content.find(&quot;Location&quot;);
@@ -3251,14 +3253,14 @@ fn print_content(t: impl std::fmt::Display, descr: &amp;str) {
         .nth(0)
         .map(|l| format!(&quot;{}\n&quot;,l))
         .unwrap_or(String::new())
-    });    
+    });
 
     println!(
         &quot;{}{}... [Note: Abbreviated for display] ...&quot;,
         main_cont,
         opt_location.unwrap_or(String::new())
     );
-    
+
     println!(&quot;===== END CONTENT =====\n&quot;);
 }
 
@@ -3268,7 +3270,7 @@ fn print_content(t: impl std::fmt::Display, descr: &amp;str) {
 <pre><pre class="playpen"><code class="language-rust no_run">
 # #![allow(unused_variables)]
 #fn main() {
-let content = format!(&quot;{}&quot;, t); 
+let content = format!(&quot;{}&quot;, t);
 let lines = content.lines().take(2);
 let main_cont: String = lines.map(|l| format!(&quot;{}\n&quot;, l)).collect();
 #}</code></pre></pre>
@@ -3292,7 +3294,7 @@ let opt_location = opt_location.map(|loc| {
         .nth(0)
         .map(|l| format!(&quot;{}\n&quot;,l))
         .unwrap_or(String::new())
-    }); 
+    });
 #}</code></pre></pre>
 <p>The next part finds the location of the &quot;Location&quot; header. <code>find</code> returns an <code>Option</code>,
 just keep that in mind.</p>
@@ -3303,7 +3305,7 @@ which means that <code>map(|loc| {...</code> loc is an index of the where the <c
 of where we found the <code>Location</code> header, and all the way to the end of the string.</p>
 <p>From this range we access the iterator over its lines by calling <code>lines()</code>, we take the first
 line from this iterator <code>nth(0)</code>. Now again, this returns an <code>Option</code>, so we use <code>map</code>
-again to define what we'll do in the case if it's <code>Some</code>. </p>
+again to define what we'll do in the case if it's <code>Some</code>.</p>
 <p>This means that <strong>if</strong> the first line of <code>content[loc..]</code> is something we pass that
 into our closure <code>map(|l| format!(&quot;{}\n&quot;,l))</code>, which results in <code>l</code> as this line.</p>
 <p>We simply map this line into a <code>String</code> which we have appended a line break to.</p>
@@ -3385,7 +3387,7 @@ fn javascript() {
     Http::http_get_slow(&quot;http//www.google.com&quot;, 2000, |result| {
         let result = result.into_string().unwrap();
         print_content(result.trim(), &quot;web call&quot;);
-    });   
+    });
 }
 
 fn main() {
@@ -3509,7 +3511,7 @@ pub struct Runtime {
 enum PollEvent {
     /// An event from the `threadpool` with a tuple containing the `thread id`,
     /// the `callback_id` and the data which the we expect to process in our
-    /// callback 
+    /// callback
     Threadpool((usize, usize, Js)),
     /// An event from the epoll-based eventloop holding the `event_id` for the
     /// event
@@ -3533,7 +3535,7 @@ impl Runtime {
 
                     while let Ok(task) = evt_reciever.recv() {
                         print(format!(&quot;received a task of type: {}&quot;, task.kind));
-                        
+
                         if let ThreadPoolTaskKind::Close = task.kind {
                             break;
                         };
@@ -3565,7 +3567,7 @@ impl Runtime {
             .name(&quot;epoll&quot;.to_string())
             .spawn(move || {
                 let mut events = minimio::Events::with_capacity(1024);
-                
+
                 loop {
                     let epoll_timeout_handle = epoll_timeout_clone.lock().unwrap();
                     let timeout = *epoll_timeout_handle;
@@ -3576,7 +3578,7 @@ impl Runtime {
                             for i in 0..v {
                                 let event = events.get_mut(i).expect(&quot;No events in event list.&quot;);
                                 print(format!(&quot;epoll event {} is ready&quot;, event.id().value()));
-                                
+
                                 let event = PollEvent::Epoll(event.id().value() as usize);
                                 event_sender.send(event).expect(&quot;epoll event&quot;);
                             }
@@ -3627,7 +3629,7 @@ impl Runtime {
         unsafe { RUNTIME = rt_ptr };
 
         // just for us priting out during execution
-        let mut ticks = 0; 
+        let mut ticks = 0;
 
         // First we run our &quot;main&quot; function
         f();
@@ -3822,10 +3824,10 @@ impl Runtime {
 
         let cb_id = self.generate_cb_identity();
         self.add_callback(cb_id, cb);
-        
+
         let timeout = now + Duration::from_millis(ms);
         self.timers.insert(timeout, cb_id);
-        
+
         self.pending_events += 1;
         print(format!(&quot;Registered timer event id: {}&quot;, cb_id));
     }
@@ -3885,7 +3887,7 @@ struct Http;
 impl Http {
     pub fn http_get_slow(url: &amp;str, delay_ms: u32, cb: impl Fn(Js) + 'static + Clone) {
         let rt: &amp;mut Runtime = unsafe { &amp;mut *RUNTIME };
-        
+
         // Don't worry, http://slowwly.robertomurray.co.uk is a site for simulating a delayed
         // response from a server. Perfect for our use case.
         let adr = &quot;slowwly.robertomurray.co.uk:80&quot;;
@@ -3934,7 +3936,7 @@ fn print_content(t: impl std::fmt::Display, descr: &amp;str) {
         descr.to_uppercase()
     );
 
-    let content = format!(&quot;{}&quot;, t); 
+    let content = format!(&quot;{}&quot;, t);
     let lines = content.lines().take(2);
     let main_cont: String = lines.map(|l| format!(&quot;{}\n&quot;, l)).collect();
     let opt_location = content.find(&quot;Location&quot;);
@@ -3945,14 +3947,14 @@ fn print_content(t: impl std::fmt::Display, descr: &amp;str) {
         .nth(0)
         .map(|l| format!(&quot;{}\n&quot;,l))
         .unwrap_or(String::new())
-    });    
+    });
 
     println!(
         &quot;{}{}... [Note: Abbreviated for display] ...&quot;,
         main_cont,
         opt_location.unwrap_or(String::new())
     );
-    
+
     println!(&quot;===== END CONTENT =====\n&quot;);
 }
 
@@ -3962,9 +3964,9 @@ fn current() -&gt; String {
 
 </code></pre></pre>
 <h1><a class="header" href="#shortcuts-and-improvements" id="shortcuts-and-improvements">Shortcuts and improvements</a></h1>
-<p>There are several things we could do here to make this a better implementation which I want to point out here. </p>
+<p>There are several things we could do here to make this a better implementation which I want to point out here.</p>
 <p>One is to set a max backlog of callbacks to execute in a single tick, so we don't starve the threadpool or file handlers. In other words, limit the amount of callbacks we execute in a single iteration.</p>
-<p>Another is to dynamically decide if/and how long the thread could be allowed to be parked for example by looking at the backlog of events, and if there is any backlog disable any waiting at all. </p>
+<p>Another is to dynamically decide if/and how long the thread could be allowed to be parked for example by looking at the backlog of events, and if there is any backlog disable any waiting at all.</p>
 <p>When it comes to data structures, there is lots we could have done.
 If you look closely, you'll see that some of our Vec's will only grow, and not resize ever, so if we have a period of very high load,the memory will stay higher than it needs to be until a restart. This could be dealt with or a different data structure without this property could have been chosen (like a linked list).</p>
 <p>Some of the shortcuts (like panicing when we have no available threads in the threadpool) is especially limiting. If you were to improve this example, that would be one of the first things to fix.</p>
