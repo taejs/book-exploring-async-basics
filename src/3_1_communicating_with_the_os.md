@@ -45,9 +45,11 @@ fn main() {
 }
 
 #[cfg(target_os = "linux")]
+#[inline(never)]
 fn syscall(message: String) {
     let msg_ptr = message.as_ptr();
     let len = message.len();
+    
     unsafe {
         asm!("
         mov     $$1, %rax   # system call 1 is write on linux
@@ -58,7 +60,7 @@ fn syscall(message: String) {
     "
         :
         : "r"(msg_ptr), "r"(len)
-
+        : "rax", "rdi", "rsi", "rdx"
         )
     }
 }
@@ -66,7 +68,7 @@ fn syscall(message: String) {
 
 The code to initiate the `write` syscall on Linux is `1` so when we write `$$1` we're writing the literal value 1 to the `rax` register.
 
-> `$$` in inline assembly using the AT&T syntax is how you write a literal value. A single `$` means you're referring to a parameter so when we write `$0` we're referring to the first parameter called `msg_ptr`.
+> `$$` in inline assembly using the AT&T syntax is how you write a literal value. A single `$` means you're referring to a parameter so when we write `$0` we're referring to the first parameter called `msg_ptr`. We also need to clobber the registers we write to so that we let the compiler know that we're modifying them and it can't rely on storing any values in these.
 
 Coincidentally, placing the value `1` into the `rdi` register means that we're referring to `stdout` which is the file descriptor we want to write to. This has nothing to do with the fact that the `write` syscall also has the code `1`.
 
@@ -99,6 +101,7 @@ fn syscall(message: String) {
     "
         :
         : "r"(msg_ptr), "r"(len)
+        : "rax", "rdi", "rsi", "rdx"
         )
     };
 }
