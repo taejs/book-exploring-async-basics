@@ -1219,9 +1219,9 @@ languages have bindings for it.</p>
 to understand how everything works, I decided to create an extremely
 simplified version of an event queue. I called it <code>minimio</code> since it's greatly inspired by <code>mio</code>.</p>
 <blockquote>
-<p>I have written a about how this works in detail called <a href="https://cfsamsonbooks.gitbook.io/epoll-kqueue-iocp-explained/">Epoll, Kqueue and IOCP explained</a>.  For now, you can In that book we also create the event loop which we will use in our library. You can visit the code at its <a href="https://github.com/cfsamson/examples-minimio">Github repository if you're
-curious</a>. This book will also briefly cover
-<code>wepoll</code>, which is used as an optimization instead of IOCP in both the <code>mio</code> and <code>libuv</code> frameworks.</p>
+<p>I have written a about how this works in detail called <a href="https://cfsamsonbooks.gitbook.io/epoll-kqueue-iocp-explained/">Epoll, Kqueue and IOCP explained</a>. 
+In that book we also create the event loop which we will use as the cross platform eventloop in this book. You can visit the code at its <a href="https://github.com/cfsamson/examples-minimio">Github repository if you're
+curious</a>.</p>
 </blockquote>
 <p>Nevertheless, we'll give each of them a brief introduction here so you know the basics.</p>
 <h2><a class="header" href="#why-use-an-os-backed-event-queue" id="why-use-an-os-backed-event-queue">Why use an OS-backed event queue?</a></h2>

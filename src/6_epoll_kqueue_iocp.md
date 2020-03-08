@@ -15,9 +15,9 @@ Since we want
 to understand how everything works, I decided to create an extremely
 simplified version of an event queue. I called it `minimio` since it's greatly inspired by `mio`.
 
-> I have written a about how this works in detail called [Epoll, Kqueue and IOCP explained](https://cfsamsonbooks.gitbook.io/epoll-kqueue-iocp-explained/).  For now, you can In that book we also create the event loop which we will use in our library. You can visit the code at its [Github repository if you're
-> curious](https://github.com/cfsamson/examples-minimio). This book will also briefly cover
-> `wepoll`, which is used as an optimization instead of IOCP in both the `mio` and `libuv` frameworks.
+> I have written a about how this works in detail called [Epoll, Kqueue and IOCP explained](https://cfsamsonbooks.gitbook.io/epoll-kqueue-iocp-explained/). 
+> In that book we also create the event loop which we will use as the cross platform eventloop in this book. You can visit the code at its [Github repository if you're
+> curious](https://github.com/cfsamson/examples-minimio).
 
 Nevertheless, we'll give each of them a brief introduction here so you know the basics.
 
