@@ -36,7 +36,7 @@ Non-blocking methods are more flexible but need to have a way to tell us if a ta
 Event queuing via Epoll/kqueue/IOCP is a way to combine the flexibility of a non-blocking method without its aforementioned drawback.
 
 > We will not cover methods like `poll` and `select`, but I have an [article for you
-> here](https://people.eecs.berkeley.edu/~sangjin/2012/12/21/epoll-vs-kqueue.html)
+> here](http://web.archive.org/web/20190112082733/https://people.eecs.berkeley.edu/~sangjin/2012/12/21/epoll-vs-kqueue.html)
 > if you want to learn a bit about these methods and how they differ from `epoll`.
 
 ## Readiness-based event queues
