@@ -9,7 +9,7 @@ I'll include the whole method last so you can see it all together.
 
 ```rust, no_run
 impl Runtime {
-    fn run(self) {
+    pub fn run(mut self, f: impl Fn()) {
         ...
     }
 }
