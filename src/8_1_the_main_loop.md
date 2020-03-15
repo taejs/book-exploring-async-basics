@@ -21,7 +21,6 @@ impl Runtime {
 ```rust, no_run
 let rt_ptr: *mut Runtime = &mut self;
 unsafe { RUNTIME = rt_ptr };
-let mut timers_to_remove = vec![];
 let mut ticks = 0; // just for us priting out
 
 // First we run our "main" function
@@ -37,7 +36,7 @@ be very ergonomic. Another option would be to use `lazy_static` crate to initial
 
 To be honest, we only set this once, and it's set at the start of of our eventloop and we only access this from the same thread we created it. It might not be pretty but it's safe.
 
-The variable `timers_to_remove` is for us to keep track of the timers we've set. `ticks` is only a counter for us to keep track of how many times we've looped which for display.
+`ticks` is only a counter for us to keep track of how many times we've looped which for display.
 
 The last and least visible part of this code is actually where we kick everything off, calling `f()`. `f` will be the code we wrote in the `javascript` function in the last chapter. If this is empty nothing will happen.
 
@@ -57,13 +56,13 @@ So where does these events come from? In our `javascript` function `f` which we 
 
 `ticks` is just increasing a `tick` in the counter.
 
-## 1. Effectuate timers
+## 1. Process timers
 
-`self.effectuate_timers(&mut timers_to_remove);`
+`self.process_expired_timers();`
 
 This method checks if any timers has expired. If we have timers that have expired we schedule the callbacks for the expired timers to run at the first call to `self.run_callbacks()`.
 
-Worth noting here is that timers with a timeout of `0` will already have timed out by the time we reach this function so their events will be effectuated.
+Worth noting here is that timers with a timeout of `0` will already have timed out by the time we reach this function so their events will be processed.
 
 ## 2. Callbacks
 
