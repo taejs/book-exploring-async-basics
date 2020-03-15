@@ -77,7 +77,7 @@ in the struct `NodeThread` which will represent a thread in our threadpool.
 
 ```rust, no_run
 let (evt_sender, evt_reciever) = channel::<Event>();
-let threadp_sender = threadp_sender.clone();
+let event_sender = event_sender.clone();
 ```
 As you see here, we also clone the `Sender` part which we'll pass on to each thread
 so they can send messages to our `main` thread.
