@@ -115,23 +115,7 @@ sending part of a channel. This channel, sends messages of the type `Event`.
 #[derive(Debug)]
 struct NodeThread {
     pub(crate) handle: JoinHandle<()>,
-    sender: Sender<Event>,
-}
-```
-
-## Event
-
-The `Event` type is defined below. It holds a `task` which is a heap-allocated
-`Fn()`. An `Fn() -> Js` is a trait which represents a closure that returns a
-`Js` object. The next is a `callback_id` which is just an `usize` in our case but
-could be any object representing an unique Id. Last we have `EventKind` which
-is an `enum` indicating what kind of event this is.
-
-```rust,no_run
-struct Event {
-    task: Box<dyn Fn() -> Js + Send + 'static>,
-    callback_id: usize,
-    kind: EventKind,
+    sender: Sender<Task>,
 }
 ```
 
