@@ -19,7 +19,7 @@ impl Fs {
             Js::String(buffer)
         };
         let rt = unsafe { &mut *RUNTIME };
-        rt.register_work(work, ThreadPoolEventKind::FileRead, cb);
+        rt.register_event_threadpool(work, ThreadPoolEventKind::FileRead, cb);
     }
 }
 ```
