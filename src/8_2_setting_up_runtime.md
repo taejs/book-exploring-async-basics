@@ -193,7 +193,7 @@ let epoll_thread = thread::Builder::new()
                     break;
                 }
                 Err(e) => panic!("{:?}", e),
-                _ => (),
+                _ => unreachable!(),
             }
         }
     })
