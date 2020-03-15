@@ -19,8 +19,8 @@ impl Runtime {
 
 
 ```rust, no_run
-let rt_ptr: *mut Runtime = self;
-unsafe { RUNTIME = rt_ptr as usize };
+let rt_ptr: *mut Runtime = &mut self;
+unsafe { RUNTIME = rt_ptr };
 let mut timers_to_remove = vec![];
 let mut ticks = 0; // just for us priting out
 
