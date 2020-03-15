@@ -54,7 +54,7 @@ The eventloop will run repeatedly so avoiding any allocations inside the loop is
 ```rust
 while let Some(key) = timers_to_remove.pop() {
     let callback_id = self.timers.remove(&key).unwrap();
-    self.next_tick_callbacks.push((callback_id, Js::Undefined));
+    self.callbacks_to_run.push((callback_id, Js::Undefined));
 }
 ```
 
@@ -63,7 +63,7 @@ The next step is to take every timer that has expired, remove the timer from our
 As I explained in the previous chapter, this is an unique Id for this callback. What's
 important here is that we don't run the callback **immediately**. Node actually registers callbacks to be run on the next `tick`. An exception is the timers since they either have timed out or is a timer with a timeout of `0`. In this case a timer will not wait for the next tick if it has timed out, or in the case if it has a timeout of `0` they will be invoked immediately as you'll see next.
 
-Anyway, for now we add the callback id's to `self.next_tick_callbacks`.
+Anyway, for now we add the callback id's to `self.callbacks_to_run`.
 
 Before we continue, let's recap by looking what members of the `Runtime` struct
 we used here:
@@ -71,7 +71,7 @@ we used here:
 ```rust, no_run
 pub struct Runtime {
     pending_events: usize,
-    next_tick_callbacks: Vec<(usize, Js)>,
+    callbacks_to_run: Vec<(usize, Js)>,
     timers: BTreeMap<Instant, usize>,
 }
 ```
