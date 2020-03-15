@@ -19,7 +19,7 @@ impl Fs {
             Js::String(buffer)
         };
         let rt = unsafe { &mut *RUNTIME };
-        rt.register_event_threadpool(work, ThreadPoolEventKind::FileRead, cb);
+        rt.register_event_threadpool(work, ThreadPoolTaskKind::FileRead, cb);
     }
 }
 ```
@@ -47,7 +47,7 @@ We read the file into a buffer and then return `Js::String(buffer)`.
 > `Send`. However if we tried to send types that are `!Send` to our thread by
 > referencing them in our closure we would get an error.
 
-The last part is that we dereference our runtime and call `rt.register_work(work, ThreadPoolEventKind::FileRead, cb)`
+The last part is that we dereference our runtime and call `rt.register_work(work, ThreadPoolTaskKind::FileRead, cb)`
 to register the task with our `threadpool`.
 
 ## Bonus material
