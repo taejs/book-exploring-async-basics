@@ -23,7 +23,7 @@ impl Crypto {
         };
 
         let rt = unsafe { &mut *RUNTIME };
-        rt.register_work(work, ThreadPoolEventKind::Encrypt, cb);
+        rt.register_event_threadpool(work, ThreadPoolEventKind::Encrypt, cb);
     }
 }
 ```
