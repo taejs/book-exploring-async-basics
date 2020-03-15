@@ -39,7 +39,7 @@ its a huge file that takes a second to read.
 
 We read the file into a buffer and then return `Js::String(buffer)`.
 
-> You might remember from the [Infrastructure chapter](./7_9_infrastructure.md) that
+> You might remember from the [Infrastructure chapter](./8_9_infrastructure.md) that
 > our `register_work` method received a task argument `task: impl Fn() -> Js + Send + 'static`.
 > As you see here, our closure returns a `Js`object and takes no arguments, which means
 > it conforms to this signature. The `Fn` trait will be automatically derived.
