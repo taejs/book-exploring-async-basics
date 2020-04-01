@@ -23,7 +23,7 @@ impl Crypto {
         };
 
         let rt = unsafe { &mut *RUNTIME };
-        rt.register_work(work, ThreadPoolEventKind::Encrypt, cb);
+        rt.register_event_threadpool(work, ThreadPoolTaskKind::Encrypt, cb);
     }
 }
 ```
@@ -39,6 +39,6 @@ run here, but it will get called in one of our worker threads).
 
 Once that is finished we return the result as `Js::Int(fib)`.
 
-Lastly we dereference our `RUNTIME` and we call `rt.register_work(work, ThreadPoolEventKind::Encrypt, cb)` to register our task with the `threadpool`.
+Lastly we dereference our `RUNTIME` and we call `rt.register_work(work, ThreadPoolTaskKind::Encrypt, cb)` to register our task with the `threadpool`.
 
 Let's move on, we're very soon at the finish line.

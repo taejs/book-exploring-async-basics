@@ -19,7 +19,7 @@ impl Fs {
             Js::String(buffer)
         };
         let rt = unsafe { &mut *RUNTIME };
-        rt.register_work(work, ThreadPoolEventKind::FileRead, cb);
+        rt.register_event_threadpool(work, ThreadPoolTaskKind::FileRead, cb);
     }
 }
 ```
@@ -39,7 +39,7 @@ its a huge file that takes a second to read.
 
 We read the file into a buffer and then return `Js::String(buffer)`.
 
-> You might remember from the [Infrastructure chapter](./7_9_infrastructure.md) that
+> You might remember from the [Infrastructure chapter](./8_9_infrastructure.md) that
 > our `register_work` method received a task argument `task: impl Fn() -> Js + Send + 'static`.
 > As you see here, our closure returns a `Js`object and takes no arguments, which means
 > it conforms to this signature. The `Fn` trait will be automatically derived.
@@ -47,7 +47,7 @@ We read the file into a buffer and then return `Js::String(buffer)`.
 > `Send`. However if we tried to send types that are `!Send` to our thread by
 > referencing them in our closure we would get an error.
 
-The last part is that we dereference our runtime and call `rt.register_work(work, ThreadPoolEventKind::FileRead, cb)`
+The last part is that we dereference our runtime and call `rt.register_work(work, ThreadPoolTaskKind::FileRead, cb)`
 to register the task with our `threadpool`.
 
 ## Bonus material

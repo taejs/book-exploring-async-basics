@@ -19,7 +19,7 @@ fn run_callbacks(&mut self) {
 > run in this step of the process. As long as you know this is an oversimplification
 > you're going to be alright :)
 
-Here we `pop` off all callbacks that are scheduled to run. As you see from our last update on the `Runtime` struct. `next_tick_callbacks` is an array of callback_id and an argument type of `Js`.
+Here we `pop` off all callbacks that are scheduled to run. As you see from our last update on the `Runtime` struct. `callbacks_to_run` is an array of callback_id and an argument type of `Js`.
 
 So when we've got a `callback_id` we find the corresponding callback we have stored in `self.callback_queue` and remove the entry. What we get in return is a callback of type
 `Box<dyn FnOnce(Js)>`. We're going to explain this type more later but it's basically a closure stored on the heap that takes one argument of type `Js`.

@@ -334,7 +334,7 @@ impl Runtime {
             // NOT PART OF LOOP, JUST FOR US TO SEE WHAT TICK IS EXCECUTING
             print(format!("===== TICK {} =====", ticks));
 
-            // ===== 2. TIMERS =====
+            // ===== 1. TIMERS =====
             self.process_expired_timers();
 
             // ===== 2. CALLBACKS =====

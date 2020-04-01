@@ -69,7 +69,7 @@ fn javascript() {
 
     // `http_get_slow` lets us define a latency we want to simulate
     print("Registering http get request to google.com");
-    Io::http_get_slow("http//www.google.com", 2000, |result| {
+    Http::http_get_slow("http//www.google.com", 2000, |result| {
         let result = result.into_string().unwrap();
         print_content(result.trim(), "web call");
     });
