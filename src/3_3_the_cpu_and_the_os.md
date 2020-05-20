@@ -30,7 +30,7 @@ As you see, this code will output `100` as expected. But let's now instead creat
 happens when we pass that into the same function:
 
 ```rust
-#![feature(asm)]
+#![feature(llvm_asm)]
 fn main() {
     let t = 99999999999999 as *const usize;
     let x = dereference(t);
@@ -40,7 +40,7 @@ fn main() {
 # fn dereference(ptr: *const usize) -> usize {
 #     let res: usize;
 #     unsafe {
-#     asm!("mov ($1), $0":"=r"(res): "r"(ptr));
+#     llvm_asm!("mov ($1), $0":"=r"(res): "r"(ptr));
 #     }
 #
 #     res
