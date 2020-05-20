@@ -169,7 +169,7 @@ comment.
 #[link(name = "c")]
 ```
 
-Every Linux installation comes with a version of `libc` which a C-library for communicating with the operating system. Having a `libc` with a consistent API means they can change the underlying implementation without breaking everyone's code. This flag tells the compiler to link to the "c" library on the system we're compiling for.
+Every Linux installation comes with a version of `libc` which is a C-library for communicating with the operating system. Having a `libc` with a consistent API means they can change the underlying implementation without breaking everyone's code. This flag tells the compiler to link to the "c" library on the system we're compiling for.
 
 ```rust, no_run
 extern "C" {
