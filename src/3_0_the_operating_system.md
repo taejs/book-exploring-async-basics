@@ -40,15 +40,21 @@ The operating system will make sure that all important processes get some time f
 
 ## Teaming up with the OS.
 
+프로그래밍을 할때 효율성에 신경쓰려면 어떤 부품들이 서로 상호작용해야하는지 잊기 쉽습니다.
+웹에서 요청을 만들 때 CPU나 네트워크 보드에 작업을 요청하지는 않습니다. 운영체제에게 네트워크 보드를 사용해달라고 요청할 뿐입니다.
 When programming it's often easy to forget how many moving pieces that need to
 cooperate when we care about efficiency. When you make a web request, you're not
 asking the CPU or the network card to do something for you, you're asking the
 operating system to talk to the network card for you.
 
+
+운영체제의 장점을 살리지 않고 프로그래머가 본인의 시스템을 매우 효과적으로 만들 수 있는 방법은 없습니다.
+프로그래머들은 기본적으로 하드웨어에 직접적으로 접근할 필요가 없습니다. 
 There is no way for you as a programmer to make your system optimally efficient
 without playing to the strengths of the operating system. You basically don't have
 access to the hardware directly.
 
+그러나, 이것은 기초부터 탄탄히 이해하기 위해서, 운영체제가 작업들을 어떻게 관리하는지 알아야할 필요가 있습니다.
 However, this also means that to understand everything from the ground up, you'll also need to know how your operating system handles these tasks.
 
 To be able to work with the operating system, we'll need to know how we can communicate with it and that's exactly what we're going to go through next.
