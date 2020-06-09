@@ -22,15 +22,14 @@ might stop and start your process at any time.
 
 What we call synchronous code is in most cases code that appears as synchronous to us as programmers. Neither the OS or the CPU live in a fully synchronous world.
 
-운영체제는 선점형 멀티태스킹을 사용합니다.
-만약 사용하고 있는 운영체제가 선점적으로 스케쥴링한다면 프로그래머의 코드가 중단 없이 한줄 한줄 실행된다고 보장할 수 없습니다.
-Operating systems use `preemptive multitasking` and as long as the operating system you're running is preemptively scheduling processes,
-you won't have a
-guarantee that your code runs instruction by instruction without interruption.
+운영체제는 `선점형 멀티태스킹`을 사용합니다.
+만약 사용하고 있는 운영체제가 선점적으로 스케쥴링하는 한 소스 코드가 중단 없이 한줄 한줄 실행된다고 보장할 수 없습니다.
 
-운영체제는 중요한 프로세스들은 
-The operating system will make sure that all important processes get some time from the CPU to make progress.
+운영체제는 중요한 프로세스들을 실행시키기위해 CPU로 부터 일정 시간을 할당받을 것 입니다.
 
+> 여러개의 물리적 코어를 가지고 있는 현대 컴퓨터들에 대해 이야기 하고 있다면 
+> 그 이유는 
+> 여기서 가장 중요한 부분은 
 > This is not as simple when we're talking about modern machines with 4-6-8-12
 > physical cores since you might actually execute code on one of the CPU's
 > uninterrupted if the system is under very little load. The important part here
@@ -38,24 +37,13 @@ The operating system will make sure that all important processes get some time f
 > left to run uninterrupted.
 
 
-## Teaming up with the OS.
+## 운영체제와 함께 일하기
 
-프로그래밍을 할때 효율성에 신경쓰려면 어떤 부품들이 서로 상호작용해야하는지 잊기 쉽습니다.
-웹에서 요청을 만들 때 CPU나 네트워크 보드에 작업을 요청하지는 않습니다. 운영체제에게 네트워크 보드를 사용해달라고 요청할 뿐입니다.
-When programming it's often easy to forget how many moving pieces that need to
-cooperate when we care about efficiency. When you make a web request, you're not
-asking the CPU or the network card to do something for you, you're asking the
-operating system to talk to the network card for you.
+프로그래밍을 하다보면 효율성에 대해 신경쓸 때 얼마나 많은 부품들이 협업해야 하는지 잊기 쉽습니다.
+웹에서 요청을 만들 때 CPU나 네트워크 카드에 작업을 요청하지는 않습니다. 운영체제에게 네트워크 카드를 사용해달라고 요청할 뿐입니다.
 
-
-운영체제의 장점을 살리지 않고 프로그래머가 본인의 시스템을 매우 효과적으로 만들 수 있는 방법은 없습니다.
+운영체제의 장점을 살리지 않고서 프로그래머가 본인의 시스템을 가장 효과적으로 만들 수 있는 방법은 없습니다.
 프로그래머들은 기본적으로 하드웨어에 직접적으로 접근할 필요가 없습니다. 
-There is no way for you as a programmer to make your system optimally efficient
-without playing to the strengths of the operating system. You basically don't have
-access to the hardware directly.
 
-그러나, 이것은 기초부터 탄탄히 이해하기 위해서, 운영체제가 작업들을 어떻게 관리하는지 알아야할 필요가 있습니다.
-However, this also means that to understand everything from the ground up, you'll also need to know how your operating system handles these tasks.
-
-To be able to work with the operating system, we'll need to know how we can communicate with it and that's exactly what we're going to go through next.
-
+다른말로 이야기하면, 이 모든것들을 기초부터 탄탄히 이해하기 위해서는 운영체제가 작업들을 어떻게 다루는지 알아야할 필요가 있다는 말이 됩니다.
+운영체제와 함께 일하기 위해 프로그래머들이 어떻게 운영체제와 통신하는지에 대해 알아야합니다. 바로 다음에서 이 내용을 살펴보도록 하겠습니다.
