@@ -1,40 +1,52 @@
-# Communicating with the operating system
+# 운영체제와 소통하기
 
-**In this chapter I want to dive into:**
+**이번 챕터에서는 다음 내용들에 대해 자세히 알아보겠습니다.:**
 
-- What a System Call is
-- Abstraction levels
-- Challenges of writing low-level cross-platform code
+- 시스템콜이 무엇인지
+- 추상화 레벨
+- 저수준 크로스 플랫폼 코드를 작성하는 도전
 
-## Syscall primer
-Communication with the operating system is done through `System Calls` or
-"syscalls" as we'll call them from now on. This is a public API that the operating system provides and that programs we write in "userland" can use to communicate with the OS.
+## Syscall 초급
+운영체제와의 소통은 우리가 지금부터 "syscall" 이라고 부를 `시스템 호출`을 통해 이루어 집니다.
+이것은 운영체제가 제공하는 전체 공개 API로, 사용자 환경에서 작성 된 프로그램이 운영체제와 소통하기 위해 사용할 수 있습니다.
 
-Most of the time these calls are abstracted away for us as programmers by the language or the runtime we use. A language like Rust makes it
-trivial to make a `syscall` though which we'll see below.
+대부분 이 시스템 콜은 언어 단이나 런타임 단에서 추상화 되어있습니다.
+Rust 같은 언어는 `syscall`
 
-Now, `syscalls` is an example of something that is unique to the kernel you're communicating with, but the UNIX family of kernels has many similarities. UNIX systems expose this through **`libc`**.
+Most of the time these calls are abstracted away for us as programmers by the language or the runtime we use.
+A language like Rust makes it trivial to make a `syscall` though which we'll see below.
 
+`syscall`은 현재 소통하고 있는 커널에 대해 단 하나만 존재하는 것에 대한 표본입니다,
+그러나 UNIX 패밀리의 커널들은 많은 공통점이 존재합니다. UNIX 시스템들은 **`libc`** 를 통해 시스템콜을 노출시킵니다.
+Now, `syscalls` is an example of something that is unique to the kernel you're communicating with,
+but the UNIX family of kernels has many similarities. UNIX systems expose this through **`libc`**.
+
+반면에 Windows는 Windows 자체의 API를 사용하고, 주로 WinAPI 라고 불리며, UNIX 기반의 시스템이 작동되는 방식과 근본적으로 다릅니다.
 Windows, on the other hand, uses its own API, often referred to as WinAPI, and that can be radically different from how the UNIX based systems operate.
 
-Most often though there is a way to achieve the same things. In terms of functionality, you might not notice a big difference but as we'll see below and especially when we dig into how `epoll`, `kqueue` and `IOCP`, they can differ a lot in how this functionality is implemented.
 
-## Syscall example
+대부분의 경우, 다른 운영체제더라도 같은 작업을 성취할 수 있는 방법이 있습니다. 
+기능 측면에서는 큰 차이점이 없다고 느낄 수 있겠지만 아래에 다루고 있는 내용처럼  `epoll`, `kqueue`, `IOCP`에 대해 깊게 알게 될 수록 각 기능들이 구현된 방법이 매우 다르다는 것을 알 수 있습니다.
 
-To get a bit more familiar with `syscalls` we'll implement a very basic one for the three architectures: `BSD(macos)`, `Linux` and `Windows`. We'll also see how this is implemented in three levels of abstractions.
+## Syscall 예제
 
-The `syscall` we'll implement is the one used when we write something to `stdout` since that is such a common operation and it's interesting to see how it really works.
+`syscall`과 조금 더 친해지기 위해, `BSD(macos)`, `Linux`, `Windows` 이 세가지의 설계를 위한 기초를 구현해보겠습니다.
+이 단계에서 3가지 단계의 추상화가 어떤식으로 구현되는지 확인할 수 있습니다.
 
-### The lowest level of abstraction
+지금부터 `표준 출력`을 실행시킬 때 사용되는 `syscall`을 구현해보겠습니다. 이것은 흔한 작동이며 매우 흥미롭습니다.
 
-For this to work we need to write some [inline assembly](https://doc.rust-lang.org/1.0.0/book/inline-assembly.html). We'll start by focusing on the instructions we write to the CPU.
 
-> If you want a more thorough introduction to inline assembly I can refer you to the [relevant chapter in my previous book](https://cfsamson.gitbook.io/green-threads-explained-in-200-lines-of-rust/an-example-we-can-build-upon) if you haven't read it already.
+### 추상화의 가장 낮은 단계
 
-Now at this level of abstraction, we'll write different code for all three platforms.
+앞서 말한 것들을 실현하기 위해서는 [인라인 어셈블리](https://doc.rust-lang.org/1.0.0/book/inline-assembly.html)를 작성해야 합니다.
+CPU에 작성할 명령들 부터 알아보겠습니다.
 
-On Linux and Macos the `syscall` we want to invoke is called `write`. Both systems operate based on the concept of `file descriptors` and `stdout` is one of these already present when you start a process.
+> 만약 인라인 어셈블리에 대한 더많은 정보를 알고 싶다면, [글쓴이가 전에 작성해둔 gitbook](https://cfsamson.gitbook.io/green-threads-explained-in-200-lines-of-rust/an-example-we-can-build-upon)을 추천합니다.
 
+이 추상화 레벨에서는, 세가지 플랫폼별로 다른 코드를 작성하게 됩니다.
+Linux와 Macos 에서는 실행하려는 `syscall`을 `write`라고 부릅니다. 두 시스템 모두 `파일 기술자`라는 개념에 기반해 동작하고, `표준출력`은 프로세스를 구동할 때 이미 존재하는 시스템 콜 중 하나입니다.
+
+**리눅스에서 `write` 시스템콜은 이렇게 보입니다 \
 **On Linux a `write` syscall can look like this** \
 (You can run the example by clicking "play" in the right corner)
 ```rust
