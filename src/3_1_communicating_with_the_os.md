@@ -46,9 +46,8 @@ CPU에 작성할 명령들 부터 알아보겠습니다.
 이 추상화 레벨에서는, 세가지 플랫폼별로 다른 코드를 작성하게 됩니다.
 Linux와 Macos 에서는 실행하려는 `syscall`을 `write`라고 부릅니다. 두 시스템 모두 `파일 기술자`라는 개념에 기반해 동작하고, `표준출력`은 프로세스를 구동할 때 이미 존재하는 시스템 콜 중 하나입니다.
 
-**리눅스에서 `write` 시스템콜은 이렇게 보입니다 \
-**On Linux a `write` syscall can look like this** \
-(You can run the example by clicking "play" in the right corner)
+**리눅스에서 `write` 시스템콜은 이런식으로 작성됩니다 \
+(우측 상단의 화살표 버튼을 눌러 코드를 실행해볼 수 있습니다)
 ```rust
 #![feature(llvm_asm)]
 fn main() {
@@ -78,8 +77,9 @@ fn syscall(message: String) {
 }
 ```
 
-The code to initiate the `write` syscall on Linux is `1` so when we write `$$1` we're writing the literal value 1 to the `rax` register.
+리눅스에서 `write` 시스템콜을 개시하는 코드는 `1`이기 때문에 `$$1`이라고 작성하면  `1`이라는 값(literal value)이 그대로 `rax` 레지스터에 쓰이게 됩니다.
 
+> `$$`은 AT&T 문법을 사용하는 인라인 어셈블리에서 값(literal value)을 작성하는 방법입니다. `$`는 파라미터로 참조하고 있는 것을 뜻합니다. `$0` 이라고 작성한다면 `msg_ptr`이 실행될 때 첫번째 인자를 참조합니다. 
 > `$$` in inline assembly using the AT&T syntax is how you write a literal value. A single `$` means you're referring to a parameter so when we write `$0` we're referring to the first parameter called `msg_ptr`. We also need to clobber the registers we write to so that we let the compiler know that we're modifying them and it can't rely on storing any values in these.
 
 Coincidentally, placing the value `1` into the `rdi` register means that we're referring to `stdout` which is the file descriptor we want to write to. This has nothing to do with the fact that the `write` syscall also has the code `1`.
