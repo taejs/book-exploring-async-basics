@@ -18,11 +18,8 @@ A language like Rust makes it trivial to make a `syscall` though which we'll see
 
 `syscall`은 현재 소통하고 있는 커널에 대해 단 하나만 존재하는 것에 대한 표본입니다,
 그러나 UNIX 패밀리의 커널들은 많은 공통점이 존재합니다. UNIX 시스템들은 **`libc`** 를 통해 시스템콜을 노출시킵니다.
-Now, `syscalls` is an example of something that is unique to the kernel you're communicating with,
-but the UNIX family of kernels has many similarities. UNIX systems expose this through **`libc`**.
 
 반면에 Windows는 Windows 자체의 API를 사용하고, 주로 WinAPI 라고 불리며, UNIX 기반의 시스템이 작동되는 방식과 근본적으로 다릅니다.
-Windows, on the other hand, uses its own API, often referred to as WinAPI, and that can be radically different from how the UNIX based systems operate.
 
 
 대부분의 경우, 다른 운영체제더라도 같은 작업을 성취할 수 있는 방법이 있습니다. 
@@ -65,9 +62,9 @@ fn syscall(message: String) {
         llvm_asm!("
         mov     $$1, %rax   # system call 1 is write on linux
         mov     $$1, %rdi   # file handle 1 is stdout
-        mov     $0, %rsi    # address of string to output
-        mov     $1, %rdx    # number of bytes
-        syscall             # call kernel, syscall interrupt
+        mov     $0, %rsi    # 출력할 문자열의 주소
+        mov     $1, %rdx    # 바이트의 갯수
+        syscall             # 커널을 호출, syscall interrupt 발생
     "
         :
         : "r"(msg_ptr), "r"(len)
@@ -79,14 +76,21 @@ fn syscall(message: String) {
 
 리눅스에서 `write` 시스템콜을 개시하는 코드는 `1`이기 때문에 `$$1`이라고 작성하면  `1`이라는 값(literal value)이 그대로 `rax` 레지스터에 쓰이게 됩니다.
 
-> `$$`은 AT&T 문법을 사용하는 인라인 어셈블리에서 값(literal value)을 작성하는 방법입니다. `$`는 파라미터로 참조하고 있는 것을 뜻합니다. `$0` 이라고 작성한다면 `msg_ptr`이 실행될 때 첫번째 인자를 참조합니다. 
-> `$$` in inline assembly using the AT&T syntax is how you write a literal value. A single `$` means you're referring to a parameter so when we write `$0` we're referring to the first parameter called `msg_ptr`. We also need to clobber the registers we write to so that we let the compiler know that we're modifying them and it can't rely on storing any values in these.
+> `$$`은 AT&T 문법을 사용하는 인라인 어셈블리에서 값(literal value)을 작성하는 방법입니다. `$`는 파라미터로 참조하고 있는 것을 뜻합니다. `$0` 이라고 작성한다면 `msg_ptr`이 실행될 때 첫번째 인자를 참조합니다.
 
-Coincidentally, placing the value `1` into the `rdi` register means that we're referring to `stdout` which is the file descriptor we want to write to. This has nothing to do with the fact that the `write` syscall also has the code `1`.
+> (코드의 가장 하단 부분) 사용한 레지스터를 clobber 처리 해야 합니다. 이는 컴파일러에게 특정 레지스터들을 수정하고 있다는 것과 
+그 안에 어떤 값을 저장하든 신뢰할 수 없다는 것을 알려줍니다.
 
-Secondly, we pass in the address of our string buffer and the length of the buffer in the registers `rsi` and `rdx` respectively, and call the `syscall` instruction.
+첫번째로, `1`이라는 값을 `rdi` 레지스터에 넣는것은 쓰기 작업을 실행하고자 하는 파일 기술자인 `표준 출력`을 참조한다는 것을 뜻합니다.
+`write` 시스템 콜이 `1`이라는 코드를 사용한다는 것과는 아무런 관계가 없습니다.
 
-> The `syscall` instruction is a rather new one. On the earlier 32-bit systems in the `x86` architecture, you invoked a syscall by issuing a software interrupt `int 0x80`. A software interrupt is considered slow at the level we're working at here so later a separate instruction for it called `syscall` was added. The `syscall` instruction uses [VDSO](http://articles.manugarg.com/systemcallinlinux2_6.html), which is a memory page attached to each process' memory, so no context switch is necessary to execute the system call.
+두번째로 문자열 버퍼의 주소와 버퍼의 길이를 각각 `rsi`와 `rdx` 레지스터에 넘긴 후, `syscall` 명령을 호출합니다.
+
+> `syscall` 명령은 비교적 최근에 등장했습니다. `x86` 아키텍처에서 32비트 시스템의 초기에는, `int 0x80`이라는 소프트웨어 인터럽트를 발생시킴으로써 syscall을 호출했습니다. 소프트웨어 인터럽트는 지금 살펴보고 있는 저수준 단계에서 느린것으로 간주되어 후에 `syscall`이라는 이름의 분리된 명령이 추가되었습니다.
+
+`syscall` 명령은 [VDSO](http://articles.manugarg.com/systemcallinlinux2_6.html)를 사용합니다. 이 VDSO는 각 프로세스의 메모리에 메모리 페이지를 매핑해주는 것 이기 때문에, 시스템 콜을 실행하는데 있어서 문맥교환이 필요하지 않습니다.
+
+The `syscall` instruction uses [VDSO](http://articles.manugarg.com/systemcallinlinux2_6.html), which is a memory page attached to each process' memory, so no context switch is necessary to execute the system call.
 
 **On Macos, the syscall will look something like this:** \
 (since the Rust playground is running Linux, we can't run this example here)
