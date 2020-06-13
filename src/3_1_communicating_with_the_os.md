@@ -11,16 +11,12 @@
 이것은 운영체제가 제공하는 전체 공개 API로, 사용자 환경에서 작성 된 프로그램이 운영체제와 소통하기 위해 사용할 수 있습니다.
 
 대부분 이 시스템 콜은 언어 단이나 런타임 단에서 추상화 되어있습니다.
-Rust 같은 언어는 `syscall`
-
-Most of the time these calls are abstracted away for us as programmers by the language or the runtime we use.
-A language like Rust makes it trivial to make a `syscall` though which we'll see below.
+Rust 같은 언어는 아래에 살펴볼 `syscall`을 만들기 쉽게 해줍니다.
 
 `syscall`은 현재 소통하고 있는 커널에 대해 단 하나만 존재하는 것에 대한 표본입니다,
 그러나 UNIX 패밀리의 커널들은 많은 공통점이 존재합니다. UNIX 시스템들은 **`libc`** 를 통해 시스템콜을 노출시킵니다.
 
 반면에 Windows는 Windows 자체의 API를 사용하고, 주로 WinAPI 라고 불리며, UNIX 기반의 시스템이 작동되는 방식과 근본적으로 다릅니다.
-
 
 대부분의 경우, 다른 운영체제더라도 같은 작업을 성취할 수 있는 방법이 있습니다. 
 기능 측면에서는 큰 차이점이 없다고 느낄 수 있겠지만 아래에 다루고 있는 내용처럼  `epoll`, `kqueue`, `IOCP`에 대해 깊게 알게 될 수록 각 기능들이 구현된 방법이 매우 다르다는 것을 알 수 있습니다.
@@ -92,10 +88,10 @@ fn syscall(message: String) {
 
 The `syscall` instruction uses [VDSO](http://articles.manugarg.com/systemcallinlinux2_6.html), which is a memory page attached to each process' memory, so no context switch is necessary to execute the system call.
 
-**On Macos, the syscall will look something like this:** \
-(since the Rust playground is running Linux, we can't run this example here)
+**MacOS에서는, `syscall`이 이런 형태로 보여집니다:** \
+(Rust playgrond는 리눅스 기반으로 작동하기 때문에, 이 예제는 실행할 수 없습니다)
 
-```rust, no_run
+```rust, 작동 안됨
 #![feature(llvm_asm)]
 fn main() {
     let message = String::from("Hello world from interrupt!\n");
@@ -123,30 +119,32 @@ fn syscall(message: String) {
 }
 ```
 
-As you see this is not that different from the one we wrote for Linux, with the exception of the fact that syscall `write` has the code `0x2000004` instead of `1`.
+`write`라는 syscall이 `1`대신 `0x2000004`라는 코드를 사용한다는 점 외에는 Linux 코드와 다른점이 없습니다.
 
-**What about Windows?**
+**Windows는 어떨까요?**
 
-This is a good opportunity to explain why writing code like we do above is a bad idea.
+지금까지 작성해온 코드가 좋지 않은 생각이라는 것을 설명할 좋을 기회인 것 같습니다.
 
-You see, if you want your code to work for a long time you have to worry about what `guarantees` the OS gives you. As far as I know, both Linux and Macos give some guarantees that for example `$$0x2000004` on Macos will always refer to `write` (I'm not sure how strong these guarantees are though). Windows gives absolutely zero guarantees when it comes to low-level internals like this.
+코드가 오랜시간동안 정상적으로 작동하려면 OS가 제공하는 것들을 무엇이 `보장해주는지` 걱정할 필요가 있습니다. 
+Linux와 MacOS는 어느정도 수준을 보장하고 있습니다. 예를 들어 `$$0x2000004`는 MacOS에서 항상 `write`를 뜻하고 있습니다. (이 보증이 얼마나 강력한지는 확신할 수 없습니다만)
+Windows는 저수준의 내부동작에 관해서는 전혀 보증하지 않는다고 단언할 수 있습니다.
 
-Windows has changed it's internals numerous times and provides no official documentation. The only thing we got is reverse engineered tables like [this](https://j00ru.vexillium.org/syscalls/nt/64/). That means that what was `write` can be changed to `delete` the next time you run Windows update.
+Windows는 내부동작을 셀수 없는 만큼 많이 바꿔왔고 그에 대해 공식 문서를 제공하지도 않았습니다. [이러한](https://j00ru.vexillium.org/syscalls/nt/64/) 리버스 엔지니어링 결과만을 알 수 있을 뿐입니다.
+이것은 `write` 였던 명령어가 다음 Windows 업데이트 때에는 `delete`로 변경될 수 있다는 뜻입니다.
 
-## The next level of abstraction
+## 추상화의 다음 단계
 
-The next level of abstraction is to use the API which all three operating systems provide for us.
+추상화의 다음 단계는 이 세가지 운영체제들이 제공하는 API를 사용하는 것 입니다.
 
-Already we can see that this abstraction helps us remove some code since fortunately for us, in this specific example, the syscall is the same on Linux and on Macos so we only need to worry if we're on Windows and therefore use the `#[cfg(not(target_os = "windows"))]` conditional compilation flag. For the Windows syscall, we do the opposite.
+이 추상화가 불필요한 코드를 삭제하는데 도움을 준다는 사실은 이미 확인했습니다. syscall은 Linux와 MacOS에서는 동일하기 때문에 Windows 환경에만 신경을 쓰면 됩니다. 따라서 `#[cfg(not(target_os = "windows"))]` 라는 조건부 컴파일 flag를 사용하게 됩니다. Window환경에서는 반대로 진행할 것입니다.
 
-### Using the OS provided API in Linux and MacOS
+### Linux와 MacOS에서 제공하는 API 사용하기
 
-You can run this code directly here in the window. However, the Rust playground
-runs on Linux, you'll need to copy the code over to a Windows machine if you
-want to try it out the code for Windows further down.
+이 코드를 바로 실행해 볼 수 있습니다.
+그러나 Rust playground는 Linux에서 동작하기 때문에, 아래 코드를 Windows 에서 확인해 보기 위해서는 Windows 머신에 복사해야 합니다.
 
-**Our syscall will now look like this** \
-(You can run this code here. It will work for both Linux and MacOS)
+**syscall이 이렇게 보이게 됩니다.**  \
+(Linux와 MacOS에서 동작하는 코드입니다.)
 
 ```rust
 use std::io;
@@ -177,21 +175,23 @@ fn syscall(message: String) -> io::Result<()> {
 
 ```
 
-I'll explain what we just did here. I assume that the `main` method needs no
-comment.
+지금부터 코드에 대해 main 부분은 생략하고 설명하겠습니다.
 
 
 ```rust, no_run
 #[link(name = "c")]
 ```
 
-Every Linux installation comes with a version of `libc` which is a C-library for communicating with the operating system. Having a `libc` with a consistent API means they can change the underlying implementation without breaking everyone's code. This flag tells the compiler to link to the "c" library on the system we're compiling for.
+모든 Linux 버전은 `libc` 버전을 가지고 있습니다. `libc`는 운영체제와 소통하기 위한 C언어 라이브러리 입니다. 
+일관된 API와 `libc`를 사용한다는 것은 다른 코드에 영향을 주지 않으면서 가장 밑단의 구현체들을 변경할 수 있다는 뜻입니다.
+이 구문은 컴파일러가 현재 컴파일이 일어나고 있는 시스템에 C라이브러리를 연결하도록 만듭니다.
 
 ```rust, no_run
 extern "C" {
     fn write(fd: u32, buf: *const u8, count: usize);
 }
 ```
+
 
 `extern "C"` or only `extern` (C is assumed if nothing is specified) means we're linking to specific functions in the "c" library using the "C" calling convention. As you'll see on Windows we'll need to change this since it uses a different calling convention than the UNIX family.
 
